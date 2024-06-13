@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "1Vm9ZrHNE7221gEr7X4TErXIrInqlZ+0LCSoTOmeax9x6oTxHEPwhPyBX4TbK4NJHD9Fdivp/4u7oI0C6G3QjQ==",
+  "success": true,
+  "projectFilePath": "E:\\ITI\\Graduation Project\\Backend\\Asset_Inventory_API\\Asset_Inventory_API.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\radwa\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "C:\\Users\\radwa\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\radwa\\.nuget\\packages\\swashbuckle.aspnetcore\\6.4.0\\swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
+    "C:\\Users\\radwa\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.4.0\\swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
+    "C:\\Users\\radwa\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.4.0\\swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",
+    "C:\\Users\\radwa\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.4.0\\swashbuckle.aspnetcore.swaggerui.6.4.0.nupkg.sha512"
+  ],
+  "logs": []
+}
