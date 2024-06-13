@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NetTopologySuite.Geometries;
 
 namespace Models.Models
 {
     public class Supplier
     {
-        public int SupplierId { get; set; }
+        public int SupplierID { get; set; }
         public string SupplierName { get; set; }
+        public Point Location { get; set; }
 
-        //public string Location { get; set; }
-        public List<Supplier_Asset> Supplier_Assets { get; set; }
+
+        //RELATIONS
+        public List<SupplierAsset> SupplierAssets { get; set; }
     }
 }
