@@ -12,7 +12,7 @@
 
 
         //RELATIONS
-        public Category Category { get; set; }
+        public Category Categories { get; set; }
         public List<SupplierAsset> SupplierAssets { get; set; }
         public List<WarehouseAsset> WarehouseAssets { get; set; }
         public List<StoreAsset> StoreAssets { get; set; }

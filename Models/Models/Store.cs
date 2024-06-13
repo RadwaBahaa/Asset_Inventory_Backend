@@ -11,5 +11,7 @@ namespace Models.Models
 
         //RELATIONS
         public List<StoreAsset> StoreAssets { get; set; }
+        public List <ProcessForEachS> ProcessForEachSt {  get; set; }
+
     }
 }

@@ -5,11 +5,11 @@
         public int AssetID { get; set; }
         public int SupplierID { get; set; }
         public int Count { get; set; }
-        public string Condition { get; set; }
 
 
         //RELATIONS
-        public Supplier Supplier { get; set; }
-        public Asset Asset { get; set; }
+        public Supplier Suppliers { get; set; }
+        public Asset Assets { get; set; }
+        public List<AssetShipmentSuW> AssetShipmentSuWa {  get; set; }
     }
 }
