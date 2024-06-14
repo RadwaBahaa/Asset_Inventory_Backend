@@ -1,0 +1,7 @@
+E:\ITI\Graduation Project\Backend\Asset_Inventory_API\obj\Debug\net8.0\Presentation.csproj.AssemblyReference.cache
+E:\ITI\Graduation Project\Backend\Asset_Inventory_API\obj\Debug\net8.0\Presentation.GeneratedMSBuildEditorConfig.editorconfig
+E:\ITI\Graduation Project\Backend\Asset_Inventory_API\obj\Debug\net8.0\Presentation.AssemblyInfoInputs.cache
+E:\ITI\Graduation Project\Backend\Asset_Inventory_API\obj\Debug\net8.0\Presentation.AssemblyInfo.cs
+E:\ITI\Graduation Project\Backend\Asset_Inventory_API\obj\Debug\net8.0\Presentation.csproj.CoreCompileInputs.cache
+E:\ITI\Graduation Project\Backend\Asset_Inventory_API\obj\Debug\net8.0\Presentation.MvcApplicationPartsAssemblyInfo.cache
+E:\ITI\Graduation Project\Backend\Asset_Inventory_API\obj\Debug\net8.0\Presentation.sourcelink.json

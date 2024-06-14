@@ -8,7 +8,8 @@
 
         
         //RELATIONS
-        public Asset Assets { get; set; }
-        public Warehouse Warehouses { get; set; }
+        public Asset Asset { get; set; }
+        public Warehouse Warehouse { get; set; }
+        public List<AssetShipmentWSt> AssetShipmentWSts { get; set; }
     }
 }

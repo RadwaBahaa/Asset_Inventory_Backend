@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Models.Models
+﻿namespace Models.Models
 {
     public class AssetShipmentWSt
     {
@@ -15,7 +9,7 @@ namespace Models.Models
 
 
         //RELATIONS
-        public List<WarehouseAsset> WarehouseAssets { get; set; }
-        public List<DeliveryProcessWSt> DeliveryProcessWSto { get; set; }
+        public WarehouseAsset WarehouseAsset { get; set; }
+        public DeliveryProcessWSt DeliveryProcessWSt { get; set; }
     }
 }

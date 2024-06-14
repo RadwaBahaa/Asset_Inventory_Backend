@@ -11,7 +11,7 @@ namespace Models.Models
 
         //RELATIONS
         public List<WarehouseAsset> WarehouseAssets { get; set; }
-        public List <ProcessForEachW> ProcessForEachWa {  get; set; }
-        public List <DeliveryProcessWSt> DeliveryProcessWSto { get; set; }
+        public List<WarehouseProcess> WarehouseProcesses {  get; set; }
+        public List<DeliveryProcessWSt> DeliveryProcessWSt { get; set; }
     }
 }

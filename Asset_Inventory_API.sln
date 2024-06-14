@@ -5,7 +5,9 @@ VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{319D426E-0C54-424A-8703-C39785711288}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asset_Inventory_API", "Asset_Inventory_API\Asset_Inventory_API.csproj", "{65E0FD20-92A6-4767-8C20-ECC4BE601F9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation", "Asset_Inventory_API\Presentation.csproj", "{65E0FD20-92A6-4767-8C20-ECC4BE601F9E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Context", "Context\Context.csproj", "{42566748-4A8F-4CD7-B4A4-AEB19BCBFF3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{65E0FD20-92A6-4767-8C20-ECC4BE601F9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65E0FD20-92A6-4767-8C20-ECC4BE601F9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65E0FD20-92A6-4767-8C20-ECC4BE601F9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42566748-4A8F-4CD7-B4A4-AEB19BCBFF3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42566748-4A8F-4CD7-B4A4-AEB19BCBFF3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42566748-4A8F-4CD7-B4A4-AEB19BCBFF3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42566748-4A8F-4CD7-B4A4-AEB19BCBFF3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

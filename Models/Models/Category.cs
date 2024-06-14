@@ -8,7 +8,6 @@
 
 
         //RELATIONS
-        public List <Asset> Assets { get; set; }
-
+        public List<Asset> Assets { get; set; }
     }
 }

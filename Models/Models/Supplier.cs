@@ -11,6 +11,6 @@ namespace Models.Models
 
         //RELATIONS
         public List<SupplierAsset> SupplierAssets { get; set; }
-        public List <DeliveryProcessSuW> DeliveryProcessSuWa {  get; set; }
+        public List<DeliveryProcessSuW> DeliveryProcessSuW {  get; set; }
     }
 }

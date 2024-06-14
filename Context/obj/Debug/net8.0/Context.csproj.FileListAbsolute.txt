@@ -1,0 +1,7 @@
+E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.csproj.AssemblyReference.cache
+E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.GeneratedMSBuildEditorConfig.editorconfig
+E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.AssemblyInfoInputs.cache
+E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.AssemblyInfo.cs
+E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.csproj.CoreCompileInputs.cache
+E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\EFCoreSqlServerNetTopologySuite.cs
+E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.sourcelink.json

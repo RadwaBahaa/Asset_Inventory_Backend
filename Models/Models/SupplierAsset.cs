@@ -8,8 +8,8 @@
 
 
         //RELATIONS
-        public Supplier Suppliers { get; set; }
-        public Asset Assets { get; set; }
-        public List<AssetShipmentSuW> AssetShipmentSuWa {  get; set; }
+        public Supplier Supplier { get; set; }
+        public Asset Asset { get; set; }
+        public List<AssetShipmentSuW> AssetShipmentSuW {  get; set; }
     }
 }

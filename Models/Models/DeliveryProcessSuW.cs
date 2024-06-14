@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Models.Models
+﻿namespace Models.Models
 {
     public class DeliveryProcessSuW
     {
@@ -15,10 +9,8 @@ namespace Models.Models
         public string Status { get; set; }
 
         //RELATIONS
-        public Supplier Suppliers { get; set; }
-        public List<AssetShipmentSuW> ShipmentSuWa { get; set;}
-        public List<ProcessForEachW> ProcessForEachWa { get; set; }
-
-
+        public Supplier Supplier { get; set; }
+        public List<AssetShipmentSuW> AssetShipmentSuW { get; set;}
+        public List<WarehouseProcess> WarehouseProcesses { get; set; }
     }
 }

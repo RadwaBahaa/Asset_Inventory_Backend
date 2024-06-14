@@ -8,7 +8,7 @@
 
 
         //RELATIONS
-        public Asset Assets { get; set; }
-        public Store Stores { get; set; }
+        public Asset Asset { get; set; }
+        public Store Store { get; set; }
     }
 }
