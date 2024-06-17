@@ -2,11 +2,11 @@
 {
     public class DeliveryProcessSuW
     {
-        public int ProcessID { get; set; }
-        public int SupplierID { get; set; }
+        public int ProcessID { get; set; }      // Primary key
+        public int SupplierID { get; set; }     // Forign Key from Supplier Entity
         public int TotalAssets { get; set; }
-        public DateTime DateAndTime { get; set; }
-        public string Status { get; set; }
+        public DateTime DateTime { get; set; }
+
 
         //RELATIONS
         public Supplier Supplier { get; set; }

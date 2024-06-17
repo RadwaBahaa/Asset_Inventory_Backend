@@ -2,9 +2,13 @@
 {
     public class StoreProcess
     {
-        public int ProcessID { get; set; }
-        public int StoreID { get; set; }
+        // ProcessID and StoreID are composit key
+        public int ProcessID { get; set; }  // Forign key from DeliveryProcessWSt Entity
+        public int StoreID { get; set; }    // Forign key from Store Entity
         public int Quantity { get; set; }
+        public string Note { get; set; }    
+        public string Status { get; set; }
+
 
         //RELATIONS 
         public Store Store {  get; set; } 

@@ -2,8 +2,10 @@
 {
     public class WarehouseAsset
     {
-        public int AssetID { get; set; }
-        public int WarehouseID {  get; set; }
+        // AssetID, WarehouseID and AssetCreationDate are Composite key
+        public int AssetID { get; set; }    // Forign key from Asset Entity
+        public int WarehouseID {  get; set; }   // Forign key from Warehouse Entity
+        public DateOnly AssetCreationDate { get; set; }
         public int Count { get; set; }
 
         

@@ -21,15 +21,28 @@ namespace Context.Context
         public DbSet<Warehouse> Warehouses { get; set; }
         public DbSet<WarehouseAsset> WarehouseAssets { get; set; }
         public DbSet<WarehouseProcess> WarehouseProcesses { get; set; }
+        public DbSet<WarehouseRequest> WarehouseRequests { get; set; }
+        public DbSet<StoreRequest> StoreRequests { get; set; }
+        public DbSet<WarehouseRequestAsset> WarehouseRequestAssets { get; set; }
+        public DbSet<StoreRequestAsset> StoreRequestAssets { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+
             builder.Entity<Asset>(asset =>
             {
+                // Primary Key
                 asset.HasKey(a => a.AssetID);
+                // Relations
                 asset.HasOne(a => a.Category)
                     .WithMany(c => c.Assets)
                     .HasForeignKey(a => a.CategoryID)
+                    .OnDelete(DeleteBehavior.Cascade);
+                asset.HasMany(a => a.StoreAssets)
+                    .WithOne(sa => sa.Asset)
+                    .HasForeignKey(sa => sa.AssetID)
                     .OnDelete(DeleteBehavior.Cascade);
                 asset.HasMany(a => a.SupplierAssets)
                     .WithOne(sa => sa.Asset)
@@ -39,15 +52,14 @@ namespace Context.Context
                     .WithOne(wa => wa.Asset)
                     .HasForeignKey(wa => wa.AssetID)
                     .OnDelete(DeleteBehavior.Cascade);
-                asset.HasMany(a => a.StoreAssets)
-                    .WithOne(sa => sa.Asset)
-                    .HasForeignKey(sa => sa.AssetID)
-                    .OnDelete(DeleteBehavior.Cascade);
             });
-
             builder.Entity<Store>(store =>
             {
+                // Primary Key
                 store.HasKey(s => s.StoreID);
+                // Properties
+                store.Property(s => s.Location).HasColumnType("geometry");
+                // Relations
                 store.HasMany(s => s.StoreAssets)
                     .WithOne(sa => sa.Store)
                     .HasForeignKey(sa => sa.StoreID)
@@ -56,12 +68,14 @@ namespace Context.Context
                     .WithOne(sp => sp.Store)
                     .HasForeignKey(sp => sp.StoreID)
                     .OnDelete(DeleteBehavior.Cascade);
-                store.Property(s => s.Location).HasColumnType("geometry");
             });
-
             builder.Entity<Warehouse>(warehouse =>
             {
+                // Primary Key
                 warehouse.HasKey(w => w.WarehouseID);
+                // Properties
+                warehouse.Property(w => w.Location).HasColumnType("geometry");
+                // Relations
                 warehouse.HasMany(w => w.WarehouseAssets)
                     .WithOne(wa => wa.Warehouse)
                     .HasForeignKey(wa => wa.WarehouseID)
@@ -74,12 +88,14 @@ namespace Context.Context
                     .WithOne(d => d.Warehouse)
                     .HasForeignKey(d => d.WarehouseID)
                     .OnDelete(DeleteBehavior.Cascade);
-                warehouse.Property(w => w.Location).HasColumnType("geometry");
             });
-
             builder.Entity<Supplier>(supplier =>
             {
+                // Primary Key
                 supplier.HasKey(s => s.SupplierID);
+                // Properties
+                supplier.Property(s => s.Location).HasColumnType("geometry");
+                // Relations
                 supplier.HasMany(s => s.SupplierAssets)
                     .WithOne(sa => sa.Supplier)
                     .HasForeignKey(sa => sa.SupplierID)
@@ -88,12 +104,12 @@ namespace Context.Context
                     .WithOne(d => d.Supplier)
                     .HasForeignKey(d => d.SupplierID)
                     .OnDelete(DeleteBehavior.Cascade);
-                supplier.Property(s => s.Location).HasColumnType("geometry");
             });
-
             builder.Entity<DeliveryProcessSuW>(deliveryProcessSuW =>
             {
+                // Primary Key
                 deliveryProcessSuW.HasKey(dp => dp.ProcessID);
+                // Relations
                 deliveryProcessSuW.HasMany(dp => dp.WarehouseProcesses)
                     .WithOne(wp => wp.DeliveryProcessSuW)
                     .HasForeignKey(wp => wp.ProcessID)
@@ -103,10 +119,11 @@ namespace Context.Context
                     .HasForeignKey(ash => ash.ProcessID)
                     .OnDelete(DeleteBehavior.Restrict);
             });
-
             builder.Entity<DeliveryProcessWSt>(deliveryProcessWSt =>
             {
+                // Primary Key
                 deliveryProcessWSt.HasKey(dp => dp.ProcessID);
+                // Relations
                 deliveryProcessWSt.HasMany(dp => dp.StoreProcesses)
                     .WithOne(sp => sp.DeliveryProcessWSt)
                     .HasForeignKey(sp => sp.ProcessID)
@@ -116,48 +133,98 @@ namespace Context.Context
                     .HasForeignKey(ash => ash.ProcessID)
                     .OnDelete(DeleteBehavior.Restrict);
             });
-
             builder.Entity<SupplierAsset>(supplierAsset =>
             {
-                supplierAsset.HasKey(sa => new { sa.AssetID, sa.SupplierID });
+                // Primary Key
+                supplierAsset.HasKey(sa => new { sa.AssetID, sa.SupplierID, sa.AssetCreationDate });
+                // Relations
                 supplierAsset.HasMany(sa => sa.AssetShipmentSuW)
                     .WithOne(ash => ash.SupplierAsset)
-                    .HasForeignKey(ash => new { ash.AssetID, ash.SupplierID })
+                    .HasForeignKey(ash => new { ash.AssetID, ash.SupplierID, ash.AssetCreationDate })
                     .OnDelete(DeleteBehavior.Restrict);
             });
-
             builder.Entity<WarehouseAsset>(warehouseAsset =>
             {
-                warehouseAsset.HasKey(wa => new { wa.AssetID, wa.WarehouseID });
+                // Primary Key
+                warehouseAsset.HasKey(wa => new { wa.AssetID, wa.WarehouseID, wa.AssetCreationDate });
+                // Relations
                 warehouseAsset.HasMany(wa => wa.AssetShipmentWSts)
                     .WithOne(ash => ash.WarehouseAsset)
-                    .HasForeignKey(ash => new { ash.AssetID, ash.WarehouseID })
+                    .HasForeignKey(ash => new { ash.AssetID, ash.WarehouseID, ash.AssetCreationDate })
                     .OnDelete(DeleteBehavior.Restrict);
             });
-
             builder.Entity<StoreAsset>(storeAsset =>
             {
-                storeAsset.HasKey(sa => new { sa.AssetID, sa.StoreID });
+                //Primary Key
+                storeAsset.HasKey(sa => new { sa.AssetID, sa.StoreID, sa.AssetCreationDate });
             });
-
             builder.Entity<AssetShipmentSuW>(assetShipment =>
             {
-                assetShipment.HasKey(ash => new { ash.AssetID, ash.SupplierID, ash.ProcessID });
+                //Primary Key
+                assetShipment.HasKey(ash => new { ash.AssetID, ash.SupplierID, ash.AssetCreationDate, ash.ProcessID });
             });
-
             builder.Entity<AssetShipmentWSt>(assetShipment =>
             {
-                assetShipment.HasKey(ash => new { ash.AssetID, ash.WarehouseID, ash.ProcessID });
+                //Primary Key
+                assetShipment.HasKey(ash => new { ash.AssetID, ash.WarehouseID, ash.AssetCreationDate, ash.ProcessID });
             });
-
             builder.Entity<WarehouseProcess>(warehouseProcess =>
             {
+                //Primary Key
                 warehouseProcess.HasKey(wp => new { wp.ProcessID, wp.WarehouseID });
             });
-
             builder.Entity<StoreProcess>(storeProcess =>
             {
+                //Primary Key
                 storeProcess.HasKey(sp => new { sp.ProcessID, sp.StoreID });
+            });
+            builder.Entity<WarehouseRequest>(warehouseRequest =>
+            {
+                //Primary Key
+                warehouseRequest.HasKey(wr => wr.RequestID);
+                //Relations
+                warehouseRequest.HasOne(wr => wr.Supplier)
+                    .WithMany(s => s.WarehouseRequests)
+                    .HasForeignKey(wr => wr.SupplierID);
+                warehouseRequest.HasOne(wr => wr.Warehouse)
+                    .WithMany(w => w.WarehouseRequests)
+                    .HasForeignKey(wr => wr.WarehouseID);
+            });
+            builder.Entity<StoreRequest>(storeRequest =>
+            {
+                //Primary Key
+                storeRequest.HasKey(wr => wr.RequestID);
+                //Relations
+                storeRequest.HasOne(wr => wr.Warehouse)
+                    .WithMany(s => s.StoreRequests)
+                    .HasForeignKey(wr => wr.WarehouseID);
+                storeRequest.HasOne(wr => wr.Store)
+                    .WithMany(w => w.StoreRequests)
+                    .HasForeignKey(wr => wr.StoreID);
+            });
+            builder.Entity<WarehouseRequestAsset>(warehouseRequestAseset =>
+            {
+                // Primary Key
+                warehouseRequestAseset.HasKey(wr => new { wr.RequestID, wr.AsesetID });
+                // Relations
+                warehouseRequestAseset.HasOne(wra => wra.Asset)
+                    .WithMany(a => a.WarehouseRequestAssets)
+                    .HasForeignKey(wra => wra.AsesetID);
+                warehouseRequestAseset.HasOne(wra => wra.WarehouseRequest)
+                    .WithMany(a => a.WarehouseRequestAsesets)
+                    .HasForeignKey(wra => wra.RequestID);
+            });
+            builder.Entity<StoreRequestAsset>(storeRequestAseset =>
+            {
+                // Primary Key
+                storeRequestAseset.HasKey(wr => new { wr.RequestID, wr.AsesetID });
+                // Relations
+                storeRequestAseset.HasOne(wra => wra.Asset)
+                    .WithMany(a => a.StoreRequestAssets)
+                    .HasForeignKey(wra => wra.AsesetID);
+                storeRequestAseset.HasOne(wra => wra.StoreRequest)
+                    .WithMany(a => a.StoreRequestAssests)
+                    .HasForeignKey(wra => wra.RequestID);
             });
 
             base.OnModelCreating(builder);

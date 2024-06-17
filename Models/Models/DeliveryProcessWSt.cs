@@ -2,11 +2,10 @@
 {
     public class DeliveryProcessWSt
     {
-        public int ProcessID { get; set; }
-        public int WarehouseID { get; set; }
+        public int ProcessID { get; set; }      // Primary key
+        public int WarehouseID { get; set; }    // Forign key from Warehouse Entity
         public int TotalAssets { get; set; }
-        public DateTime DateAndTime { get; set; }
-        public string Status { get; set; }
+        public DateTime DateTime { get; set; }
 
 
         //RELATIONS

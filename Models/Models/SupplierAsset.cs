@@ -2,8 +2,10 @@
 {
     public class SupplierAsset
     {
-        public int AssetID { get; set; }
-        public int SupplierID { get; set; }
+        // AssetID, SupplierID and AssetCreationDate are Composite key
+        public int AssetID { get; set; }    // Forign key from Asset Entity
+        public int SupplierID { get; set; }     // Forign key from Supplier Entity
+        public DateOnly AssetCreationDate { get; set; }
         public int Count { get; set; }
 
 

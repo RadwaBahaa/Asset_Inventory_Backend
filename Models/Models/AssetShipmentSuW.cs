@@ -2,9 +2,11 @@
 {
     public class AssetShipmentSuW
     {
-        public int AssetID { get; set; }
-        public int SupplierID { get; set; }
-        public int ProcessID { get; set; }
+        // AssetID, SupplierID, AssetCreationDate and ProcessID are Composite key
+        public int AssetID { get; set; }        // Forign key from SupplierAsset Entity
+        public int SupplierID { get; set; }     // Forign key from SupplierAsset Entity
+        public DateOnly AssetCreationDate { get; set; }     // Forign key from SupplierAsset Entity
+        public int ProcessID { get; set; }      // Forign key from DeliveryProcessSuW Entity
         public int  Quantity { get; set; }
 
 

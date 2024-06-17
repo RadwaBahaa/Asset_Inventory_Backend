@@ -13,8 +13,8 @@ using NetTopologySuite.Geometries;
 namespace Context.Migrations
 {
     [DbContext(typeof(AssetInventoryContext))]
-    [Migration("20240614023852_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20240616211126_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,12 +41,13 @@ namespace Context.Migrations
                     b.Property<int>("CategoryID")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("CreationDate")
-                        .HasColumnType("date");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Picture")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("Price")
                         .HasColumnType("int");
@@ -69,13 +70,16 @@ namespace Context.Migrations
                     b.Property<int>("SupplierID")
                         .HasColumnType("int");
 
+                    b.Property<DateOnly>("AssetCreationDate")
+                        .HasColumnType("date");
+
                     b.Property<int>("ProcessID")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("AssetID", "SupplierID", "ProcessID");
+                    b.HasKey("AssetID", "SupplierID", "AssetCreationDate", "ProcessID");
 
                     b.HasIndex("ProcessID");
 
@@ -90,13 +94,16 @@ namespace Context.Migrations
                     b.Property<int>("WarehouseID")
                         .HasColumnType("int");
 
+                    b.Property<DateOnly>("AssetCreationDate")
+                        .HasColumnType("date");
+
                     b.Property<int>("ProcessID")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("AssetID", "WarehouseID", "ProcessID");
+                    b.HasKey("AssetID", "WarehouseID", "AssetCreationDate", "ProcessID");
 
                     b.HasIndex("ProcessID");
 
@@ -132,12 +139,8 @@ namespace Context.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProcessID"));
 
-                    b.Property<DateTime>("DateAndTime")
+                    b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SupplierID")
                         .HasColumnType("int");
@@ -160,12 +163,8 @@ namespace Context.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProcessID"));
 
-                    b.Property<DateTime>("DateAndTime")
+                    b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TotalAssets")
                         .HasColumnType("int");
@@ -188,6 +187,10 @@ namespace Context.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StoreID"));
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Point>("Location")
                         .IsRequired()
                         .HasColumnType("geometry");
@@ -209,10 +212,13 @@ namespace Context.Migrations
                     b.Property<int>("StoreID")
                         .HasColumnType("int");
 
+                    b.Property<DateOnly>("AssetCreationDate")
+                        .HasColumnType("date");
+
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
-                    b.HasKey("AssetID", "StoreID");
+                    b.HasKey("AssetID", "StoreID", "AssetCreationDate");
 
                     b.HasIndex("StoreID");
 
@@ -227,14 +233,78 @@ namespace Context.Migrations
                     b.Property<int>("StoreID")
                         .HasColumnType("int");
 
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProcessID", "StoreID");
 
                     b.HasIndex("StoreID");
 
                     b.ToTable("StoreProcesses");
+                });
+
+            modelBuilder.Entity("Models.Models.StoreRequest", b =>
+                {
+                    b.Property<int>("RequestID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequestID"));
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StoreID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WarehouseID")
+                        .HasColumnType("int");
+
+                    b.HasKey("RequestID");
+
+                    b.HasIndex("StoreID");
+
+                    b.HasIndex("WarehouseID");
+
+                    b.ToTable("StoreRequests");
+                });
+
+            modelBuilder.Entity("Models.Models.StoreRequestAsset", b =>
+                {
+                    b.Property<int>("RequestID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AsesetID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("RequestID", "AsesetID");
+
+                    b.HasIndex("AsesetID");
+
+                    b.ToTable("StoreRequestAssets");
                 });
 
             modelBuilder.Entity("Models.Models.Supplier", b =>
@@ -244,6 +314,10 @@ namespace Context.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SupplierID"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Point>("Location")
                         .IsRequired()
@@ -266,10 +340,13 @@ namespace Context.Migrations
                     b.Property<int>("SupplierID")
                         .HasColumnType("int");
 
+                    b.Property<DateOnly>("AssetCreationDate")
+                        .HasColumnType("date");
+
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
-                    b.HasKey("AssetID", "SupplierID");
+                    b.HasKey("AssetID", "SupplierID", "AssetCreationDate");
 
                     b.HasIndex("SupplierID");
 
@@ -283,6 +360,10 @@ namespace Context.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WarehouseID"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Point>("Location")
                         .IsRequired()
@@ -305,10 +386,13 @@ namespace Context.Migrations
                     b.Property<int>("WarehouseID")
                         .HasColumnType("int");
 
+                    b.Property<DateOnly>("AssetCreationDate")
+                        .HasColumnType("date");
+
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
-                    b.HasKey("AssetID", "WarehouseID");
+                    b.HasKey("AssetID", "WarehouseID", "AssetCreationDate");
 
                     b.HasIndex("WarehouseID");
 
@@ -323,14 +407,78 @@ namespace Context.Migrations
                     b.Property<int>("WarehouseID")
                         .HasColumnType("int");
 
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProcessID", "WarehouseID");
 
                     b.HasIndex("WarehouseID");
 
                     b.ToTable("WarehouseProcesses");
+                });
+
+            modelBuilder.Entity("Models.Models.WarehouseRequest", b =>
+                {
+                    b.Property<int>("RequestID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequestID"));
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SupplierID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WarehouseID")
+                        .HasColumnType("int");
+
+                    b.HasKey("RequestID");
+
+                    b.HasIndex("SupplierID");
+
+                    b.HasIndex("WarehouseID");
+
+                    b.ToTable("WarehouseRequests");
+                });
+
+            modelBuilder.Entity("Models.Models.WarehouseRequestAsset", b =>
+                {
+                    b.Property<int>("RequestID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AsesetID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("RequestID", "AsesetID");
+
+                    b.HasIndex("AsesetID");
+
+                    b.ToTable("WarehouseRequestAssets");
                 });
 
             modelBuilder.Entity("Models.Models.Asset", b =>
@@ -354,7 +502,7 @@ namespace Context.Migrations
 
                     b.HasOne("Models.Models.SupplierAsset", "SupplierAsset")
                         .WithMany("AssetShipmentSuW")
-                        .HasForeignKey("AssetID", "SupplierID")
+                        .HasForeignKey("AssetID", "SupplierID", "AssetCreationDate")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -373,7 +521,7 @@ namespace Context.Migrations
 
                     b.HasOne("Models.Models.WarehouseAsset", "WarehouseAsset")
                         .WithMany("AssetShipmentWSts")
-                        .HasForeignKey("AssetID", "WarehouseID")
+                        .HasForeignKey("AssetID", "WarehouseID", "AssetCreationDate")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -442,6 +590,44 @@ namespace Context.Migrations
                     b.Navigation("Store");
                 });
 
+            modelBuilder.Entity("Models.Models.StoreRequest", b =>
+                {
+                    b.HasOne("Models.Models.Store", "Store")
+                        .WithMany("StoreRequests")
+                        .HasForeignKey("StoreID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Models.Models.Warehouse", "Warehouse")
+                        .WithMany("StoreRequests")
+                        .HasForeignKey("WarehouseID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Store");
+
+                    b.Navigation("Warehouse");
+                });
+
+            modelBuilder.Entity("Models.Models.StoreRequestAsset", b =>
+                {
+                    b.HasOne("Models.Models.Asset", "Asset")
+                        .WithMany("StoreRequestAssets")
+                        .HasForeignKey("AsesetID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Models.Models.StoreRequest", "StoreRequest")
+                        .WithMany("StoreRequestAssests")
+                        .HasForeignKey("RequestID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Asset");
+
+                    b.Navigation("StoreRequest");
+                });
+
             modelBuilder.Entity("Models.Models.SupplierAsset", b =>
                 {
                     b.HasOne("Models.Models.Asset", "Asset")
@@ -499,13 +685,55 @@ namespace Context.Migrations
                     b.Navigation("Warehouse");
                 });
 
+            modelBuilder.Entity("Models.Models.WarehouseRequest", b =>
+                {
+                    b.HasOne("Models.Models.Supplier", "Supplier")
+                        .WithMany("WarehouseRequests")
+                        .HasForeignKey("SupplierID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Models.Models.Warehouse", "Warehouse")
+                        .WithMany("WarehouseRequests")
+                        .HasForeignKey("WarehouseID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Supplier");
+
+                    b.Navigation("Warehouse");
+                });
+
+            modelBuilder.Entity("Models.Models.WarehouseRequestAsset", b =>
+                {
+                    b.HasOne("Models.Models.Asset", "Asset")
+                        .WithMany("WarehouseRequestAssets")
+                        .HasForeignKey("AsesetID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Models.Models.WarehouseRequest", "WarehouseRequest")
+                        .WithMany("WarehouseRequestAsesets")
+                        .HasForeignKey("RequestID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Asset");
+
+                    b.Navigation("WarehouseRequest");
+                });
+
             modelBuilder.Entity("Models.Models.Asset", b =>
                 {
                     b.Navigation("StoreAssets");
 
+                    b.Navigation("StoreRequestAssets");
+
                     b.Navigation("SupplierAssets");
 
                     b.Navigation("WarehouseAssets");
+
+                    b.Navigation("WarehouseRequestAssets");
                 });
 
             modelBuilder.Entity("Models.Models.Category", b =>
@@ -532,6 +760,13 @@ namespace Context.Migrations
                     b.Navigation("StoreAssets");
 
                     b.Navigation("StoreProcesses");
+
+                    b.Navigation("StoreRequests");
+                });
+
+            modelBuilder.Entity("Models.Models.StoreRequest", b =>
+                {
+                    b.Navigation("StoreRequestAssests");
                 });
 
             modelBuilder.Entity("Models.Models.Supplier", b =>
@@ -539,6 +774,8 @@ namespace Context.Migrations
                     b.Navigation("DeliveryProcessSuW");
 
                     b.Navigation("SupplierAssets");
+
+                    b.Navigation("WarehouseRequests");
                 });
 
             modelBuilder.Entity("Models.Models.SupplierAsset", b =>
@@ -550,14 +787,23 @@ namespace Context.Migrations
                 {
                     b.Navigation("DeliveryProcessWSt");
 
+                    b.Navigation("StoreRequests");
+
                     b.Navigation("WarehouseAssets");
 
                     b.Navigation("WarehouseProcesses");
+
+                    b.Navigation("WarehouseRequests");
                 });
 
             modelBuilder.Entity("Models.Models.WarehouseAsset", b =>
                 {
                     b.Navigation("AssetShipmentWSts");
+                });
+
+            modelBuilder.Entity("Models.Models.WarehouseRequest", b =>
+                {
+                    b.Navigation("WarehouseRequestAsesets");
                 });
 #pragma warning restore 612, 618
         }
