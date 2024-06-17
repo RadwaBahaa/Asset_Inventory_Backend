@@ -33,9 +33,12 @@ namespace Context.Context
 
             builder.Entity<Asset>(asset =>
             {
-                // Primary Key
+                //Primary Key
                 asset.HasKey(a => a.AssetID);
-                // Relations
+                //Properties
+                asset.Property(a => a.AssetName).IsRequired().HasMaxLength(50);
+                asset.Property(a => a.Description).HasMaxLength(500);
+                //Relations
                 asset.HasOne(a => a.Category)
                     .WithMany(c => c.Assets)
                     .HasForeignKey(a => a.CategoryID)
@@ -136,37 +139,37 @@ namespace Context.Context
             builder.Entity<SupplierAsset>(supplierAsset =>
             {
                 // Primary Key
-                supplierAsset.HasKey(sa => new { sa.AssetID, sa.SupplierID, sa.AssetCreationDate });
+                supplierAsset.HasKey(sa => new { sa.AssetID, sa.SupplierID, sa.SerialNo });
                 // Relations
                 supplierAsset.HasMany(sa => sa.AssetShipmentSuW)
                     .WithOne(ash => ash.SupplierAsset)
-                    .HasForeignKey(ash => new { ash.AssetID, ash.SupplierID, ash.AssetCreationDate })
+                    .HasForeignKey(ash => new { ash.AssetID, ash.SupplierID, ash.SerialNo })
                     .OnDelete(DeleteBehavior.Restrict);
             });
             builder.Entity<WarehouseAsset>(warehouseAsset =>
             {
                 // Primary Key
-                warehouseAsset.HasKey(wa => new { wa.AssetID, wa.WarehouseID, wa.AssetCreationDate });
+                warehouseAsset.HasKey(wa => new { wa.AssetID, wa.WarehouseID, wa.SerialNo });
                 // Relations
                 warehouseAsset.HasMany(wa => wa.AssetShipmentWSts)
                     .WithOne(ash => ash.WarehouseAsset)
-                    .HasForeignKey(ash => new { ash.AssetID, ash.WarehouseID, ash.AssetCreationDate })
+                    .HasForeignKey(ash => new { ash.AssetID, ash.WarehouseID, ash.SerialNo })
                     .OnDelete(DeleteBehavior.Restrict);
             });
             builder.Entity<StoreAsset>(storeAsset =>
             {
                 //Primary Key
-                storeAsset.HasKey(sa => new { sa.AssetID, sa.StoreID, sa.AssetCreationDate });
+                storeAsset.HasKey(sa => new { sa.AssetID, sa.StoreID, sa.SerialNo });
             });
             builder.Entity<AssetShipmentSuW>(assetShipment =>
             {
                 //Primary Key
-                assetShipment.HasKey(ash => new { ash.AssetID, ash.SupplierID, ash.AssetCreationDate, ash.ProcessID });
+                assetShipment.HasKey(ash => new { ash.AssetID, ash.SupplierID, ash.SerialNo, ash.ProcessID });
             });
             builder.Entity<AssetShipmentWSt>(assetShipment =>
             {
                 //Primary Key
-                assetShipment.HasKey(ash => new { ash.AssetID, ash.WarehouseID, ash.AssetCreationDate, ash.ProcessID });
+                assetShipment.HasKey(ash => new { ash.AssetID, ash.WarehouseID, ash.SerialNo, ash.ProcessID });
             });
             builder.Entity<WarehouseProcess>(warehouseProcess =>
             {

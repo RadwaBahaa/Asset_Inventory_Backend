@@ -33,24 +33,23 @@ namespace Context.Migrations
 
                     b.Property<string>("AssetName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("CategoryID")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<byte[]>("Picture")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SerialNumber")
-                        .HasColumnType("int");
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
 
                     b.HasKey("AssetID");
 
@@ -67,8 +66,8 @@ namespace Context.Migrations
                     b.Property<int>("SupplierID")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("AssetCreationDate")
-                        .HasColumnType("date");
+                    b.Property<string>("SerialNo")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ProcessID")
                         .HasColumnType("int");
@@ -76,7 +75,7 @@ namespace Context.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("AssetID", "SupplierID", "AssetCreationDate", "ProcessID");
+                    b.HasKey("AssetID", "SupplierID", "SerialNo", "ProcessID");
 
                     b.HasIndex("ProcessID");
 
@@ -91,8 +90,8 @@ namespace Context.Migrations
                     b.Property<int>("WarehouseID")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("AssetCreationDate")
-                        .HasColumnType("date");
+                    b.Property<string>("SerialNo")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ProcessID")
                         .HasColumnType("int");
@@ -100,7 +99,7 @@ namespace Context.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("AssetID", "WarehouseID", "AssetCreationDate", "ProcessID");
+                    b.HasKey("AssetID", "WarehouseID", "SerialNo", "ProcessID");
 
                     b.HasIndex("ProcessID");
 
@@ -209,13 +208,16 @@ namespace Context.Migrations
                     b.Property<int>("StoreID")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("AssetCreationDate")
-                        .HasColumnType("date");
+                    b.Property<string>("SerialNo")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
-                    b.HasKey("AssetID", "StoreID", "AssetCreationDate");
+                    b.Property<DateOnly>("ProductionDate")
+                        .HasColumnType("date");
+
+                    b.HasKey("AssetID", "StoreID", "SerialNo");
 
                     b.HasIndex("StoreID");
 
@@ -337,13 +339,16 @@ namespace Context.Migrations
                     b.Property<int>("SupplierID")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("AssetCreationDate")
-                        .HasColumnType("date");
+                    b.Property<string>("SerialNo")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
-                    b.HasKey("AssetID", "SupplierID", "AssetCreationDate");
+                    b.Property<DateOnly>("ProductionDate")
+                        .HasColumnType("date");
+
+                    b.HasKey("AssetID", "SupplierID", "SerialNo");
 
                     b.HasIndex("SupplierID");
 
@@ -383,13 +388,16 @@ namespace Context.Migrations
                     b.Property<int>("WarehouseID")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("AssetCreationDate")
-                        .HasColumnType("date");
+                    b.Property<string>("SerialNo")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
-                    b.HasKey("AssetID", "WarehouseID", "AssetCreationDate");
+                    b.Property<DateOnly>("ProductionDate")
+                        .HasColumnType("date");
+
+                    b.HasKey("AssetID", "WarehouseID", "SerialNo");
 
                     b.HasIndex("WarehouseID");
 
@@ -499,7 +507,7 @@ namespace Context.Migrations
 
                     b.HasOne("Models.Models.SupplierAsset", "SupplierAsset")
                         .WithMany("AssetShipmentSuW")
-                        .HasForeignKey("AssetID", "SupplierID", "AssetCreationDate")
+                        .HasForeignKey("AssetID", "SupplierID", "SerialNo")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -518,7 +526,7 @@ namespace Context.Migrations
 
                     b.HasOne("Models.Models.WarehouseAsset", "WarehouseAsset")
                         .WithMany("AssetShipmentWSts")
-                        .HasForeignKey("AssetID", "WarehouseID", "AssetCreationDate")
+                        .HasForeignKey("AssetID", "WarehouseID", "SerialNo")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

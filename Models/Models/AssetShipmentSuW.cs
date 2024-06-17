@@ -5,9 +5,9 @@
         // AssetID, SupplierID, AssetCreationDate and ProcessID are Composite key
         public int AssetID { get; set; }        // Forign key from SupplierAsset Entity
         public int SupplierID { get; set; }     // Forign key from SupplierAsset Entity
-        public DateOnly AssetCreationDate { get; set; }     // Forign key from SupplierAsset Entity
+        public string SerialNo { get; set; }     // Forign key from SupplierAsset Entity
         public int ProcessID { get; set; }      // Forign key from DeliveryProcessSuW Entity
-        public int  Quantity { get; set; }
+        public int Quantity { get; set; }
 
 
         //RELATIONS
