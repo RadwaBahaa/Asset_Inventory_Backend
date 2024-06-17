@@ -2,10 +2,11 @@
 
 namespace Repository.Interfaces
 {
-    public interface IWarehouseRepository : IGenericRepository<Asset>
+    public interface IWarehouseRepository : IGenericRepository<Warehouse>
     {
-        public Task<Asset> GetOneByID(int id);
-        public Task<Asset> GetOneByName(string name);
-        public Task<List<Asset>> Search(string name);
+        public Task<Warehouse> GetOneByID(int id);
+        public Task<Warehouse> GetOneByName(string name);
+        public Task<List<Warehouse>> SearchByName(string name);
+        public Task<List<Warehouse>> SearchByAddress(string address);
     }
 }

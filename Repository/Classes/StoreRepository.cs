@@ -14,20 +14,27 @@ namespace Repository.Classes
         }
         public async Task<Store> GetOneByID(int id)
         {
-            var asset = await context.Assets.FindAsync(id);
-            return asset;
+            var store = await context.Stores.FindAsync(id);
+            return store;
         }
-        public async Task<Asset> GetOneByName(string name)
+        public async Task<Store> GetOneByName(string name)
         {
-            var asset = await context.Assets.FirstOrDefaultAsync(a => a.AssetName == name);
-            return asset;
+            var store = await context.Stores.FirstOrDefaultAsync(a => a.StoreName == name);
+            return store;
         }
-        public async Task<List<Asset>> Search(string name)
+        public async Task<List<Store>> SearchByName(string name)
         {
-            var assetslist = await context.Assets
-                .Where(a => a.AssetName.ToLower().Contains(name.ToLower()))
+            var storesList = await context.Stores
+                .Where(a => a.StoreName.ToLower().Contains(name.ToLower()))
                 .ToListAsync();
-            return assetslist;
+            return storesList;
+        }
+        public async Task<List<Store>> SearchByAddress(string address)
+        {
+            var storesList = await context.Stores
+                .Where(a => a.Address.ToLower().Contains(address.ToLower()))
+                .ToListAsync();
+            return storesList;
         }
     }
 }

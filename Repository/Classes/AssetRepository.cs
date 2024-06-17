@@ -24,17 +24,17 @@ namespace Repository.Classes
         }
         public async Task<List<Asset>> SearchByName(string name)
         {
-            var assetslist = await context.Assets
+            var assetsList = await context.Assets
                 .Where(a => a.AssetName.ToLower().Contains(name.ToLower()))
                 .ToListAsync();
-            return assetslist;
+            return assetsList;
         }
         public async Task<List<Asset>> SearchByCategory(Category category)
         {
-            var assetslist = await context.Assets
+            var assetsList = await context.Assets
                 .Where(a => a.CategoryID == category.CategoryID)
                 .ToListAsync();
-            return assetslist;
+            return assetsList;
         }
     }
 }

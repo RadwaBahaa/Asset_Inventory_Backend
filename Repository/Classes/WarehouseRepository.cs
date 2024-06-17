@@ -5,29 +5,36 @@ using Repository.Interfaces;
 
 namespace Repository.Classes
 {
-    public class WarehouseRepository : GenericRepository<Asset>, IWarehouseRepository
+    public class WarehouseRepository : GenericRepository<Warehouse>, IWarehouseRepository
     {
         protected AssetInventoryContext context;
         public WarehouseRepository(AssetInventoryContext context) : base(context)
         {
             this.context = context;
         }
-        public async Task<Asset> GetOneByID(int id)
+        public async Task<Warehouse> GetOneByID(int id)
         {
-            var asset = await context.Assets.FindAsync(id);
-            return asset;
+            var warehouse = await context.Warehouses.FindAsync(id);
+            return warehouse;
         }
-        public async Task<Asset> GetOneByName(string name)
+        public async Task<Warehouse> GetOneByName(string name)
         {
-            var asset = await context.Assets.FirstOrDefaultAsync(a => a.AssetName == name);
-            return asset;
+            var warehouse = await context.Warehouses.FirstOrDefaultAsync(a => a.WarehouseName == name);
+            return warehouse;
         }
-        public async Task<List<Asset>> Search(string name)
+        public async Task<List<Warehouse>> SearchByName(string name)
         {
-            var assetslist = await context.Assets
-                .Where(a => a.AssetName.ToLower().Contains(name.ToLower()))
+            var warehouseList = await context.Warehouses
+                .Where(a => a.WarehouseName.ToLower().Contains(name.ToLower()))
                 .ToListAsync();
-            return assetslist;
+            return warehouseList;
+        }
+        public async Task<List<Warehouse>> SearchByAddress(string address)
+        {
+            var warehouseList = await context.Warehouses
+                .Where(a => a.Address.ToLower().Contains(address.ToLower()))
+                .ToListAsync();
+            return warehouseList;
         }
     }
 }

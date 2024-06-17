@@ -2,10 +2,11 @@
 
 namespace Repository.Interfaces
 {
-    public interface IStoreRepository : IGenericRepository<Asset>
+    public interface IStoreRepository : IGenericRepository<Store>
     {
-        public Task<Asset> GetOneByID(int id);
-        public Task<Asset> GetOneByName(string name);
-        public Task<List<Asset>> Search(string name);
+        public Task<Store> GetOneByID(int id);
+        public Task<Store> GetOneByName(string name);
+        public Task<List<Store>> SearchByName(string name);
+        public Task<List<Store>> SearchByAddress(string address);
     }
 }

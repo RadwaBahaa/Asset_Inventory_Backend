@@ -5,29 +5,36 @@ using Repository.Interfaces;
 
 namespace Repository.Classes
 {
-    public class SupplierRepository : GenericRepository<Asset>, ISupplierRepository
+    public class SupplierRepository : GenericRepository<Supplier>, ISupplierRepository
     {
         protected AssetInventoryContext context;
         public SupplierRepository(AssetInventoryContext context) : base(context)
         {
             this.context = context;
         }
-        public async Task<Asset> GetOneByID(int id)
+        public async Task<Supplier> GetOneByID(int id)
         {
-            var asset = await context.Assets.FindAsync(id);
-            return asset;
+            var supplier = await context.Suppliers.FindAsync(id);
+            return supplier;
         }
-        public async Task<Asset> GetOneByName(string name)
+        public async Task<Supplier> GetOneByName(string name)
         {
-            var asset = await context.Assets.FirstOrDefaultAsync(a => a.AssetName == name);
-            return asset;
+            var supplier = await context.Suppliers.FirstOrDefaultAsync(a => a.SupplierName == name);
+            return supplier;
         }
-        public async Task<List<Asset>> Search(string name)
+        public async Task<List<Supplier>> SearchByName(string name)
         {
-            var assetslist = await context.Assets
-                .Where(a => a.AssetName.ToLower().Contains(name.ToLower()))
+            var suppliersList = await context.Suppliers
+                .Where(a => a.SupplierName.ToLower().Contains(name.ToLower()))
                 .ToListAsync();
-            return assetslist;
+            return suppliersList;
+        }
+        public async Task<List<Supplier>> SearchByAddress(string address)
+        {
+            var suppliersList = await context.Suppliers
+                .Where(a => a.Address.ToLower().Contains(address.ToLower()))
+                .ToListAsync();
+            return suppliersList;
         }
     }
 }
