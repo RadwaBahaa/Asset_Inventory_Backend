@@ -5,14 +5,14 @@ using Repository.Interfaces;
 
 namespace Repository.Classes
 {
-    public class StoreRepository : GenericRepository<Asset>, IStoreRepository
+    public class StoreRepository : GenericRepository<Store>, IStoreRepository
     {
         protected AssetInventoryContext context;
         public StoreRepository(AssetInventoryContext context) : base(context)
         {
             this.context = context;
         }
-        public async Task<Asset> GetOneByID(int id)
+        public async Task<Store> GetOneByID(int id)
         {
             var asset = await context.Assets.FindAsync(id);
             return asset;
