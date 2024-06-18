@@ -9,7 +9,6 @@ namespace DTOs.DTOs.Assets
         [PriceValidation] 
         public float? Price { get; set; }
         public string Description { get; set; }
-        public int? SerialNumber { get; set; }
         public byte[] Picture { get; set; }   
     }
 }
