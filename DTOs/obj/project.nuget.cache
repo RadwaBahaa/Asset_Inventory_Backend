@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/hK+Um9pr+D6TW14DcVmXXgbIpwZq2jN+pp7WMdgF3K9TFL340A8Q7KlQqWUgsm8Acz2T04GUxYpmgFwyE8tNQ==",
+  "dgSpecHash": "TuUdXtN/j0EkidMVX1mvob2rudzMn+juFSnu41c2YBuPdAPxkDsuyuMNAo1NGwt3wGfLmgokMKbH0TVZK/Dvaw==",
   "success": true,
-  "projectFilePath": "E:\\ITI\\Graduation Project\\Backend\\DTOs\\DTOs.csproj",
+  "projectFilePath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
