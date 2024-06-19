@@ -1,6 +1,10 @@
 {
   "version": 2,
+<<<<<<< HEAD
+  "dgSpecHash": "jAma2vL+8wbNiCvR8eZIeDVm7uRYWrq0HgpKKRFlIqQb6IYKxTOnBFe4zYPRvY+MA2DTN1CFTgggRzFMNYLsLQ==",
+=======
   "dgSpecHash": "c1cJG0kXgQSnvfnIOTgpmZdZgII9rNiUQw39bOQPYCozdoJRQsOcoU/1Oz6tHvgUBHKGIo72bm21B1jkox1Shw==",
+>>>>>>> 56237ed71aa58455881e2072e3b7645327f5b010
   "success": true,
   "projectFilePath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Program\\Presentation.csproj",
   "expectedPackageFiles": [

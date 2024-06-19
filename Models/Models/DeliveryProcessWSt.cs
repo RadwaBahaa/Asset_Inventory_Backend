@@ -10,7 +10,6 @@
 
         //RELATIONS
         public Warehouse Warehouse { get; set; }
-        public List<AssetShipmentWSt> AssetShipmentWSt { get; set; }
         public List<StoreProcess> StoreProcesses { get; set; }
     }
 }

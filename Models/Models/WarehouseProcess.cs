@@ -11,7 +11,8 @@
 
 
         //RELATIONS
-        public DeliveryProcessSuW DeliveryProcessSuW { get; set; }
         public Warehouse Warehouse { get; set; }
+        public DeliveryProcessSuW DeliveryProcessSuW { get; set; }
+        public List<AssetShipmentSuW> AssetShipmentSuW { get; set; }
     }
 }
