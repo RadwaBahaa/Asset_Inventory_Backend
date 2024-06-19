@@ -21,7 +21,7 @@ namespace Services.Services.Classes
             var processes = await warehouseProcessReopsitory.Read();
             var processesList = await processes
                 .Include(p => p.AssetShipmentSuW)
-                .Select(p=>mapper.Map<ReadWarehouseProcessDTO>(p))
+                .Select(p => mapper.Map<ReadWarehouseProcessDTO>(p))
                 .ToListAsync();
             if (processesList.Any())
                 throw new ArgumentException("There are no process.");
@@ -34,18 +34,18 @@ namespace Services.Services.Classes
             var mappedProcess = await process
                 .Select(p => mapper.Map<ReadWarehouseProcessDTO>(p))
                 .FirstOrDefaultAsync();
-            if (mappedProcess == null) 
+            if (mappedProcess == null)
                 throw new ArgumentException("There is no process with this ID.");
-            else 
+            else
                 return mappedProcess;
         }
         public async Task<List<ReadWarehouseProcessDTO>> SearchByWarehouse(int warehouseID)
         {
             var processes = await warehouseProcessReopsitory.SearchByWarehouse(warehouseID);
             var processesList = await processes
-                .Where(p=>p.WarehouseID==warehouseID)
-                .Include(p=>p.AssetShipmentSuW)
-                .Select(p=>mapper.Map<ReadWarehouseProcessDTO>(p))
+                .Where(p => p.WarehouseID == warehouseID)
+                .Include(p => p.AssetShipmentSuW)
+                .Select(p => mapper.Map<ReadWarehouseProcessDTO>(p))
                 .ToListAsync();
             if (processesList.Any())
                 throw new ArgumentException("There are no process to this warehouse.");
@@ -58,11 +58,11 @@ namespace Services.Services.Classes
         {
             var process = await warehouseProcessReopsitory.ReadOneByID(processId, warehouseID);
             var updatedProcess = await process.FirstOrDefaultAsync();
-            if (updatedProcess == null) 
+            if (updatedProcess == null)
                 throw new ArgumentException("There is no process with this ID.");
             else
             {
-                if (warehouseProcessDTO.Status==null)
+                if (warehouseProcessDTO.Status == null)
                     throw new ArgumentException("Status is required.");
                 else
                 {

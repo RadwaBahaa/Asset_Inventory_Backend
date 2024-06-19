@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using DTOs.DTOs.DeliveryProcesses;
-using Repository.Classes;
+﻿using DTOs.DTOs.DeliveryProcesses;
 
 namespace Services.Services.Interface
 {
