@@ -117,10 +117,6 @@ namespace Context.Context
                     .WithOne(wp => wp.DeliveryProcessSuW)
                     .HasForeignKey(wp => wp.ProcessID)
                     .OnDelete(DeleteBehavior.Cascade);
-                deliveryProcessSuW.HasMany(dp => dp.AssetShipmentSuW)
-                    .WithOne(ash => ash.DeliveryProcessSuW)
-                    .HasForeignKey(ash => ash.ProcessID)
-                    .OnDelete(DeleteBehavior.Restrict);
             });
             builder.Entity<DeliveryProcessWSt>(deliveryProcessWSt =>
             {
@@ -131,10 +127,6 @@ namespace Context.Context
                     .WithOne(sp => sp.DeliveryProcessWSt)
                     .HasForeignKey(sp => sp.ProcessID)
                     .OnDelete(DeleteBehavior.Cascade);
-                deliveryProcessWSt.HasMany(dp => dp.AssetShipmentWSt)
-                    .WithOne(ash => ash.DeliveryProcessWSt)
-                    .HasForeignKey(ash => ash.ProcessID)
-                    .OnDelete(DeleteBehavior.Restrict);
             });
             builder.Entity<SupplierAsset>(supplierAsset =>
             {
@@ -164,22 +156,30 @@ namespace Context.Context
             builder.Entity<AssetShipmentSuW>(assetShipment =>
             {
                 //Primary Key
-                assetShipment.HasKey(ash => new { ash.AssetID, ash.SupplierID, ash.SerialNo, ash.ProcessID });
+                assetShipment.HasKey(ash => new { ash.AssetID, ash.SupplierID, ash.SerialNo, ash.ProcessID, ash.WarehouseID });
             });
             builder.Entity<AssetShipmentWSt>(assetShipment =>
             {
                 //Primary Key
-                assetShipment.HasKey(ash => new { ash.AssetID, ash.WarehouseID, ash.SerialNo, ash.ProcessID });
+                assetShipment.HasKey(ash => new { ash.AssetID, ash.WarehouseID, ash.SerialNo, ash.ProcessID, ash.StoreID });
             });
             builder.Entity<WarehouseProcess>(warehouseProcess =>
             {
                 //Primary Key
                 warehouseProcess.HasKey(wp => new { wp.ProcessID, wp.WarehouseID });
+                //Relations
+                warehouseProcess.HasMany(wp => wp.AssetShipmentSuW)
+                    .WithOne(ash => ash.WarehouseProcess)
+                    .HasForeignKey(ash => new { ash.ProcessID, ash.WarehouseID });
             });
             builder.Entity<StoreProcess>(storeProcess =>
             {
                 //Primary Key
                 storeProcess.HasKey(sp => new { sp.ProcessID, sp.StoreID });
+                //Relations
+                storeProcess.HasMany(sp => sp.AssetShipmentWSt)
+                    .WithOne(ash => ash.StoreProcess)
+                    .HasForeignKey(ash => new { ash.ProcessID, ash.StoreID });
             });
             builder.Entity<WarehouseRequest>(warehouseRequest =>
             {

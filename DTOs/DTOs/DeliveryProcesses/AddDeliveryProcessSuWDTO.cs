@@ -2,6 +2,6 @@
 {
     public class AddDeliveryProcessSuWDTO
     {
-        public List<AddWarehouseProcessDTO> WarehouseProcess { get; set; }
+        public List<AddWarehouseProcessDTO> WarehouseProcesses { get; set; }
     }
 }
