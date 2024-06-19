@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "TuUdXtN/j0EkidMVX1mvob2rudzMn+juFSnu41c2YBuPdAPxkDsuyuMNAo1NGwt3wGfLmgokMKbH0TVZK/Dvaw==",
+  "dgSpecHash": "RoaDOHnYCi1W/UECGaoeD/cnUoVndomOaMS+TGXPrWuKRUJdBqSH4vNOyDtWgSr7aKkgGlMLoCsvsLtrxcKBag==",
   "success": true,
-  "projectFilePath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "E:\\ITI\\Graduation Project\\Backend\\DTOs\\DTOs.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\radwa\\.nuget\\packages\\nettopologysuite\\2.5.0\\nettopologysuite.2.5.0.nupkg.sha512",
+    "C:\\Users\\radwa\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512"
+  ],
   "logs": []
 }

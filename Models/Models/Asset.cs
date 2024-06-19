@@ -9,10 +9,6 @@
         public string Description { get; set; }
         public byte[] Picture { get; set; }   // Property to store photo as binary data in the database
 
-        //public DateOnly CtreationDate { get; set; } 
-        // That means that all assets with the same type have to be created in the same date
-        // So I moved this property to the assests in each supplier to be as PK....
-
 
         //RELATIONS
         public Category Category { get; set; }

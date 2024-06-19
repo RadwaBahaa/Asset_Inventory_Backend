@@ -1,10 +1,4 @@
-﻿using DTOs.DTOs.Stores;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NetTopologySuite.Geometries;
 
 namespace DTOs.DTOs.Suppliers
 
@@ -14,6 +8,6 @@ namespace DTOs.DTOs.Suppliers
         public string? SupplierName { get; set; }
         public Point? Location { get; set; }
         public string? Address { get; set; }
-        public AddOrUpdateStoreRequestsDTO SupplierAssets { get; set; }
+        public List<AddOrUpdateSupplierAssetsDTO> Assets { get; set; }
     }
 }
