@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "SasE+JG7/Z/H+SWd5ZAc5GSt7ijLh8wdAvt7uX7WzeH7ze3KUWCiImDD6lxAVPyAjSft1EG4iM7O/rznlYgJKg==",
+  "dgSpecHash": "VUGMx5JOZzdjX2iflCu/9m+WOvpeCv3DVYv39ZherAuOAuecmJHI3XNll8YI8C173PjgKoe8aN+JGgoOZTUsMA==",
   "success": true,
   "projectFilePath": "E:\\ITI\\Graduation Project\\Backend\\Program\\Presentation.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\radwa\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\radwa\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\radwa\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
     "C:\\Users\\radwa\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

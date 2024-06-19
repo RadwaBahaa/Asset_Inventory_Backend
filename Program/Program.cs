@@ -1,6 +1,7 @@
 using Context.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Services.Mapper;
 
 namespace Asset_Inventory_API
 {
@@ -13,6 +14,10 @@ namespace Asset_Inventory_API
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddAutoMapper(option =>
+            {
+                option.AddProfile<MapProfile>();
+            });
             builder.Services.AddIdentity<IdentityUser, IdentityRole>(option =>
             {
                 option.SignIn.RequireConfirmedEmail = true;
