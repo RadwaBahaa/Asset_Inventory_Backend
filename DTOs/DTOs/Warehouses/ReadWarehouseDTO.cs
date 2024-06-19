@@ -1,14 +1,13 @@
-﻿using DTOs.DTOs.Categories;
-using DTOs.DTOs.Stores;
-using System.Drawing;
+﻿using NetTopologySuite.Geometries;
 
 namespace DTOs.DTOs.Warehouses
 {
     public class ReadWarehouseDTO
     {
+        public int WarehouseID { get; set; }
         public string WarehouseName { get; set; }
         public Point Location { get; set; }
         public string Address { get; set; }
-        public ReadWarehouseAssetsDTO WarehouseAssets { get; set; }
+        public List<ReadWarehouseAssetsDTO> Assets { get; set; }
     }
 }

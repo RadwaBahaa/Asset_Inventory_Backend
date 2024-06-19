@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DTOs.DTOs.Requests
-
+﻿namespace DTOs.DTOs.Requests
 {
-    public class UpdateWarehouseProcessDTO
+    public class UpdateWarehouseRequestDTO
     {
         public string? Status { get; set; }
     }

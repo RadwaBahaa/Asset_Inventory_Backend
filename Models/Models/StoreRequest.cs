@@ -10,7 +10,6 @@
         public string Note { get; set; }
 
 
-
         //RELATIONS
         public Store Store { get; set; }
         public Warehouse Warehouse { get; set; }
