@@ -2,6 +2,8 @@ using Context.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Services.Mapper;
+using Services.Services.Classes;
+using Services.Services.Interface;
 
 namespace Asset_Inventory_API
 {
@@ -12,8 +14,14 @@ namespace Asset_Inventory_API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
+            builder.Services.AddScoped<IAssetServices, AssetServices>();
+            builder.Services.AddScoped<ICategoryServices, CategoryServices>();
+            builder.Services.AddScoped<IAssetServices, AssetServices>();
+            builder.Services.AddScoped<ICategoryServices, CategoryServices>();
+            builder.Services.AddScoped<IDeliveryProcessSuWServices, DeliveryProcessSuWServices>();
+            builder.Services.AddScoped<IStoreProcessServices, StoreProcessServices>();
+            builder.Services.AddScoped<IWarehouseProcessServices, WarehouseProcessServices>();
             builder.Services.AddAutoMapper(option =>
             {
                 option.AddProfile<MapProfile>();
@@ -25,7 +33,7 @@ namespace Asset_Inventory_API
             builder.Services.AddDbContext<AssetInventoryContext>(option =>
             {
                 option.UseSqlServer(builder.Configuration.GetConnectionString("DataBase"),
-                    sqlServerOptions => sqlServerOptions.UseNetTopologySuite());
+                sqlServerOptions => sqlServerOptions.UseNetTopologySuite());
             });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

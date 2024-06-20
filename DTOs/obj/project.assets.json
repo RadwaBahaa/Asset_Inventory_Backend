@@ -74,19 +74,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\oneway\\.nuget\\packages\\": {}
+    "C:\\Users\\radwa\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj",
+      "projectUniqueName": "E:\\ITI\\Graduation Project\\Backend\\DTOs\\DTOs.csproj",
       "projectName": "DTOs",
-      "projectPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj",
-      "packagesPath": "C:\\Users\\oneway\\.nuget\\packages\\",
-      "outputPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\DTOs\\obj\\",
+      "projectPath": "E:\\ITI\\Graduation Project\\Backend\\DTOs\\DTOs.csproj",
+      "packagesPath": "C:\\Users\\radwa\\.nuget\\packages\\",
+      "outputPath": "E:\\ITI\\Graduation Project\\Backend\\DTOs\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\oneway\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\radwa\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -106,11 +106,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -138,7 +133,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
