@@ -1,14 +1,8 @@
 ﻿using AutoMapper;
 using DTOs.DTOs.Assets;
-using DTOs.DTOs.Categories;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Models.Models;
-using Repository.Classes;
 using Repository.Interfaces;
 using Services.Services.Interface;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Services.Services.Classes
 {
@@ -41,42 +35,27 @@ namespace Services.Services.Classes
                 var mappingasset = mapper.Map<ReadAssetDTO>(createAsset);
                 return mappingasset;
             }
-
         }
 
-   
-
         // __________________________ GetOne asset ___________________________
-
-
         public async Task<ReadAssetDTO> GetOneByName(string name)
         {
             var asset = await assetRepository.GetOneByName(name);
-
             // Process the retrieved assets
-            
             return mapper.Map<ReadAssetDTO>(asset);
-           
         }
 
-
-
-
         // __________________________ Search assets by name and category ___________________________
-
         public async Task<List<Asset>> SearchByName(string name)
         {
             var assetsList = await assetRepository.SearchByName(name);
-                
             return assetsList;
         }
         public async Task<List<Asset>> SearchByCategory(Category category)
         {
             var assetsList = await assetRepository.SearchByCategory(category);
-               
             return assetsList;
         }
-
 
         // __________________________ Update a Categories ___________________________
         public async Task<bool> Update(AddOrUpdateAssetDTO assetDTO, int ID)
@@ -96,6 +75,7 @@ namespace Services.Services.Classes
                 return true;
             }
         }
+
         // __________________________ Delete an asset ___________________________
         public async Task<bool> Delete(int ID)
         {

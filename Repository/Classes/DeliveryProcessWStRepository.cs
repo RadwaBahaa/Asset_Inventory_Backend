@@ -1,5 +1,4 @@
 ﻿using Context.Context;
-using Microsoft.EntityFrameworkCore;
 using Models.Models;
 using Repository.Interfaces;
 
@@ -12,23 +11,21 @@ namespace Repository.Classes
         {
             this.context = context;
         }
-        public async Task<DeliveryProcessWSt> GetByID(int id)
+        public async Task<IQueryable<DeliveryProcessWSt>> ReadOneByID(int id)
         {
-            var process = await context.DeliveryProcessWSt.FindAsync(id);
+            var process = context.DeliveryProcessWSt.Where(p => p.ProcessID == id);
             return process;
         }
-        public async Task<List<DeliveryProcessWSt>> SearchByWarehouse(Warehouse warehouse)
+        public async Task<IQueryable<DeliveryProcessWSt>> SearchByWarehouse(int warehouseID)
         {
-            var processesList = await context.DeliveryProcessWSt
-                .Where(p => p.WarehouseID == warehouse.WarehouseID)
-                .ToListAsync();
+            var processesList = context.DeliveryProcessWSt
+                .Where(p => p.WarehouseID == warehouseID);
             return processesList;
         }
-        public async Task<List<DeliveryProcessWSt>> SearchByDate(DateTime date)
+        public async Task<IQueryable<DeliveryProcessWSt>> SearchByDate(DateTime date)
         {
-            var processesList = await context.DeliveryProcessWSt
-                .Where(p => p.DateTime == date)
-                .ToListAsync();
+            var processesList = context.DeliveryProcessWSt
+                .Where(p => p.DateTime == date);
             return processesList;
         }
     }

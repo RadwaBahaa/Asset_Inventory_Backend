@@ -7,32 +7,32 @@ using Services.Services.Interface;
 
 namespace Services.Services.Classes
 {
-    public class DeliveryProcessSuWServices : IDeliveryProcessSuWServices
+    public class DeliveryProcessWStServices : IDeliveryProcessWStServices
     {
-        protected DeliveryProcessSuWRepository deliveryProcessSuWRepository { get; set; }
+        protected DeliveryProcessWStRepository deliveryProcessWStRepository { get; set; }
         protected IMapper mapper { get; set; }
-        public DeliveryProcessSuWServices(DeliveryProcessSuWRepository deliveryProcessSuWRepository, IMapper mapper)
+        public DeliveryProcessWStServices(DeliveryProcessWStRepository deliveryProcessWStRepository, IMapper mapper)
         {
-            this.deliveryProcessSuWRepository = deliveryProcessSuWRepository;
+            this.deliveryProcessWStRepository = deliveryProcessWStRepository;
             this.mapper = mapper;
         }
 
         // ________________ Create a new Process from Supplier to Werhouses ________________
-        public async Task<bool> Create(AddDeliveryProcessSuWDTO addDeliveryProcessSuWDTO, int supplierID)
+        public async Task<bool> Create(AddDeliveryProcessWStDTO deliveryProcessWStDTO, int warehouseID)
         {
-            if (addDeliveryProcessSuWDTO.WarehouseProcesses == null)
+            if (deliveryProcessWStDTO.StoreProcesses == null)
             {
                 throw new ArgumentException("You choose not to deliver to any warehouses!...");
             }
             else
             {
-                var newProcess = mapper.Map<DeliveryProcessSuW>(addDeliveryProcessSuWDTO);
-                newProcess.SupplierID = supplierID;
+                var newProcess = mapper.Map<DeliveryProcessWSt>(deliveryProcessWStDTO);
+                newProcess.WarehouseID = warehouseID;
                 newProcess.DateTime = DateTime.Now;
                 newProcess.TotalAssets = 0;
-                foreach (var process in addDeliveryProcessSuWDTO.WarehouseProcesses)
+                foreach (var process in deliveryProcessWStDTO.StoreProcesses)
                 {
-                    foreach (var asset in process.AssetShipmentSuW)
+                    foreach (var asset in process.AssetShipmentWSt)
                     {
                         newProcess.TotalAssets += asset.Quantity ?? 0;
                     }
@@ -42,53 +42,53 @@ namespace Services.Services.Classes
         }
 
         // ________________ Read Processes from Supplier to Werhouses ________________
-        public async Task<List<ReadDeliveryProcessSuWDTO>> ReadAllProcess()
+        public async Task<List<ReadDeliveryProcessWStDTO>> ReadAllProcess()
         {
-            var processesList = await deliveryProcessSuWRepository.Read();
+            var processesList = await deliveryProcessWStRepository.Read();
             var mappedProcessesList = await processesList
-                .Include(p => p.WarehouseProcesses)
-                    .ThenInclude(wp => wp.AssetShipmentSuW)
-                .Select(p => mapper.Map<ReadDeliveryProcessSuWDTO>(p))
+                .Include(p => p.StoreProcesses)
+                    .ThenInclude(wp => wp.AssetShipmentWSt)
+                .Select(p => mapper.Map<ReadDeliveryProcessWStDTO>(p))
                 .ToListAsync();
             if (mappedProcessesList.Any())
                 return mappedProcessesList;
             else
                 throw new ArgumentException("There are no assets to be retrieved.");
         }
-        public async Task<ReadDeliveryProcessSuWDTO> ReadOneByID(int id)
+        public async Task<ReadDeliveryProcessWStDTO> ReadOneByID(int id)
         {
-            var process = await deliveryProcessSuWRepository.ReadOneByID(id);
+            var process = await deliveryProcessWStRepository.ReadOneByID(id);
             var selectedProcess = await process
-                .Include(p => p.WarehouseProcesses)
-                    .ThenInclude(wp => wp.AssetShipmentSuW)
+                .Include(p => p.StoreProcesses)
+                    .ThenInclude(wp => wp.AssetShipmentWSt)
                 .FirstOrDefaultAsync();
             if (process == null)
                 throw new ArgumentException("There is no process by this ID.");
             else
-                return mapper.Map<ReadDeliveryProcessSuWDTO>(selectedProcess);
+                return mapper.Map<ReadDeliveryProcessWStDTO>(selectedProcess);
         }
 
         // _________________________ Search for Processes _________________________
-        public async Task<List<ReadDeliveryProcessSuWDTO>> SearchBySupplier(int supplierID)
+        public async Task<List<ReadDeliveryProcessWStDTO>> SearchBySupplier(int warehouseID)
         {
-            var searchedProcesses = await deliveryProcessSuWRepository.SearchBySupplier(supplierID);
+            var searchedProcesses = await deliveryProcessWStRepository.SearchByWarehouse(warehouseID);
             var mappedSearchedProcesses = await searchedProcesses
-                .Include(p => p.WarehouseProcesses)
-                    .ThenInclude(wp => wp.AssetShipmentSuW)
-                .Select(p => mapper.Map<ReadDeliveryProcessSuWDTO>(p))
+                .Include(p => p.StoreProcesses)
+                    .ThenInclude(wp => wp.AssetShipmentWSt)
+                .Select(p => mapper.Map<ReadDeliveryProcessWStDTO>(p))
                 .ToListAsync();
             if (searchedProcesses.Any())
                 return mappedSearchedProcesses;
             else
                 throw new ArgumentException("There are no Process from this Supplier.");
         }
-        public async Task<List<ReadDeliveryProcessSuWDTO>> SearchByDate(DateTime date)
+        public async Task<List<ReadDeliveryProcessWStDTO>> SearchByDate(DateTime date)
         {
-            var searchedProcesses = await deliveryProcessSuWRepository.SearchByDate(date);
+            var searchedProcesses = await deliveryProcessWStRepository.SearchByDate(date);
             var mappedSearchedProcesses = await searchedProcesses
-                .Include(p => p.WarehouseProcesses)
-                    .ThenInclude(wp => wp.AssetShipmentSuW)
-                .Select(p => mapper.Map<ReadDeliveryProcessSuWDTO>(p))
+                .Include(p => p.StoreProcesses)
+                    .ThenInclude(wp => wp.AssetShipmentWSt)
+                .Select(p => mapper.Map<ReadDeliveryProcessWStDTO>(p))
                 .ToListAsync();
             if (searchedProcesses.Any())
                 return mappedSearchedProcesses;
@@ -99,11 +99,11 @@ namespace Services.Services.Classes
         // _________________________ Delete a Process _________________________
         public async Task<bool> DeleteProcess(int processID)
         {
-            var findProcess = await deliveryProcessSuWRepository.ReadOneByID(processID);
+            var findProcess = await deliveryProcessWStRepository.ReadOneByID(processID);
             var process = findProcess.FirstOrDefault();
             if (process != null)
             {
-                await deliveryProcessSuWRepository.Delete(process);
+                await deliveryProcessWStRepository.Delete(process);
                 return true;
             }
             else throw new ArgumentException("There is no process by this ID.");
