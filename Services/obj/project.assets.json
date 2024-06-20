@@ -3128,19 +3128,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\radwa\\.nuget\\packages\\": {}
+    "C:\\Users\\oneway\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\ITI\\Graduation Project\\Backend\\Services\\Services.csproj",
+      "projectUniqueName": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Services\\Services.csproj",
       "projectName": "Services",
-      "projectPath": "E:\\ITI\\Graduation Project\\Backend\\Services\\Services.csproj",
-      "packagesPath": "C:\\Users\\radwa\\.nuget\\packages\\",
-      "outputPath": "E:\\ITI\\Graduation Project\\Backend\\Services\\obj\\",
+      "projectPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Services\\Services.csproj",
+      "packagesPath": "C:\\Users\\oneway\\.nuget\\packages\\",
+      "outputPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Services\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\radwa\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\oneway\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -3154,14 +3154,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "E:\\ITI\\Graduation Project\\Backend\\DTOs\\DTOs.csproj": {
-              "projectPath": "E:\\ITI\\Graduation Project\\Backend\\DTOs\\DTOs.csproj"
+            "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj": {
+              "projectPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj"
             },
-            "E:\\ITI\\Graduation Project\\Backend\\Models\\Models.csproj": {
-              "projectPath": "E:\\ITI\\Graduation Project\\Backend\\Models\\Models.csproj"
+            "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Models\\Models.csproj": {
+              "projectPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Models\\Models.csproj"
             },
-            "E:\\ITI\\Graduation Project\\Backend\\Repository\\Repository.csproj": {
-              "projectPath": "E:\\ITI\\Graduation Project\\Backend\\Repository\\Repository.csproj"
+            "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Repository\\Repository.csproj": {
+              "projectPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Repository\\Repository.csproj"
             }
           }
         }
@@ -3170,6 +3170,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -3197,16 +3202,8 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file E:\\ITI\\Graduation Project\\Backend\\Services\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    }
-  ]
+  }
 }

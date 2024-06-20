@@ -18,5 +18,6 @@ namespace Services.Services.Interface
         //searchby name and category 
         public Task<bool> Update(AddOrUpdateAssetDTO assetDTO, int ID);
         public Task<bool> Delete(int ID);
+        Task Update(AddOrUpdateAssetDTO assetDTO, string name);
     }
 }
