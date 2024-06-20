@@ -38,9 +38,9 @@ namespace Services.Services.Classes
         }
 
         // __________________________ GetOne asset ___________________________
-        public async Task<ReadAssetDTO> GetOneByName(string name)
+        public async Task<ReadAssetDTO> GetOneByID(int ID)
         {
-            var asset = await assetRepository.GetOneByName(name);
+            var asset = await assetRepository.GetOneByID(ID);
             // Process the retrieved assets
             return mapper.Map<ReadAssetDTO>(asset);
         }
@@ -58,6 +58,8 @@ namespace Services.Services.Classes
         }
 
         // __________________________ Update a Categories ___________________________
+
+
         public async Task<bool> Update(AddOrUpdateAssetDTO assetDTO, int ID)
         {
             var findasset = await assetRepository.GetOneByID(ID);

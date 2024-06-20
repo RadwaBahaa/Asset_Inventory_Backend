@@ -36,9 +36,9 @@ namespace Presentation.Controllers
         // ___________________________ 2- Read to Get one Asset ___________________________
         [HttpGet]
         //[Authorize]
-        public async Task<IActionResult> GetOne(string name)
+        public async Task<IActionResult> GetOne(int ID)
         {
-            var assets = await assetServices.GetOneByName(name);
+            var assets = await assetServices.GetOneByID(ID);
             if (assets == null)
             {
                 return BadRequest();
@@ -66,17 +66,17 @@ namespace Presentation.Controllers
         // ___________________________ 4- Update ___________________________
         [HttpPut("{name:string}")]
         //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Update(AddOrUpdateAssetDTO assetDTO, string name)
+        public async Task<IActionResult> Update(AddOrUpdateAssetDTO assetDTO, int ID)
         {
-            var UpdateAsset = await assetServices.GetOneByName(name);
+            var UpdateAsset = await assetServices.GetOneByID(ID);
             if (UpdateAsset == null)
             {
                 return BadRequest("There is no asset with this name !....");
             }
             else
             {
-                await assetServices.Update(assetDTO, name);
-                return Ok($"The name of category {name} was updated from '{UpdateAsset.AssetName}' to be '{assetDTO.AssetName}' ....");
+                await assetServices.Update(assetDTO, ID);
+                return Ok($"The name of category {ID} was updated from '{UpdateAsset.AssetID}' to be '{assetDTO.AssetName}' ....");
             }
         }
 
