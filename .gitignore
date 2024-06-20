@@ -1,4 +1,5 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Ignore the appsettings.json file in the Asset_Inventory_API directory
+/Program/appsettings.json
 
-/Asset_Inventory_API/appsettings.json
+# Ignore the entire .vs directory
 .vs/
