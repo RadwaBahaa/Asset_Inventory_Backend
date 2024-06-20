@@ -69,7 +69,7 @@ namespace Services.Services.Classes
         }
 
         // _________________________ Search for Processes _________________________
-        public async Task<List<ReadDeliveryProcessWStDTO>> SearchBySupplier(int warehouseID)
+        public async Task<List<ReadDeliveryProcessWStDTO>> SearchByWarehouse(int warehouseID)
         {
             var searchedProcesses = await deliveryProcessWStRepository.SearchByWarehouse(warehouseID);
             var mappedSearchedProcesses = await searchedProcesses
@@ -80,7 +80,7 @@ namespace Services.Services.Classes
             if (searchedProcesses.Any())
                 return mappedSearchedProcesses;
             else
-                throw new ArgumentException("There are no Process from this Supplier.");
+                throw new ArgumentException("There are no Process from this Warehouse.");
         }
         public async Task<List<ReadDeliveryProcessWStDTO>> SearchByDate(DateTime date)
         {
