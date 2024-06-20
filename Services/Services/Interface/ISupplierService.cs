@@ -10,9 +10,9 @@ namespace Services.Services.Interface
     public interface ISupplierService
     {
         public Task<bool> CreateSupplier(AddOrUpdateSupplierDTO addOrUpdateSupplierDTO);
-        public Task<ReadSupplierDTO> GetAllSuppliers();
+        public Task<List<ReadSupplierDTO>> GetAllSuppliers();
         public Task<ReadSupplierDTO> GetSupplierByID(int SupplierID);
         public Task<ReadSupplierDTO> UpdateSupplier(AddOrUpdateSupplierDTO addOrUpdateSupplierDTO, int SupplierID);
-        public Task<ReadSupplierDTO> DeleteSupplier(int SupplierID);
+        public Task<bool> DeleteSupplier(int SupplierID);
     }
 }

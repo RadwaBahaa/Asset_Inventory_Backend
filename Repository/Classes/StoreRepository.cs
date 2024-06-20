@@ -12,6 +12,7 @@ namespace Repository.Classes
         {
             this.context = context;
         }
+       
         public async Task<Store> GetOneByID(int id)
         {
             var store = await context.Stores.FindAsync(id);

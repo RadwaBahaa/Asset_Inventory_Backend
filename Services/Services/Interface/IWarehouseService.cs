@@ -9,10 +9,10 @@ namespace Services.Services.Interface
 {
     public interface IWarehouseService
     {
-        public Task<bool> CreateStore (AddOrUpdateWarehouseDTO addOrUpdateWarehouseDTO);
-        public Task<ReadWarehouseDTO> GetAllWarehouses();
+        public Task<bool> CreateWarehouse(AddOrUpdateWarehouseDTO addOrUpdateWarehouseDTO);
+        public Task<List<ReadWarehouseDTO>> GetAllWarehouses();
         public Task<ReadWarehouseDTO> GetWarehouseByID(int WarehouseID);
         public Task<ReadWarehouseDTO> UpdateWarehouse(AddOrUpdateWarehouseDTO addOrUpdateWarehouseDTO, int WarehouseID);
-        public Task<ReadWarehouseDTO> DeleteWarehouse(int WarehouseID);
+        public Task<bool> DeleteWarehouse(int WarehouseID);
     }
 }

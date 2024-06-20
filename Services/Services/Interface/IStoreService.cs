@@ -10,9 +10,9 @@ namespace Services.Services.Interface
     public interface IStoreService
     {
         public Task<bool> CreateStore (AddOrUpdateStoreDTO addOrUpdateStoreDTO);
-        public Task<ReadStoreDTO> GetAllStores();
+        Task<List<ReadStoreDTO>> GetAllStores();
         public Task<ReadStoreDTO> GetStoreByID(int StoreID);
         public Task<ReadStoreDTO> UpdateStore(AddOrUpdateStoreDTO addOrUpdateStoreDTO, int StoreID);
-        public Task<ReadStoreDTO> DeleteStore(int StoreID);
+        public Task<bool> DeleteStore(int StoreID);
     }
 }
