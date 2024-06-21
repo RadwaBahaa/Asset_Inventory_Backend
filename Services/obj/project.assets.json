@@ -1270,8 +1270,12 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
+          "AutoMapper": "13.0.1",
           "Context": "1.0.0",
+          "DTOs": "1.0.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.6",
+          "Models": "1.0.0",
+          "Repository": "1.0.0",
           "Swashbuckle.AspNetCore": "6.4.0"
         },
         "compile": {

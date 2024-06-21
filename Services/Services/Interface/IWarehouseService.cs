@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Services.Services.Interface
 {
-    public interface IWarehouseService
+    public interface IWarehouseServices
     {
         public Task<bool> CreateWarehouse(AddOrUpdateWarehouseDTO addOrUpdateWarehouseDTO);
         public Task<List<ReadWarehouseDTO>> GetAllWarehouses();

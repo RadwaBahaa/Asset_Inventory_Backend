@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Services.Services.Interface
 {
-    public interface ISupplierService
+    public interface ISupplierServices
     {
         public Task<bool> CreateSupplier(AddOrUpdateSupplierDTO addOrUpdateSupplierDTO);
         public Task<List<ReadSupplierDTO>> GetAllSuppliers();

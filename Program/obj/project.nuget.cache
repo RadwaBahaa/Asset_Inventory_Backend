@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "wmCDUNFs+KTdIN6+SBuYykzi6ysqvJIMJ9j9zWK7xkVJwlwb/7Xb8Gt7J1kFpUOFt0kuVoEwnvYO8ohgECmeJg==",
+  "dgSpecHash": "E1kMu+Q/qgMEFaabk5T3xGDZBzH1Z2aKtS3t0u1WwyaUaby8WsqUUl/XLGfUC6x057iLipzJg04wEDi57RCQkg==",
   "success": true,
   "projectFilePath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Program\\Presentation.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\mosha\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\mosha\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\mosha\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
     "C:\\Users\\mosha\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

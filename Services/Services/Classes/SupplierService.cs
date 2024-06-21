@@ -6,11 +6,11 @@ using Models.Models;
 
 namespace Services.Services.Classes
 {
-    public class SupplierService : ISupplierService
+    public class SupplierServices : ISupplierServices
     {
         protected SupplierRepository supplierRepository { get; set; }
         protected IMapper mapper { get; set; }
-        public SupplierService(SupplierRepository supplierRepository, IMapper mapper)
+        public SupplierServices(SupplierRepository supplierRepository, IMapper mapper)
         {
             this.supplierRepository = supplierRepository;
             this.mapper = mapper;

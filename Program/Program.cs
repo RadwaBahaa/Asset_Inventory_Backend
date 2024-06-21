@@ -14,10 +14,26 @@ namespace Asset_Inventory_API
             // Add services to the container.
 
             builder.Services.AddControllers();
+
+            builder.Services.AddScoped<ISupplierServices, SupplierServices>();
+            builder.Services.AddScoped<ISupplierAssetServices, SupplierAssetServices>();
+
+            builder.Services.AddScoped<IWarehouseServices, WarehouseServices>();
+            builder.Services.AddScoped<IWarehouseAssetServices, WarehouseAssetServices>();
+           
+            builder.Services.AddScoped<IStoreServices, StoreServices>();
+            builder.Services.AddScoped<IStoreAssetServices, StoreAssetServices>();
+
+        
+            
+
+
+
             builder.Services.AddAutoMapper(option =>
             {
                 option.AddProfile<MapProfile>();
             });
+
             builder.Services.AddIdentity<IdentityUser, IdentityRole>(option =>
             {
                 option.SignIn.RequireConfirmedEmail = true;

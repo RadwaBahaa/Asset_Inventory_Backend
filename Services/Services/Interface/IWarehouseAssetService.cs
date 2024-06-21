@@ -3,7 +3,7 @@ using DTOs.DTOs.Warehouses;
 
 namespace Services.Services.Interface
 {
-    public interface IWarehouseAssetService
+    public interface IWarehouseAssetServices
     {
         public Task<bool> CreateWarehouseAsset(AddOrUpdateWarehouseAssetsDTO addOrUpdateWarehouseAssetsDTO);
         public Task<List<ReadWarehouseAssetsDTO>> GetAllWarehouseAssets();

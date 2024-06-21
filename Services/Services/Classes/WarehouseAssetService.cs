@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace Services.Services.Classes
 {
-    public class WarehouseAssetService : IWarehouseAssetService
+    public class WarehouseAssetServices : IWarehouseAssetServices
     {
         protected WarehouseAssetRepository warehouseAssetRepository { get; set; }
         protected IMapper mapper { get; set; }
 
-        public WarehouseAssetService(WarehouseAssetRepository warehouseAssetRepository, IMapper mapper)
+        public WarehouseAssetServices(WarehouseAssetRepository warehouseAssetRepository, IMapper mapper)
         {
             this.warehouseAssetRepository = warehouseAssetRepository;
             this.mapper = mapper;

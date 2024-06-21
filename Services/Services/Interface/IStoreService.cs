@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Services.Services.Interface
 {
-    public interface IStoreService
+    public interface IStoreServices
     {
         public Task<bool> CreateStore (AddOrUpdateStoreDTO addOrUpdateStoreDTO);
         Task<List<ReadStoreDTO>> GetAllStores();
