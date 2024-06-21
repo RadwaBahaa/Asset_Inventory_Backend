@@ -12,14 +12,18 @@ namespace Repository.Classes
         {
             this.context = context;
         }
-        public async Task<Asset> GetOneByID(int id)
+        public async Task<Asset> ReadByID(int id)
         {
-            var asset = await context.Assets.FindAsync(id);
+            var asset = await context.Assets
+                .Include(a=>a.Category)
+                .FirstOrDefaultAsync(a=>a.AssetID==id);
             return asset;
         }
-        public async Task<Asset> GetOneByName(string name)
+        public async Task<Asset> ReadByName(string name)
         {
-            var asset = await context.Assets.FirstOrDefaultAsync(a => a.AssetName == name);
+            var asset = await context.Assets
+                .Include(a => a.Category)
+                .FirstOrDefaultAsync(a => a.AssetName == name);
             return asset;
         }
         public async Task<List<Asset>> SearchByName(string name)

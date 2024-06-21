@@ -8,14 +8,14 @@ namespace Presentation.Controllers
     [ApiController]
     public class DeliveryProcessWStController : ControllerBase
     {
-        private IDeliveryProcessWStServices deliveryProcessWStServices;
+        protected IDeliveryProcessWStServices deliveryProcessWStServices;
         public DeliveryProcessWStController(IDeliveryProcessWStServices deliveryProcessWStServices)
         {
             this.deliveryProcessWStServices = deliveryProcessWStServices;
         }
 
         // __________________________ Create __________________________
-        [HttpPost("/create/{warehouseID}")]
+        [HttpPost("/create/{warehouseID:int}")]
         public async Task<IActionResult> Create(AddDeliveryProcessWStDTO addDeliveryProcessWStDTO, int warehouseID)
         {
             if (addDeliveryProcessWStDTO == null || warehouseID <= 0)
@@ -62,7 +62,7 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("/readOne/{processID}")]
+        [HttpGet("/readOne/{processID:int}")]
         public async Task<IActionResult> ReadOne(int processID)
         {
             try
@@ -81,7 +81,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Search __________________________
-        [HttpGet("/searchByWarehouse/{warehouseID}")]
+        [HttpGet("/searchByWarehouse/{warehouseID:int}")]
         public async Task<IActionResult> SearchByWarehouse(int warehouseID)
         {
             try
@@ -99,7 +99,7 @@ namespace Presentation.Controllers
             }
         }
 
-        [HttpGet("/searchByDate/{date}")]
+        [HttpGet("/searchByDate/{date:datetime}")]
         public async Task<IActionResult> SearchByDate(DateTime date)
         {
             try
@@ -118,7 +118,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Delete __________________________
-        [HttpDelete("/delete/{processID}")]
+        [HttpDelete("/delete/{processID:int}")]
         public async Task<IActionResult> Delete(int processID)
         {
             try

@@ -8,8 +8,7 @@ namespace Presentation.Controllers
     [ApiController]
     public class StoreProcessController : ControllerBase
     {
-        private IStoreProcessServices storeProcessServices;
-
+        protected IStoreProcessServices storeProcessServices;
         public StoreProcessController(IStoreProcessServices storeProcessServices)
         {
             this.storeProcessServices = storeProcessServices;
@@ -17,7 +16,7 @@ namespace Presentation.Controllers
 
         // __________________________ Read __________________________
         [HttpGet("/readAll")]
-        public async Task<ActionResult> ReadAll()
+        public async Task<IActionResult> ReadAll()
         {
             try
             {
@@ -33,8 +32,8 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("/readOne/{processID}/{storeID}")]
-        public async Task<ActionResult<ReadStoreProcessDTO>> ReadOne(int processID, int storeID)
+        [HttpGet("/readOne/{processID:int}/{storeID:int}")]
+        public async Task<IActionResult> ReadOne(int processID, int storeID)
         {
             try
             {
@@ -52,8 +51,8 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Search __________________________
-        [HttpGet("/searchByStore/{storeID}")]
-        public async Task<ActionResult> SearchByStore(int storeID)
+        [HttpGet("/searchByStore/{storeID:int}")]
+        public async Task<IActionResult> SearchByStore(int storeID)
         {
             try
             {
@@ -71,8 +70,8 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Update __________________________
-        [HttpPut("/update/{processID}/{storeID}")]
-        public async Task<ActionResult> Update(int processID, int storeID, UpdateStoreProcessDTO storeProcessDTO)
+        [HttpPut("/update/{processID:int}/{storeID:int}")]
+        public async Task<IActionResult> Update(int processID, int storeID, UpdateStoreProcessDTO storeProcessDTO)
         {
             try
             {

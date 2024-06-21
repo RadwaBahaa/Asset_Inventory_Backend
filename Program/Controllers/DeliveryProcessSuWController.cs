@@ -8,14 +8,14 @@ namespace Presentation.Controllers
     [ApiController]
     public class DeliveryProcessSuWController : ControllerBase
     {
-        private IDeliveryProcessSuWServices deliveryProcessSuWServices;
+        protected IDeliveryProcessSuWServices deliveryProcessSuWServices;
         public DeliveryProcessSuWController(IDeliveryProcessSuWServices deliveryProcessSuWServices)
         {
             this.deliveryProcessSuWServices = deliveryProcessSuWServices;
         }
 
         // __________________________ Create __________________________
-        [HttpPost("/create/{supplierID}")]
+        [HttpPost("/create/{supplierID:int}")]
         public async Task<IActionResult> Create(AddDeliveryProcessSuWDTO addDeliveryProcessSuWDTO, int supplierID)
         {
             if (addDeliveryProcessSuWDTO == null || supplierID <= 0)
@@ -61,7 +61,7 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("/readOne/{processID}")]
+        [HttpGet("/readOne/{processID:int}")]
         public async Task<IActionResult> ReadOne(int processID)
         {
             try
@@ -80,7 +80,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Search __________________________
-        [HttpGet("/searchBySupplier/{supplierID}")]
+        [HttpGet("/searchBySupplier/{supplierID:int}")]
         public async Task<IActionResult> SearchBySupplier(int supplierID)
         {
             try
@@ -97,8 +97,7 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
-        [HttpGet("/searchByDate/{date}")]
+        [HttpGet("/searchByDate/{date:datetime}")]
         public async Task<IActionResult> SearchByDate(DateTime date)
         {
             try
@@ -117,7 +116,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Delete __________________________
-        [HttpDelete("/delete/processID")]
+        [HttpDelete("/delete/{processID:int}")]
         public async Task<IActionResult> Delete(int processID)
         {
             try

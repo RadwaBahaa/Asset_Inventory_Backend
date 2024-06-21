@@ -8,8 +8,7 @@ namespace Presentation.Controllers
     [ApiController]
     public class WarehouseProcessController : ControllerBase
     {
-        private IWarehouseProcessServices warehouseProcessServices;
-
+        protected IWarehouseProcessServices warehouseProcessServices;
         public WarehouseProcessController(IWarehouseProcessServices warehouseProcessServices)
         {
             this.warehouseProcessServices = warehouseProcessServices;
@@ -17,7 +16,7 @@ namespace Presentation.Controllers
 
         // __________________________ Read __________________________
         [HttpGet("/readAll")]
-        public async Task<ActionResult> ReadAll()
+        public async Task<IActionResult> ReadAll()
         {
             try
             {
@@ -33,8 +32,8 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("/readOne/{processID}/{warehouseID}")]
-        public async Task<ActionResult<ReadWarehouseProcessDTO>> ReadOne(int processID, int warehouseID)
+        [HttpGet("/readOne/{processID:int}/{warehouseID:int}")]
+        public async Task<IActionResult> ReadOne(int processID, int warehouseID)
         {
             try
             {
@@ -52,8 +51,8 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Search __________________________
-        [HttpGet("/searchBywarehouse/{warehouseID}")]
-        public async Task<ActionResult> SearchBywarehouse(int warehouseID)
+        [HttpGet("/searchBywarehouse/{warehouseID:int}")]
+        public async Task<IActionResult> SearchBywarehouse(int warehouseID)
         {
             try
             {
@@ -71,8 +70,8 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Update __________________________
-        [HttpPut("/update/{processID}/{warehouseID}")]
-        public async Task<ActionResult> Update(int processID, int warehouseID, UpdateWarehouseProcessDTO warehouseProcessDTO)
+        [HttpPut("/update/{processID:int}/{warehouseID:int}")]
+        public async Task<IActionResult> Update(int processID, int warehouseID, UpdateWarehouseProcessDTO warehouseProcessDTO)
         {
             try
             {

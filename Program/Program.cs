@@ -20,8 +20,9 @@ namespace Asset_Inventory_API
             builder.Services.AddScoped<IAssetServices, AssetServices>();
             builder.Services.AddScoped<ICategoryServices, CategoryServices>();
             builder.Services.AddScoped<IDeliveryProcessSuWServices, DeliveryProcessSuWServices>();
-            builder.Services.AddScoped<IStoreProcessServices, StoreProcessServices>();
+            builder.Services.AddScoped<IDeliveryProcessWStServices, DeliveryProcessWStServices>();
             builder.Services.AddScoped<IWarehouseProcessServices, WarehouseProcessServices>();
+            builder.Services.AddScoped<IStoreProcessServices, StoreProcessServices>();
             builder.Services.AddAutoMapper(option =>
             {
                 option.AddProfile<MapProfile>();
