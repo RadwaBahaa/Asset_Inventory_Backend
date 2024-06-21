@@ -15,8 +15,8 @@ namespace Repository.Classes
         public async Task<Asset> ReadByID(int id)
         {
             var asset = await context.Assets
-                .Include(a=>a.Category)
-                .FirstOrDefaultAsync(a=>a.AssetID==id);
+                .Include(a => a.Category)
+                .FirstOrDefaultAsync(a => a.AssetID == id);
             return asset;
         }
         public async Task<Asset> ReadByName(string name)
@@ -33,10 +33,10 @@ namespace Repository.Classes
                 .ToListAsync();
             return assetsList;
         }
-        public async Task<List<Asset>> SearchByCategory(Category category)
+        public async Task<List<Asset>> SearchByCategory(int categoryID)
         {
             var assetsList = await context.Assets
-                .Where(a => a.CategoryID == category.CategoryID)
+                .Where(a => a.CategoryID == categoryID)
                 .ToListAsync();
             return assetsList;
         }

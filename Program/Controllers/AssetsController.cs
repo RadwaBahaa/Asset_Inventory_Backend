@@ -1,6 +1,5 @@
 ﻿using DTOs.DTOs.Assets;
 using Microsoft.AspNetCore.Mvc;
-using Models.Models;
 using Services.Services.Interface;
 
 namespace Presentation.Controllers
@@ -17,7 +16,7 @@ namespace Presentation.Controllers
 
         // ___________________________ Create ___________________________
         [HttpPost("/create")]
-        public async Task<IActionResult> Create(AddOrUpdateAssetDTO assetDTO)
+        public async Task<IActionResult> Create([FromBody] AddOrUpdateAssetDTO assetDTO)
         {
             if (assetDTO == null)
             {
@@ -47,7 +46,7 @@ namespace Presentation.Controllers
 
         // ___________________________ Read ___________________________
         [HttpGet("/readOne/{id:int}")]
-        public async Task<IActionResult> ReadOne(int id)
+        public async Task<IActionResult> ReadOne([FromRoute] int id)
         {
             try
             {
@@ -66,7 +65,7 @@ namespace Presentation.Controllers
 
         // __________________________ Search __________________________
         [HttpPut("/searchByName/{name:string}")]
-        public async Task<IActionResult> SearchByName(string name)
+        public async Task<IActionResult> SearchByName([FromRoute] string name)
         {
             try
             {
@@ -82,12 +81,12 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpPut("/searchByCategory/{category:string}")]
-        public async Task<IActionResult> SearchByCategory(Category category)
+        [HttpPut("/searchByCategory/{category:int}")]
+        public async Task<IActionResult> SearchByCategory([FromRoute] int categoryID)
         {
             try
             {
-                var assetList = await assetServices.SearchByCategory(category);
+                var assetList = await assetServices.SearchByCategory(categoryID);
                 return Ok(assetList);
             }
             catch (ArgumentException ex)
@@ -102,7 +101,7 @@ namespace Presentation.Controllers
 
         // ___________________________ Update ___________________________
         [HttpPut("/update/{id:int}")]
-        public async Task<IActionResult> Update(AddOrUpdateAssetDTO assetDTO, int id)
+        public async Task<IActionResult> Update([FromBody] AddOrUpdateAssetDTO assetDTO, [FromRoute] int id)
         {
             if (assetDTO == null)
             {
@@ -125,7 +124,7 @@ namespace Presentation.Controllers
 
         // ___________________________ Delete ___________________________
         [HttpDelete("/delete/{id:int}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
             try
             {

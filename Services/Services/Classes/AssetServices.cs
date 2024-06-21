@@ -59,9 +59,9 @@ namespace Services.Services.Classes
                 throw new AggregateException("There is no assets.");
             }
         }
-        public async Task<List<ReadAssetDTO>> SearchByCategory(Category category)
+        public async Task<List<ReadAssetDTO>> SearchByCategory(int categoryID)
         {
-            var assetsList = await assetRepository.SearchByCategory(category);
+            var assetsList = await assetRepository.SearchByCategory(categoryID);
             if (assetsList.Any())
             {
                 return mapper.Map<List<ReadAssetDTO>>(assetsList);
