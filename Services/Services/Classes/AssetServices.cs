@@ -10,81 +10,92 @@ namespace Services.Services.Classes
     {
         protected IAssetRepository assetRepository;
         protected IMapper mapper;
-
         public AssetServices(IAssetRepository assetRepository, IMapper mapper)
         {
             this.assetRepository = assetRepository;
             this.mapper = mapper;
         }
 
-        public async Task<ReadAssetDTO> Create(AddOrUpdateAssetDTO assetDTO)
+        // __________________________ Create Asset ___________________________
+        public async Task<bool> Create(AddOrUpdateAssetDTO assetDTO)
         {
-            var findasset = await assetRepository.GetOneByName(assetDTO.AssetName);
+            var findasset = await assetRepository.ReadByName(assetDTO.AssetName);
 
             if (findasset != null)
             {
-                return null;
+                throw new AggregateException ("This Asset already exists.");
             }
             else
             {
                 assetDTO.AssetName = char.ToUpper(assetDTO.AssetName[0]) + assetDTO.AssetName.Substring(1).ToLower();
-                var createAsset = mapper.Map<Asset>(assetDTO);
-                await assetRepository.Create(createAsset);
-                var Assets = await assetRepository.GetOneByName(assetDTO.AssetName);
-
-                var mappingasset = mapper.Map<ReadAssetDTO>(createAsset);
-                return mappingasset;
-            }
-        }
-
-        // __________________________ GetOne asset ___________________________
-        public async Task<ReadAssetDTO> GetOneByID(int ID)
-        {
-            var asset = await assetRepository.GetOneByID(ID);
-            // Process the retrieved assets
-            return mapper.Map<ReadAssetDTO>(asset);
-        }
-
-        // __________________________ Search assets by name and category ___________________________
-        public async Task<List<Asset>> SearchByName(string name)
-        {
-            var assetsList = await assetRepository.SearchByName(name);
-            return assetsList;
-        }
-        public async Task<List<Asset>> SearchByCategory(Category category)
-        {
-            var assetsList = await assetRepository.SearchByCategory(category);
-            return assetsList;
-        }
-
-        // __________________________ Update a Categories ___________________________
-
-
-        public async Task<bool> Update(AddOrUpdateAssetDTO assetDTO, int ID)
-        {
-            var findasset = await assetRepository.GetOneByID(ID);
-            if (findasset == null)
-            {
-                return false;
-            }
-            else
-            {
-                // Make the initial letter of the asset name capitalized.
-                assetDTO.AssetName = char.ToUpper(assetDTO.AssetName[0]) + assetDTO.AssetName.Substring(1).ToLower();
-                // Update the asset
-                mapper.Map(assetDTO, findasset);
-                await assetRepository.Update();
+                var newAsset = mapper.Map<Asset>(assetDTO);
+                await assetRepository.Create(newAsset);
                 return true;
             }
         }
 
-        // __________________________ Delete an asset ___________________________
+        // __________________________ Read Assets ___________________________
+        public async Task<ReadAssetDTO> ReadByID(int id)
+        {
+            var asset = await assetRepository.ReadByID(id);
+            if (asset != null)
+            {
+                return mapper.Map<ReadAssetDTO>(asset);
+            }
+            else
+            {
+                throw new AggregateException("There is no asset by this ID.");
+            }
+        }
+        public async Task<List<ReadAssetDTO>> SearchByName(string name)
+        {
+            var assetsList = await assetRepository.SearchByName(name);
+            if (assetsList.Any())
+            {
+                return mapper.Map<List<ReadAssetDTO>>(assetsList);
+            }
+            else
+            {
+                throw new AggregateException("There is no assets.");
+            }
+        }
+        public async Task<List<ReadAssetDTO>> SearchByCategory(int categoryID)
+        {
+            var assetsList = await assetRepository.SearchByCategory(categoryID);
+            if (assetsList.Any())
+            {
+                return mapper.Map<List<ReadAssetDTO>>(assetsList);
+            }
+            else
+            {
+                throw new AggregateException("There is no assets.");
+            }
+        }
+
+        // __________________________ Update an Asssets ___________________________
+        public async Task<ReadAssetDTO> Update(AddOrUpdateAssetDTO assetDTO, int id)
+        {
+            var asset = await assetRepository.ReadByID(id);
+            if (asset == null)
+            {
+                throw new AggregateException("There is no asset by this ID.");
+            }
+            else
+            {
+                assetDTO.AssetName = char.ToUpper(assetDTO.AssetName[0]) + assetDTO.AssetName.Substring(1).ToLower();
+                mapper.Map(assetDTO, asset);
+                await assetRepository.Update();
+                return mapper.Map<ReadAssetDTO>(asset);
+            }
+        }
+
+        // __________________________ Delete an Asset ___________________________
         public async Task<bool> Delete(int ID)
         {
-            var findasset = await assetRepository.GetOneByID(ID);
+            var findasset = await assetRepository.ReadByID(ID);
             if (findasset == null)
             {
-                return false;
+                throw new AggregateException("There is no asset by this ID.");
             }
             else
             {

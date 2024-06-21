@@ -15,17 +15,37 @@ namespace Asset_Inventory_API
 
             // Add services to the container.
             builder.Services.AddControllers();
+<<<<<<< HEAD
             builder.Services.AddScoped<IAssetServices, AssetServices>();
             builder.Services.AddScoped<ICategoryServices, CategoryServices>();
             builder.Services.AddScoped<IAssetServices, AssetServices>();
             builder.Services.AddScoped<ICategoryServices, CategoryServices>();
             builder.Services.AddScoped<IDeliveryProcessSuWServices, DeliveryProcessSuWServices>();
-            builder.Services.AddScoped<IStoreProcessServices, StoreProcessServices>();
+            builder.Services.AddScoped<IDeliveryProcessWStServices, DeliveryProcessWStServices>();
             builder.Services.AddScoped<IWarehouseProcessServices, WarehouseProcessServices>();
+            builder.Services.AddScoped<IStoreProcessServices, StoreProcessServices>();
+=======
+
+            builder.Services.AddScoped<ISupplierServices, SupplierServices>();
+            builder.Services.AddScoped<ISupplierAssetServices, SupplierAssetServices>();
+
+            builder.Services.AddScoped<IWarehouseServices, WarehouseServices>();
+            builder.Services.AddScoped<IWarehouseAssetServices, WarehouseAssetServices>();
+           
+            builder.Services.AddScoped<IStoreServices, StoreServices>();
+            builder.Services.AddScoped<IStoreAssetServices, StoreAssetServices>();
+
+        
+            
+
+
+
+>>>>>>> a2f6e0375224a5cb3ea9f16d95c6e15d04075860
             builder.Services.AddAutoMapper(option =>
             {
                 option.AddProfile<MapProfile>();
             });
+
             builder.Services.AddIdentity<IdentityUser, IdentityRole>(option =>
             {
                 option.SignIn.RequireConfirmedEmail = true;

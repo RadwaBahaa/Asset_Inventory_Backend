@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = DTOs
-build_property.ProjectDir = E:\logy\GIS TRACK\Grad Project\Backend\Asset_Inventory_Backend\DTOs\
+build_property.ProjectDir = D:\ITI\Graduation Project\BackEnd\Asset_Inventory_Backend\DTOs\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

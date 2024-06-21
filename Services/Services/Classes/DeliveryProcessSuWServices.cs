@@ -45,13 +45,12 @@ namespace Services.Services.Classes
         public async Task<List<ReadDeliveryProcessSuWDTO>> ReadAllProcess()
         {
             var processesList = await deliveryProcessSuWRepository.Read();
-            var mappedProcessesList = await processesList
+            var finalProcessesList = await processesList
                 .Include(p => p.WarehouseProcesses)
                     .ThenInclude(wp => wp.AssetShipmentSuW)
-                .Select(p => mapper.Map<ReadDeliveryProcessSuWDTO>(p))
                 .ToListAsync();
-            if (mappedProcessesList.Any())
-                return mappedProcessesList;
+            if (finalProcessesList.Any())
+                return mapper.Map<List<ReadDeliveryProcessSuWDTO>>(finalProcessesList);
             else
                 throw new ArgumentException("There are no assets to be retrieved.");
         }

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Program\\Presentation.csproj": {}
+    "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Program\\Presentation.csproj": {}
   },
   "projects": {
-    "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Context\\Context.csproj": {
+    "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Context\\Context.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Context\\Context.csproj",
+        "projectUniqueName": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Context\\Context.csproj",
         "projectName": "Context",
-        "projectPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Context\\Context.csproj",
-        "packagesPath": "C:\\Users\\oneway\\.nuget\\packages\\",
-        "outputPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Context\\obj\\",
+        "projectPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Context\\Context.csproj",
+        "packagesPath": "C:\\Users\\mosha\\.nuget\\packages\\",
+        "outputPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Context\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\oneway\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\mosha\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,8 +28,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Models\\Models.csproj": {
-                "projectPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Models\\Models.csproj"
+              "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Models\\Models.csproj": {
+                "projectPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Models\\Models.csproj"
               }
             }
           }
@@ -86,17 +86,17 @@
         }
       }
     },
-    "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj": {
+    "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj",
+        "projectUniqueName": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj",
         "projectName": "DTOs",
-        "projectPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj",
-        "packagesPath": "C:\\Users\\oneway\\.nuget\\packages\\",
-        "outputPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\DTOs\\obj\\",
+        "projectPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj",
+        "packagesPath": "C:\\Users\\mosha\\.nuget\\packages\\",
+        "outputPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\DTOs\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\oneway\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\mosha\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -152,17 +152,17 @@
         }
       }
     },
-    "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Models\\Models.csproj": {
+    "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Models\\Models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Models\\Models.csproj",
+        "projectUniqueName": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Models\\Models.csproj",
         "projectName": "Models",
-        "projectPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Models\\Models.csproj",
-        "packagesPath": "C:\\Users\\oneway\\.nuget\\packages\\",
-        "outputPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Models\\obj\\",
+        "projectPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Models\\Models.csproj",
+        "packagesPath": "C:\\Users\\mosha\\.nuget\\packages\\",
+        "outputPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Models\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\oneway\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\mosha\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -218,17 +218,17 @@
         }
       }
     },
-    "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Program\\Presentation.csproj": {
+    "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Program\\Presentation.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Program\\Presentation.csproj",
+        "projectUniqueName": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Program\\Presentation.csproj",
         "projectName": "Presentation",
-        "projectPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Program\\Presentation.csproj",
-        "packagesPath": "C:\\Users\\oneway\\.nuget\\packages\\",
-        "outputPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Program\\obj\\",
+        "projectPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Program\\Presentation.csproj",
+        "packagesPath": "C:\\Users\\mosha\\.nuget\\packages\\",
+        "outputPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Program\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\oneway\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\mosha\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -242,14 +242,25 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Context\\Context.csproj": {
-                "projectPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Context\\Context.csproj"
+              "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Context\\Context.csproj": {
+                "projectPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Context\\Context.csproj"
               },
-              "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj": {
-                "projectPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj"
+<<<<<<< HEAD
+              "E:\\ITI\\Graduation Project\\Backend\\DTOs\\DTOs.csproj": {
+                "projectPath": "E:\\ITI\\Graduation Project\\Backend\\DTOs\\DTOs.csproj"
               },
-              "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Services\\Services.csproj": {
-                "projectPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Services\\Services.csproj"
+              "E:\\ITI\\Graduation Project\\Backend\\Services\\Services.csproj": {
+                "projectPath": "E:\\ITI\\Graduation Project\\Backend\\Services\\Services.csproj"
+=======
+              "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj": {
+                "projectPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj"
+              },
+              "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Models\\Models.csproj": {
+                "projectPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Models\\Models.csproj"
+              },
+              "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Repository\\Repository.csproj": {
+                "projectPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Repository\\Repository.csproj"
+>>>>>>> a2f6e0375224a5cb3ea9f16d95c6e15d04075860
               }
             }
           }
@@ -269,6 +280,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[8.0.6, )"
@@ -307,17 +322,18 @@
         }
       }
     },
-    "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Repository\\Repository.csproj": {
+<<<<<<< HEAD
+    "E:\\ITI\\Graduation Project\\Backend\\Repository\\Repository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Repository\\Repository.csproj",
+        "projectUniqueName": "E:\\ITI\\Graduation Project\\Backend\\Repository\\Repository.csproj",
         "projectName": "Repository",
-        "projectPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Repository\\Repository.csproj",
-        "packagesPath": "C:\\Users\\oneway\\.nuget\\packages\\",
-        "outputPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Repository\\obj\\",
+        "projectPath": "E:\\ITI\\Graduation Project\\Backend\\Repository\\Repository.csproj",
+        "packagesPath": "C:\\Users\\radwa\\.nuget\\packages\\",
+        "outputPath": "E:\\ITI\\Graduation Project\\Backend\\Repository\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\oneway\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\radwa\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -331,8 +347,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Context\\Context.csproj": {
-                "projectPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Context\\Context.csproj"
+              "E:\\ITI\\Graduation Project\\Backend\\Context\\Context.csproj": {
+                "projectPath": "E:\\ITI\\Graduation Project\\Backend\\Context\\Context.csproj"
               }
             }
           }
@@ -341,11 +357,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -367,21 +378,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Services\\Services.csproj": {
+    "E:\\ITI\\Graduation Project\\Backend\\Services\\Services.csproj": {
+=======
+    "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Repository\\Repository.csproj": {
+>>>>>>> a2f6e0375224a5cb3ea9f16d95c6e15d04075860
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Services\\Services.csproj",
-        "projectName": "Services",
-        "projectPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Services\\Services.csproj",
-        "packagesPath": "C:\\Users\\oneway\\.nuget\\packages\\",
-        "outputPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Services\\obj\\",
+        "projectUniqueName": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Repository\\Repository.csproj",
+        "projectName": "Repository",
+        "projectPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Repository\\Repository.csproj",
+        "packagesPath": "C:\\Users\\mosha\\.nuget\\packages\\",
+        "outputPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Repository\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\oneway\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\mosha\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -395,14 +409,19 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj": {
-                "projectPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj"
+<<<<<<< HEAD
+              "E:\\ITI\\Graduation Project\\Backend\\DTOs\\DTOs.csproj": {
+                "projectPath": "E:\\ITI\\Graduation Project\\Backend\\DTOs\\DTOs.csproj"
               },
-              "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Models\\Models.csproj": {
-                "projectPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Models\\Models.csproj"
+              "E:\\ITI\\Graduation Project\\Backend\\Models\\Models.csproj": {
+                "projectPath": "E:\\ITI\\Graduation Project\\Backend\\Models\\Models.csproj"
               },
-              "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Repository\\Repository.csproj": {
-                "projectPath": "E:\\logy\\GIS TRACK\\Grad Project\\Backend\\Asset_Inventory_Backend\\Repository\\Repository.csproj"
+              "E:\\ITI\\Graduation Project\\Backend\\Repository\\Repository.csproj": {
+                "projectPath": "E:\\ITI\\Graduation Project\\Backend\\Repository\\Repository.csproj"
+=======
+              "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Context\\Context.csproj": {
+                "projectPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Context\\Context.csproj"
+>>>>>>> a2f6e0375224a5cb3ea9f16d95c6e15d04075860
               }
             }
           }
@@ -421,12 +440,6 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "dependencies": {
-            "AutoMapper": {
-              "target": "Package",
-              "version": "[13.0.1, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",

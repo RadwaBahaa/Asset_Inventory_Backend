@@ -1,6 +1,5 @@
 ﻿using DTOs.DTOs.Assets;
 using Microsoft.AspNetCore.Mvc;
-using Models.Models;
 using Services.Services.Interface;
 
 namespace Presentation.Controllers
@@ -9,93 +8,137 @@ namespace Presentation.Controllers
     [ApiController]
     public class AssetsController : ControllerBase
     {
-        private IAssetServices assetServices;
-
+        protected IAssetServices assetServices;
         public AssetsController(IAssetServices assetServices)
         {
             this.assetServices = assetServices;
         }
 
-        // ___________________________ 1- Create ___________________________
-        [HttpPost]
-        //[Authorize(Roles = "Admin")]
-        public async Task<ActionResult> Create(AddOrUpdateAssetDTO assetDTO)
+        // ___________________________ Create ___________________________
+        [HttpPost("/create")]
+        public async Task<IActionResult> Create([FromBody] AddOrUpdateAssetDTO assetDTO)
         {
-            var createAsset = await assetServices.Create(assetDTO);
-            if (createAsset != null)
+            if (assetDTO == null)
             {
-                return Ok(createAsset);
+                return BadRequest("Invalid input data.");
             }
-            else
+            try
             {
-                return BadRequest("This Asset already exist !...");
+                var createAsset = await assetServices.Create(assetDTO);
+                if (createAsset)
+                {
+                    return Ok("The asset was created successfully.");
+                }
+                else
+                {
+                    return NotFound("Process not found.");
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
-
-        // ___________________________ 2- Read to Get one Asset ___________________________
-        [HttpGet]
-        //[Authorize]
-        public async Task<IActionResult> GetOne(int ID)
+        // ___________________________ Read ___________________________
+        [HttpGet("/readOne/{id:int}")]
+        public async Task<IActionResult> ReadOne([FromRoute] int id)
         {
-            var assets = await assetServices.GetOneByID(ID);
-            if (assets == null)
+            try
             {
-                return BadRequest();
+                var asset = await assetServices.ReadByID(id);
+                return Ok(asset);
             }
-            else
+            catch (ArgumentException ex)
             {
-                return Ok(assets);
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
-        // ___________________________ 3- to Search by Name And Category for Assets ___________________________
-
-        public async Task<List<Asset>> SearchByName(string name)
+        // __________________________ Search __________________________
+        [HttpPut("/searchByName/{name:string}")]
+        public async Task<IActionResult> SearchByName([FromRoute] string name)
         {
-            var assetsList = await assetServices.SearchByName(name);
-            return assetsList;
-        }
-
-        public async Task<List<Asset>>SearchByCategory(Category category)
-        {
-            var assetList = await assetServices.SearchByCategory(category);
-            return assetList;
-        }
-
-        // ___________________________ 4- Update ___________________________
-        [HttpPut("{name:string}")]
-        //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Update(AddOrUpdateAssetDTO assetDTO, int ID)
-        {
-            var UpdateAsset = await assetServices.GetOneByID(ID);
-            if (UpdateAsset == null)
+            try
             {
-                return BadRequest("There is no asset with this name !....");
+                var assetsList = await assetServices.SearchByName(name);
+                return Ok(assetsList);
             }
-            else
+            catch (ArgumentException ex)
             {
-                await assetServices.Update(assetDTO, ID);
-                return Ok($"The name of category {ID} was updated from '{UpdateAsset.AssetID}' to be '{assetDTO.AssetName}' ....");
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
-        // ___________________________ 4- Delete ___________________________
-
-        [HttpDelete("{ID:int}")]
-       // [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete(int ID)
+        [HttpPut("/searchByCategory/{category:int}")]
+        public async Task<IActionResult> SearchByCategory([FromRoute] int categoryID)
         {
-            var deleteServices = await assetServices.Delete(ID);
-            if (deleteServices)
+            try
             {
-                return Ok($"The asset '{ID}' was deleted successfully !....");
+                var assetList = await assetServices.SearchByCategory(categoryID);
+                return Ok(assetList);
             }
-            else
+            catch (ArgumentException ex)
             {
-                return BadRequest("There is no asset with this ID !....");
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
+        // ___________________________ Update ___________________________
+        [HttpPut("/update/{id:int}")]
+        public async Task<IActionResult> Update([FromBody] AddOrUpdateAssetDTO assetDTO, [FromRoute] int id)
+        {
+            if (assetDTO == null)
+            {
+                return BadRequest("Invalid input data.");
+            }
+            try
+            {
+                var updateAsset = await assetServices.ReadByID(id);
+                return Ok(updateAsset);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        // ___________________________ Delete ___________________________
+        [HttpDelete("/delete/{id:int}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            try
+            {
+                var deleteServices = await assetServices.Delete(id);
+                return Ok($"The asset was deleted successfully.");
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 }

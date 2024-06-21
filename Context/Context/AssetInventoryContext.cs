@@ -131,37 +131,45 @@ namespace Context.Context
             builder.Entity<SupplierAsset>(supplierAsset =>
             {
                 // Primary Key
-                supplierAsset.HasKey(sa => new { sa.AssetID, sa.SupplierID, sa.SerialNo });
+                supplierAsset.HasKey(sa => new { sa.AssetID, sa.SupplierID, sa.SerialNumber });
                 // Relations
                 supplierAsset.HasMany(sa => sa.AssetShipmentSuW)
                     .WithOne(ash => ash.SupplierAsset)
-                    .HasForeignKey(ash => new { ash.AssetID, ash.SupplierID, ash.SerialNo })
+                    .HasForeignKey(ash => new { ash.AssetID, ash.SupplierID, ash.SerialNumber })
                     .OnDelete(DeleteBehavior.Restrict);
             });
             builder.Entity<WarehouseAsset>(warehouseAsset =>
             {
                 // Primary Key
-                warehouseAsset.HasKey(wa => new { wa.AssetID, wa.WarehouseID, wa.SerialNo });
+                warehouseAsset.HasKey(wa => new { wa.AssetID, wa.WarehouseID, wa.SerialNumber });
                 // Relations
                 warehouseAsset.HasMany(wa => wa.AssetShipmentWSts)
                     .WithOne(ash => ash.WarehouseAsset)
-                    .HasForeignKey(ash => new { ash.AssetID, ash.WarehouseID, ash.SerialNo })
+                    .HasForeignKey(ash => new { ash.AssetID, ash.WarehouseID, ash.SerialNumber })
                     .OnDelete(DeleteBehavior.Restrict);
             });
             builder.Entity<StoreAsset>(storeAsset =>
             {
                 //Primary Key
-                storeAsset.HasKey(sa => new { sa.AssetID, sa.StoreID, sa.SerialNo });
+                storeAsset.HasKey(sa => new { sa.AssetID, sa.StoreID, sa.SerialNumber });
             });
             builder.Entity<AssetShipmentSuW>(assetShipment =>
             {
                 //Primary Key
+<<<<<<< HEAD
                 assetShipment.HasKey(ash => new { ash.AssetID, ash.SupplierID, ash.SerialNo, ash.ProcessID, ash.WarehouseID });
+=======
+                assetShipment.HasKey(ash => new { ash.AssetID, ash.SupplierID, ash.SerialNumber, ash.ProcessID });
+>>>>>>> a2f6e0375224a5cb3ea9f16d95c6e15d04075860
             });
             builder.Entity<AssetShipmentWSt>(assetShipment =>
             {
                 //Primary Key
+<<<<<<< HEAD
                 assetShipment.HasKey(ash => new { ash.AssetID, ash.WarehouseID, ash.SerialNo, ash.ProcessID, ash.StoreID });
+=======
+                assetShipment.HasKey(ash => new { ash.AssetID, ash.WarehouseID, ash.SerialNumber, ash.ProcessID });
+>>>>>>> a2f6e0375224a5cb3ea9f16d95c6e15d04075860
             });
             builder.Entity<WarehouseProcess>(warehouseProcess =>
             {

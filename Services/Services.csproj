@@ -13,6 +13,10 @@
   <ItemGroup>
     <ProjectReference Include="..\DTOs\DTOs.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />
+<<<<<<< HEAD
+=======
+    <ProjectReference Include="..\Program\Presentation.csproj" />
+>>>>>>> a2f6e0375224a5cb3ea9f16d95c6e15d04075860
     <ProjectReference Include="..\Repository\Repository.csproj" />
   </ItemGroup>
 
