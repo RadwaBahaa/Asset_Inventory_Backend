@@ -1,5 +1,6 @@
-﻿
+﻿using NetTopologySuite.Geometries;
 namespace DTOs.DTOs.Stores
+
 {
     public class AddOrUpdateStoreDTO
     {

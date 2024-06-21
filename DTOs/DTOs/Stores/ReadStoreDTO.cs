@@ -1,6 +1,6 @@
 ﻿using DTOs.DTOs.Categories;
 using DTOs.DTOs.Stores;
-using System.Drawing;
+using NetTopologySuite.Geometries;
 
 namespace DTOs.DTOs.Stores
 {
