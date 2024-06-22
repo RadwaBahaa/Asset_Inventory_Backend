@@ -15,3 +15,37 @@ E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.dll
 E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\refint\Context.dll
 E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.pdb
 E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\ref\Context.dll
+D:\ITI\New folder\Context\bin\Debug\net8.0\Context.deps.json
+D:\ITI\New folder\Context\bin\Debug\net8.0\Context.dll
+D:\ITI\New folder\Context\bin\Debug\net8.0\Context.pdb
+D:\ITI\New folder\Context\bin\Debug\net8.0\Models.dll
+D:\ITI\New folder\Context\bin\Debug\net8.0\Models.pdb
+D:\ITI\New folder\Context\obj\Debug\net8.0\Context.csproj.AssemblyReference.cache
+D:\ITI\New folder\Context\obj\Debug\net8.0\Context.GeneratedMSBuildEditorConfig.editorconfig
+D:\ITI\New folder\Context\obj\Debug\net8.0\Context.AssemblyInfoInputs.cache
+D:\ITI\New folder\Context\obj\Debug\net8.0\Context.AssemblyInfo.cs
+D:\ITI\New folder\Context\obj\Debug\net8.0\Context.csproj.CoreCompileInputs.cache
+D:\ITI\New folder\Context\obj\Debug\net8.0\EFCoreSqlServerNetTopologySuite.cs
+D:\ITI\New folder\Context\obj\Debug\net8.0\Context.sourcelink.json
+D:\ITI\New folder\Context\obj\Debug\net8.0\Context.csproj.Up2Date
+D:\ITI\New folder\Context\obj\Debug\net8.0\Context.dll
+D:\ITI\New folder\Context\obj\Debug\net8.0\refint\Context.dll
+D:\ITI\New folder\Context\obj\Debug\net8.0\Context.pdb
+D:\ITI\New folder\Context\obj\Debug\net8.0\ref\Context.dll
+D:\Project\Asset_Inventory_Backend\Context\bin\Debug\net8.0\Context.deps.json
+D:\Project\Asset_Inventory_Backend\Context\bin\Debug\net8.0\Context.dll
+D:\Project\Asset_Inventory_Backend\Context\bin\Debug\net8.0\Context.pdb
+D:\Project\Asset_Inventory_Backend\Context\bin\Debug\net8.0\Models.dll
+D:\Project\Asset_Inventory_Backend\Context\bin\Debug\net8.0\Models.pdb
+D:\Project\Asset_Inventory_Backend\Context\obj\Debug\net8.0\Context.csproj.AssemblyReference.cache
+D:\Project\Asset_Inventory_Backend\Context\obj\Debug\net8.0\Context.GeneratedMSBuildEditorConfig.editorconfig
+D:\Project\Asset_Inventory_Backend\Context\obj\Debug\net8.0\Context.AssemblyInfoInputs.cache
+D:\Project\Asset_Inventory_Backend\Context\obj\Debug\net8.0\Context.AssemblyInfo.cs
+D:\Project\Asset_Inventory_Backend\Context\obj\Debug\net8.0\Context.csproj.CoreCompileInputs.cache
+D:\Project\Asset_Inventory_Backend\Context\obj\Debug\net8.0\EFCoreSqlServerNetTopologySuite.cs
+D:\Project\Asset_Inventory_Backend\Context\obj\Debug\net8.0\Context.sourcelink.json
+D:\Project\Asset_Inventory_Backend\Context\obj\Debug\net8.0\Context.csproj.Up2Date
+D:\Project\Asset_Inventory_Backend\Context\obj\Debug\net8.0\Context.dll
+D:\Project\Asset_Inventory_Backend\Context\obj\Debug\net8.0\refint\Context.dll
+D:\Project\Asset_Inventory_Backend\Context\obj\Debug\net8.0\Context.pdb
+D:\Project\Asset_Inventory_Backend\Context\obj\Debug\net8.0\ref\Context.dll

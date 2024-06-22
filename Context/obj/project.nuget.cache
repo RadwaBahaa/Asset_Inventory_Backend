@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "ZOfhFtI2suY9dHl1uK/KoJ+RhCU1QS2235PQhYafTHcOKwQs6LDAuPCwdVrzAtm4+TQnFJB2Z3MccUJqonDQ/w==",
+  "dgSpecHash": "p0p59Rk2ZqoVJsWyY+Hmdb9qcFfhO+hRH/IWJWlWyRfKjQ1aij/gV8XkT8IQEQ52x1YMXPwc7LUwmTn0eVjAJw==",
   "success": true,
-  "projectFilePath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Context\\Context.csproj",
+  "projectFilePath": "D:\\Project\\Asset_Inventory_Backend\\Context\\Context.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\mosha\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\mosha\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\mosha\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
     "C:\\Users\\mosha\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\8.0.6\\microsoft.aspnetcore.cryptography.internal.8.0.6.nupkg.sha512",

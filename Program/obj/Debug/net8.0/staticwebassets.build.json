@@ -1,11 +1,23 @@
 {
   "Version": 1,
-  "Hash": "uA4PscVLrzDlBxDyFkUleeR9VGM/ZvO3tVpSht4hk3M=",
+  "Hash": "ajxW+7bfO5M48XFVqLYI8RpDJm7v3c5llr/1UMfQz4M=",
   "Source": "Presentation",
   "BasePath": "_content/Presentation",
   "Mode": "Default",
   "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "D:\\Project\\Asset_Inventory_Backend\\Services\\Services.csproj",
+      "Version": 2,
+      "Source": "Services",
+      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained"
+    }
+  ],
   "DiscoveryPatterns": [],
   "Assets": []
 }

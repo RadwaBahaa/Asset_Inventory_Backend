@@ -1,9 +1,9 @@
 ﻿using DTOs.DTOs.Suppliers;
-using DTOs.DTOs.Warehouses;
+
 
 namespace Services.Services.Interface
 {
-    public interface ISupplierAssetServices
+    public interface ISupplierAssetsServices
     {
         public Task<bool> CreateSupplierAsset(AddOrUpdateSupplierAssetsDTO addOrUpdateSupplierAssetsDTO);
         public Task<List<ReadSupplierAssetsDTO>> GetAllSupplierAssets();

@@ -10,3 +10,29 @@ E:\ITI\Graduation Project\Backend\DTOs\obj\Debug\net8.0\DTOs.dll
 E:\ITI\Graduation Project\Backend\DTOs\obj\Debug\net8.0\refint\DTOs.dll
 E:\ITI\Graduation Project\Backend\DTOs\obj\Debug\net8.0\DTOs.pdb
 E:\ITI\Graduation Project\Backend\DTOs\obj\Debug\net8.0\ref\DTOs.dll
+D:\ITI\New folder\DTOs\bin\Debug\net8.0\DTOs.deps.json
+D:\ITI\New folder\DTOs\bin\Debug\net8.0\DTOs.dll
+D:\ITI\New folder\DTOs\bin\Debug\net8.0\DTOs.pdb
+D:\ITI\New folder\DTOs\obj\Debug\net8.0\DTOs.csproj.AssemblyReference.cache
+D:\ITI\New folder\DTOs\obj\Debug\net8.0\DTOs.GeneratedMSBuildEditorConfig.editorconfig
+D:\ITI\New folder\DTOs\obj\Debug\net8.0\DTOs.AssemblyInfoInputs.cache
+D:\ITI\New folder\DTOs\obj\Debug\net8.0\DTOs.AssemblyInfo.cs
+D:\ITI\New folder\DTOs\obj\Debug\net8.0\DTOs.csproj.CoreCompileInputs.cache
+D:\ITI\New folder\DTOs\obj\Debug\net8.0\DTOs.sourcelink.json
+D:\ITI\New folder\DTOs\obj\Debug\net8.0\DTOs.dll
+D:\ITI\New folder\DTOs\obj\Debug\net8.0\refint\DTOs.dll
+D:\ITI\New folder\DTOs\obj\Debug\net8.0\DTOs.pdb
+D:\ITI\New folder\DTOs\obj\Debug\net8.0\ref\DTOs.dll
+D:\Project\Asset_Inventory_Backend\DTOs\bin\Debug\net8.0\DTOs.deps.json
+D:\Project\Asset_Inventory_Backend\DTOs\bin\Debug\net8.0\DTOs.dll
+D:\Project\Asset_Inventory_Backend\DTOs\bin\Debug\net8.0\DTOs.pdb
+D:\Project\Asset_Inventory_Backend\DTOs\obj\Debug\net8.0\DTOs.csproj.AssemblyReference.cache
+D:\Project\Asset_Inventory_Backend\DTOs\obj\Debug\net8.0\DTOs.GeneratedMSBuildEditorConfig.editorconfig
+D:\Project\Asset_Inventory_Backend\DTOs\obj\Debug\net8.0\DTOs.AssemblyInfoInputs.cache
+D:\Project\Asset_Inventory_Backend\DTOs\obj\Debug\net8.0\DTOs.AssemblyInfo.cs
+D:\Project\Asset_Inventory_Backend\DTOs\obj\Debug\net8.0\DTOs.csproj.CoreCompileInputs.cache
+D:\Project\Asset_Inventory_Backend\DTOs\obj\Debug\net8.0\DTOs.sourcelink.json
+D:\Project\Asset_Inventory_Backend\DTOs\obj\Debug\net8.0\DTOs.dll
+D:\Project\Asset_Inventory_Backend\DTOs\obj\Debug\net8.0\refint\DTOs.dll
+D:\Project\Asset_Inventory_Backend\DTOs\obj\Debug\net8.0\DTOs.pdb
+D:\Project\Asset_Inventory_Backend\DTOs\obj\Debug\net8.0\ref\DTOs.dll

@@ -58,6 +58,19 @@ namespace Services.Services.Classes
             var readStoreDTO = mapper.Map<ReadStoreDTO>(store);
             return readStoreDTO;
         }
+        //_______________Search store by name _____________
+        public async Task<List<ReadStoreDTO>> SearchByName(string StoreName)
+        {
+            var storesList = await storeRepository.SearchByName(StoreName);
+            return mapper.Map<List<ReadStoreDTO>>(storesList);
+        }
+
+        //_______________Search store by Address _____________
+        public async Task<List<ReadStoreDTO>> SearchByAddress(string Address)
+        {
+            var storesList = await storeRepository.SearchByAddress(Address);
+            return mapper.Map<List<ReadStoreDTO>>(storesList);
+        }
 
         //_______________Update store by ID_________________ 
 

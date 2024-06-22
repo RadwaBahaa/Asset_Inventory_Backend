@@ -60,6 +60,20 @@ namespace Services.Services.Classes
             return readWarehouseDTO;
         }
 
+        //_______________Search warehouse by name _____________
+        public async Task<List<ReadWarehouseDTO>> SearchByName(string WarehouseName)
+        {
+            var warehousesList = await warehouseRepository.SearchByName(WarehouseName);
+            return mapper.Map<List<ReadWarehouseDTO>>(warehousesList);
+        }
+
+        //_______________Search warehouse by Address _____________
+        public async Task<List<ReadWarehouseDTO>> SearchByAddress(string Address)
+        {
+            var warehousesList = await warehouseRepository.SearchByAddress(Address);
+            return mapper.Map<List<ReadWarehouseDTO>>(warehousesList);
+        }
+
         //_______________Update Warehouse by ID_________________ 
 
         public async Task<ReadWarehouseDTO> UpdateWarehouse(AddOrUpdateWarehouseDTO updateWarehouseDTO, int WarehouseID)

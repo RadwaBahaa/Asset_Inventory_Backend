@@ -1,12 +1,8 @@
 {
   "version": 2,
-<<<<<<< HEAD
-  "dgSpecHash": "bamNTS3rMnwfP2GcdaSXm6HtGL5r6eWW76XIgybMwKOi6cHvDtBGmGfXvmJXpY7p8nurgMyCnutWA0SSOJ+A1w==",
-=======
-  "dgSpecHash": "E1kMu+Q/qgMEFaabk5T3xGDZBzH1Z2aKtS3t0u1WwyaUaby8WsqUUl/XLGfUC6x057iLipzJg04wEDi57RCQkg==",
->>>>>>> a2f6e0375224a5cb3ea9f16d95c6e15d04075860
+  "dgSpecHash": "iv127/VbZ3fyhsHu5xpCU3C+K9GICPLMMmxuY1Cf0Y18IOW4/vTpy8qEcEsXBbq4610eu+CcchqIB2SlaCg3NA==",
   "success": true,
-  "projectFilePath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Program\\Presentation.csproj",
+  "projectFilePath": "D:\\Project\\Asset_Inventory_Backend\\Program\\Presentation.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mosha\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\mosha\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",

@@ -58,6 +58,30 @@ namespace Services.Services.Classes
             var readSupplierDTO = mapper.Map<ReadSupplierDTO>(supplier);
             return readSupplierDTO;
         }
+        //_______________Search supplier by name _____________
+        public async Task<List<ReadSupplierDTO>> SearchByName(string supplierName)
+        {
+            if (string.IsNullOrWhiteSpace(supplierName))
+            {
+                throw new ArgumentException("Supplier name cannot be null or empty.");
+            }
+
+            var suppliersList = await supplierRepository.SearchByName(supplierName);
+            if (suppliersList == null || suppliersList.Count == 0)
+            {
+                throw new KeyNotFoundException("No suppliers found with the given name.");
+            }
+
+            return mapper.Map<List<ReadSupplierDTO>>(suppliersList);
+        }
+
+        //_______________Search supplier by Address _____________
+        public async Task<List<ReadSupplierDTO>> SearchByAddress(string Address)
+        {
+            var suppliersList = await supplierRepository.SearchByAddress(Address);
+            return mapper.Map<List<ReadSupplierDTO>>(suppliersList);
+        }
+
 
         //_______________Update Supplier by ID_________________ 
 

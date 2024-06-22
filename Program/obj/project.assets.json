@@ -1745,6 +1745,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
+          "AutoMapper": "13.0.1",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.6",
           "Microsoft.EntityFrameworkCore": "8.0.6",
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.6",
@@ -1762,6 +1763,9 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
+          "AutoMapper": "13.0.1",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.6",
+          "Microsoft.EntityFrameworkCore": "8.0.6",
           "NetTopologySuite": "2.5.0"
         },
         "compile": {
@@ -1775,6 +1779,9 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
+          "AutoMapper": "13.0.1",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.6",
+          "Microsoft.EntityFrameworkCore": "8.0.6",
           "NetTopologySuite": "2.5.0"
         },
         "compile": {
@@ -1785,11 +1792,13 @@
         }
       },
       "Repository/1.0.0": {
-<<<<<<< HEAD
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
-          "Context": "1.0.0"
+          "AutoMapper": "13.0.1",
+          "Context": "1.0.0",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.6",
+          "Microsoft.EntityFrameworkCore": "8.0.6"
         },
         "compile": {
           "bin/placeholder/Repository.dll": {}
@@ -1803,22 +1812,22 @@
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
           "AutoMapper": "13.0.1",
+          "Context": "1.0.0",
           "DTOs": "1.0.0",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.6",
+          "Microsoft.EntityFrameworkCore": "8.0.6",
           "Models": "1.0.0",
           "Repository": "1.0.0"
-=======
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v8.0",
-        "dependencies": {
-          "Context": "1.0.0"
->>>>>>> a2f6e0375224a5cb3ea9f16d95c6e15d04075860
         },
         "compile": {
-          "bin/placeholder/Repository.dll": {}
+          "bin/placeholder/Services.dll": {}
         },
         "runtime": {
-          "bin/placeholder/Repository.dll": {}
-        }
+          "bin/placeholder/Services.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       }
     }
   },
@@ -4909,17 +4918,14 @@
       "msbuildProject": "../Models/Models.csproj"
     },
     "Repository/1.0.0": {
-<<<<<<< HEAD
       "type": "project",
       "path": "../Repository/Repository.csproj",
       "msbuildProject": "../Repository/Repository.csproj"
     },
     "Services/1.0.0": {
-=======
->>>>>>> a2f6e0375224a5cb3ea9f16d95c6e15d04075860
       "type": "project",
-      "path": "../Repository/Repository.csproj",
-      "msbuildProject": "../Repository/Repository.csproj"
+      "path": "../Services/Services.csproj",
+      "msbuildProject": "../Services/Services.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -4927,10 +4933,11 @@
       "AutoMapper >= 13.0.1",
       "Context >= 1.0.0",
       "DTOs >= 1.0.0",
+      "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 8.0.6",
+      "Microsoft.EntityFrameworkCore >= 8.0.6",
       "Microsoft.EntityFrameworkCore.SqlServer >= 8.0.6",
       "Microsoft.EntityFrameworkCore.Tools >= 8.0.6",
-      "Models >= 1.0.0",
-      "Repository >= 1.0.0",
+      "Services >= 1.0.0",
       "Swashbuckle.AspNetCore >= 6.4.0"
     ]
   },
@@ -4940,11 +4947,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Program\\Presentation.csproj",
+      "projectUniqueName": "D:\\Project\\Asset_Inventory_Backend\\Program\\Presentation.csproj",
       "projectName": "Presentation",
-      "projectPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Program\\Presentation.csproj",
+      "projectPath": "D:\\Project\\Asset_Inventory_Backend\\Program\\Presentation.csproj",
       "packagesPath": "C:\\Users\\mosha\\.nuget\\packages\\",
-      "outputPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Program\\obj\\",
+      "outputPath": "D:\\Project\\Asset_Inventory_Backend\\Program\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mosha\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -4961,25 +4968,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Context\\Context.csproj": {
-              "projectPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Context\\Context.csproj"
+            "D:\\Project\\Asset_Inventory_Backend\\Context\\Context.csproj": {
+              "projectPath": "D:\\Project\\Asset_Inventory_Backend\\Context\\Context.csproj"
             },
-<<<<<<< HEAD
-            "E:\\ITI\\Graduation Project\\Backend\\DTOs\\DTOs.csproj": {
-              "projectPath": "E:\\ITI\\Graduation Project\\Backend\\DTOs\\DTOs.csproj"
+            "D:\\Project\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj": {
+              "projectPath": "D:\\Project\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj"
             },
-            "E:\\ITI\\Graduation Project\\Backend\\Services\\Services.csproj": {
-              "projectPath": "E:\\ITI\\Graduation Project\\Backend\\Services\\Services.csproj"
-=======
-            "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj": {
-              "projectPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj"
-            },
-            "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Models\\Models.csproj": {
-              "projectPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Models\\Models.csproj"
-            },
-            "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Repository\\Repository.csproj": {
-              "projectPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Repository\\Repository.csproj"
->>>>>>> a2f6e0375224a5cb3ea9f16d95c6e15d04075860
+            "D:\\Project\\Asset_Inventory_Backend\\Services\\Services.csproj": {
+              "projectPath": "D:\\Project\\Asset_Inventory_Backend\\Services\\Services.csproj"
             }
           }
         }
@@ -5002,6 +4998,14 @@
           "AutoMapper": {
             "target": "Package",
             "version": "[13.0.1, )"
+          },
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[8.0.6, )"
+          },
+          "Microsoft.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[8.0.6, )"
           },
           "Microsoft.EntityFrameworkCore.SqlServer": {
             "target": "Package",

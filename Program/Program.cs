@@ -15,7 +15,7 @@ namespace Asset_Inventory_API
 
             // Add services to the container.
             builder.Services.AddControllers();
-<<<<<<< HEAD
+
             builder.Services.AddScoped<IAssetServices, AssetServices>();
             builder.Services.AddScoped<ICategoryServices, CategoryServices>();
             builder.Services.AddScoped<IAssetServices, AssetServices>();
@@ -24,23 +24,14 @@ namespace Asset_Inventory_API
             builder.Services.AddScoped<IDeliveryProcessWStServices, DeliveryProcessWStServices>();
             builder.Services.AddScoped<IWarehouseProcessServices, WarehouseProcessServices>();
             builder.Services.AddScoped<IStoreProcessServices, StoreProcessServices>();
-=======
-
             builder.Services.AddScoped<ISupplierServices, SupplierServices>();
-            builder.Services.AddScoped<ISupplierAssetServices, SupplierAssetServices>();
-
+            builder.Services.AddScoped<ISupplierAssetsServices, SupplierAssetsServices>();
             builder.Services.AddScoped<IWarehouseServices, WarehouseServices>();
-            builder.Services.AddScoped<IWarehouseAssetServices, WarehouseAssetServices>();
-           
+            builder.Services.AddScoped<IWarehouseAssetsServices, WarehouseAssetsServices>();  
             builder.Services.AddScoped<IStoreServices, StoreServices>();
-            builder.Services.AddScoped<IStoreAssetServices, StoreAssetServices>();
-
-        
-            
+            builder.Services.AddScoped<IStoreAssetsServices, StoreAssetsServices>();
 
 
-
->>>>>>> a2f6e0375224a5cb3ea9f16d95c6e15d04075860
             builder.Services.AddAutoMapper(option =>
             {
                 option.AddProfile<MapProfile>();
