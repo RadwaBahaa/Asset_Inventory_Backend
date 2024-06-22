@@ -1,4 +1,5 @@
 ﻿using Context.Context;
+using Microsoft.EntityFrameworkCore;
 using Models.Models;
 using Repository.Interfaces;
 
@@ -11,16 +12,19 @@ namespace Repository.Classes
         {
             this.context = context;
         }
-        public async Task<IQueryable<WarehouseProcess>> ReadOneByID(int processID, int warehouseID)
+        public async Task<WarehouseProcess> ReadByID(int processID, int warehouseID)
         {
-            var process = context.WarehouseProcesses
-                .Where(p => p.ProcessID == processID && p.WarehouseID == warehouseID);
+            var process = await context.WarehouseProcesses
+                .Include(p => p.AssetShipmentSuW)
+                .FirstOrDefaultAsync(p => p.ProcessID == processID && p.WarehouseID == warehouseID);
             return process;
         }
-        public async Task<IQueryable<WarehouseProcess>> SearchByWarehouse(int warehouseID)
+        public async Task<List<WarehouseProcess>> SearchByWarehouse(int warehouseID)
         {
-            var processesList = context.WarehouseProcesses
-                .Where(p => p.WarehouseID == warehouseID);
+            var processesList = await context.WarehouseProcesses
+                .Include(p => p.AssetShipmentSuW)
+                .Where(p => p.WarehouseID == warehouseID)
+                .ToListAsync();
             return processesList;
         }
     }

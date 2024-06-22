@@ -18,92 +18,107 @@ namespace Services.Services.Classes
             this.mapper = mapper;
         }
 
-        public async Task<ReadCategoryDTO> Create(AddOrUpdateCategoryDTO categoryDTO)
+        // __________________________ Create Category ___________________________
+        public async Task<bool> Create(AddOrUpdateCategoryDTO categoryDTO)
         {
-            var findcategory = await categoryRepository.GetOneByName(categoryDTO.CategoryName);
-
-            if (findcategory != null)
+            if (categoryDTO == null || categoryDTO.CategoryName == null)
             {
-                return null;
+                throw new AggregateException("There is no data in body");
             }
             else
             {
-                categoryDTO.CategoryName = char.ToUpper(categoryDTO.CategoryName[0]) + categoryDTO.CategoryName.Substring(1).ToLower();
-                var createCategory = mapper.Map<Category>(categoryDTO);
-                await categoryRepository.Create(createCategory);
-                var Category = await categoryRepository.GetOneByName(categoryDTO.CategoryName);
+                var findcategory = await categoryRepository.ReadByName(categoryDTO.CategoryName);
 
-                var mappingcategory = mapper.Map<ReadCategoryDTO>(createCategory);
-                return mappingcategory;
+                if (findcategory != null)
+                {
+                    throw new AggregateException("This Category already exists.");
+                }
+                else
+                {
+                    categoryDTO.CategoryName = char.ToUpper(categoryDTO.CategoryName[0]) + categoryDTO.CategoryName.Substring(1).ToLower();
+                    var newCategory = mapper.Map<Category>(categoryDTO);
+                    await categoryRepository.Create(newCategory);
+                    return true;
+                }
             }
-
         }
-        // __________________________ GetAll categories ___________________________
 
-        public async Task<List<ReadCategoryDTO>> GetAll()
+        // __________________________ Read Categories ___________________________
+        public async Task<List<ReadCategoryDTO>> ReadAll()
         {
-            var categories = await categoryRepository.GetAll();
-            var mappedCategories = categories.Select(c => mapper.Map<ReadCategoryDTO>(c));
-            var categoriesList = mappedCategories.ToList();
-            return categoriesList;
+            var categories = await categoryRepository.Read();
+            if (categories.Any())
+            {
+                return mapper.Map<List<ReadCategoryDTO>>(categories);
+            }
+            else
+            {
+                throw new AggregateException("There are no categories.");
+            }
         }
-
-
-
-
-
-        // __________________________ GetOne By Name ___________________________
-
-        public async Task<ReadCategoryDTO> GetOneByName(string name)
+        public async Task<ReadCategoryDTO> ReadByID(int ID)
         {
-            var category = await categoryRepository.GetOneByName(name);
-
-            // Process the retrieved assets
-            return mapper.Map<ReadCategoryDTO>(category);
+            var category = await categoryRepository.ReadByID(ID);
+            if (category != null)
+            {
+                return mapper.Map<ReadCategoryDTO>(category);
+            }
+            else
+            {
+                throw new AggregateException("There is no category by this ID.");
+            }
         }
-
-
+        public async Task<ReadCategoryDTO> ReadByName(string name)
+        {
+            var category = await categoryRepository.ReadByName(name);
+            if (category != null)
+            {
+                return mapper.Map<ReadCategoryDTO>(category);
+            }
+            else
+            {
+                throw new AggregateException("There is no category by this name.");
+            }
+        }
 
         // __________________________ Search categories by name ___________________________
-
-        public async Task<List<ReadCategoryDTO>> SearchByName(string categoryName)
+        public async Task<List<ReadCategoryDTO>> SearchByName(string name)
         {
-            // Assuming categoryRepository has a method to search categories by name
-            var categories = await categoryRepository.SearchByName(categoryName);
-
-            // Mapping the found categories to ReadCategoryDTO
-            var mappedCategories = categories.Select(c => mapper.Map<ReadCategoryDTO>(c)).ToList();
-
-            return mappedCategories;
-        }
-
-
-
-        // __________________________ Update a Categories ___________________________
-        public async Task<bool> Update(AddOrUpdateCategoryDTO categoryDTO, int ID)
-        {
-            var findcategory = await categoryRepository.GetOneByID(ID);
-            if (findcategory == null)
+            var categoriesList = await categoryRepository.SearchByName(name);
+            if (categoriesList.Any())
             {
-                return false;
+                return mapper.Map<List<ReadCategoryDTO>>(categoriesList);
             }
             else
             {
-                // Make the initial letter of the asset name capitalized.
-                categoryDTO.CategoryName = char.ToUpper(categoryDTO.CategoryName[0]) + categoryDTO.CategoryName.Substring(1).ToLower();
-                // Update the asset
-                mapper.Map(categoryDTO, findcategory);
-                await categoryRepository.Update();
-                return true;
+                throw new AggregateException("There is no categories.");
             }
         }
+
+        // __________________________ Update a Categories ___________________________
+        public async Task<ReadCategoryDTO> Update(AddOrUpdateCategoryDTO categoryDTO, int ID)
+        {
+            var findcategory = await categoryRepository.ReadByID(ID);
+            if (findcategory == null)
+            {
+                throw new AggregateException("There is no category by this ID.");
+            }
+            else
+            {
+                categoryDTO.CategoryName = char.ToUpper(categoryDTO.CategoryName[0]) + categoryDTO.CategoryName.Substring(1).ToLower();
+                mapper.Map(categoryDTO, findcategory);
+                await categoryRepository.Update();
+                return mapper.Map<ReadCategoryDTO>(findcategory);
+            }
+        }
+
         // __________________________ Delete an asset ___________________________
         public async Task<bool> Delete(int ID)
         {
-            var findcategory = await categoryRepository.GetOneByID(ID);
+            var findcategory = await categoryRepository.ReadByID(ID);
             if (findcategory == null)
             {
-                return false;
+                throw new AggregateException("There is no category by this ID.");
             }
             else
             {
@@ -111,17 +126,7 @@ namespace Services.Services.Classes
                 return true;
             }
         }
-
-        public Task Update(AddOrUpdateCategoryDTO categoryDTO, string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> Delete(string name)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
 
-    
+

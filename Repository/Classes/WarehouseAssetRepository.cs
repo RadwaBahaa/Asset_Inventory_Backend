@@ -2,48 +2,41 @@
 using Microsoft.EntityFrameworkCore;
 using Models.Models;
 using Repository.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Repository.Classes
 {
     public class WarehouseAssetRepository : GenericRepository<WarehouseAsset>, IWarehouseAssetRepository
     {
-        protected readonly AssetInventoryContext _context;
+        protected readonly AssetInventoryContext context;
 
         public WarehouseAssetRepository(AssetInventoryContext context) : base(context)
         {
-            _context = context;
+            this.context = context;
         }
 
-        public async Task<WarehouseAsset> GetOneByID(int assetID, int warehouseID)
+        public async Task<WarehouseAsset> ReadByID(int assetID, int warehouseID)
         {
-            return await _context.WarehouseAssets.FindAsync(assetID, warehouseID);
+            var warehouseAsset = await context.WarehouseAssets
+                .FirstOrDefaultAsync(wa => wa.AssetID == assetID && wa.WarehouseID == warehouseID);
+            return warehouseAsset;
         }
-
-        public async Task<WarehouseAsset> GetOneBySerialNumber(string serialNumber)
+        public async Task<WarehouseAsset> ReadBySerialNumber(string serialNumber)
         {
-            return await _context.WarehouseAssets.FirstOrDefaultAsync(a => a.SerialNumber == serialNumber);
+            var warehouseAsset = await context.WarehouseAssets
+               .FirstOrDefaultAsync(a => a.SerialNumber == serialNumber);
+            return warehouseAsset;
         }
-
         public async Task<List<WarehouseAsset>> SearchByName(string assetName)
         {
-            return await _context.WarehouseAssets
+            var warehouseAsset = await context.WarehouseAssets
                 .Where(a => a.AssetName.ToLower().Contains(assetName.ToLower()))
                 .ToListAsync();
+            return warehouseAsset;
         }
-
         public async Task<int> GetCount(int assetID, int warehouseID)
         {
-            var warehouseAsset = await _context.WarehouseAssets
+            var warehouseAsset = await context.WarehouseAssets
                 .FirstOrDefaultAsync(a => a.AssetID == assetID && a.WarehouseID == warehouseID);
-
-            if (warehouseAsset == null)
-            {
-                throw new KeyNotFoundException("WarehouseAsset not found");
-            }
-
             return warehouseAsset.Count;
         }
     }

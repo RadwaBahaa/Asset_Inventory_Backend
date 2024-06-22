@@ -37,75 +37,81 @@ namespace Services.Services.Classes
                         newProcess.TotalAssets += asset.Quantity ?? 0;
                     }
                 }
+                await deliveryProcessSuWRepository.Create(newProcess);
                 return true;
             }
         }
 
         // ________________ Read Processes from Supplier to Werhouses ________________
-        public async Task<List<ReadDeliveryProcessSuWDTO>> ReadAllProcess()
+        public async Task<List<ReadDeliveryProcessSuWDTO>> ReadAll()
         {
             var processesList = await deliveryProcessSuWRepository.Read();
-            var finalProcessesList = await processesList
+            var mappedProcessesList = await processesList
                 .Include(p => p.WarehouseProcesses)
                     .ThenInclude(wp => wp.AssetShipmentSuW)
+                .Select(p => mapper.Map<ReadDeliveryProcessSuWDTO>(p))
                 .ToListAsync();
-            if (finalProcessesList.Any())
-                return mapper.Map<List<ReadDeliveryProcessSuWDTO>>(finalProcessesList);
+            if (mappedProcessesList.Any())
+            {
+                return mappedProcessesList;
+            }
             else
-                throw new ArgumentException("There are no assets to be retrieved.");
+            {
+                throw new ArgumentException("There are no prosesses to be retrieved.");
+            }
         }
-        public async Task<ReadDeliveryProcessSuWDTO> ReadOneByID(int id)
+        public async Task<ReadDeliveryProcessSuWDTO> ReadByID(int ID)
         {
-            var process = await deliveryProcessSuWRepository.ReadOneByID(id);
-            var selectedProcess = await process
-                .Include(p => p.WarehouseProcesses)
-                    .ThenInclude(wp => wp.AssetShipmentSuW)
-                .FirstOrDefaultAsync();
+            var process = await deliveryProcessSuWRepository.ReadByID(ID);
             if (process == null)
+            {
                 throw new ArgumentException("There is no process by this ID.");
+            }
             else
-                return mapper.Map<ReadDeliveryProcessSuWDTO>(selectedProcess);
+            {
+                return mapper.Map<ReadDeliveryProcessSuWDTO>(process);
+            }
         }
 
         // _________________________ Search for Processes _________________________
         public async Task<List<ReadDeliveryProcessSuWDTO>> SearchBySupplier(int supplierID)
         {
             var searchedProcesses = await deliveryProcessSuWRepository.SearchBySupplier(supplierID);
-            var mappedSearchedProcesses = await searchedProcesses
-                .Include(p => p.WarehouseProcesses)
-                    .ThenInclude(wp => wp.AssetShipmentSuW)
-                .Select(p => mapper.Map<ReadDeliveryProcessSuWDTO>(p))
-                .ToListAsync();
             if (searchedProcesses.Any())
-                return mappedSearchedProcesses;
+            {
+                return mapper.Map<List<ReadDeliveryProcessSuWDTO>>(searchedProcesses);
+            }
             else
+            {
                 throw new ArgumentException("There are no Process from this Supplier.");
+            }
         }
         public async Task<List<ReadDeliveryProcessSuWDTO>> SearchByDate(DateTime date)
         {
             var searchedProcesses = await deliveryProcessSuWRepository.SearchByDate(date);
-            var mappedSearchedProcesses = await searchedProcesses
-                .Include(p => p.WarehouseProcesses)
-                    .ThenInclude(wp => wp.AssetShipmentSuW)
-                .Select(p => mapper.Map<ReadDeliveryProcessSuWDTO>(p))
-                .ToListAsync();
             if (searchedProcesses.Any())
-                return mappedSearchedProcesses;
+            {
+                return mapper.Map<List<ReadDeliveryProcessSuWDTO>>(searchedProcesses);
+            }
             else
+            {
                 throw new ArgumentException("There are no Process on this date.");
+            }
         }
 
         // _________________________ Delete a Process _________________________
         public async Task<bool> DeleteProcess(int processID)
         {
-            var findProcess = await deliveryProcessSuWRepository.ReadOneByID(processID);
-            var process = findProcess.FirstOrDefault();
-            if (process != null)
+            var findProcess = await deliveryProcessSuWRepository.ReadByID(processID);
+            if (findProcess != null)
             {
-                await deliveryProcessSuWRepository.Delete(process);
+                await deliveryProcessSuWRepository.Delete(findProcess);
                 return true;
             }
-            else throw new ArgumentException("There is no process by this ID.");
+            else
+            {
+                throw new ArgumentException("There is no process by this ID.");
+            }
         }
     }
 }

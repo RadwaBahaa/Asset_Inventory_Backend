@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Models.Models;
 using Repository.Interfaces;
-using AutoMapper;
+
 
 namespace Repository.Classes
 {
@@ -14,19 +14,16 @@ namespace Repository.Classes
             this.context = context;
         }
 
-        public Task<IEnumerable<object>> GetAll()
+        public async Task<Category> ReadByID(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Category> GetOneByID(int id)
-        {
-            var category = await context.Categories.FindAsync(id);
+            var category = await context.Categories
+                .FindAsync(id);
             return category;
         }
-        public async Task<Category> GetOneByName(string name)
+        public async Task<Category> ReadByName(string name)
         {
-            var category = await context.Categories.FirstOrDefaultAsync(a => a.CategoryName == name);
+            var category = await context.Categories
+                .FirstOrDefaultAsync(a => a.CategoryName == name);
             return category;
         }
         public async Task<List<Category>> SearchByName(string name)

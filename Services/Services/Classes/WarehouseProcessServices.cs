@@ -16,7 +16,7 @@ namespace Services.Services.Classes
             this.mapper = mapper;
         }
         // ___________________________ Read Processes  ___________________________
-        public async Task<List<ReadWarehouseProcessDTO>> ReadAllProcess()
+        public async Task<List<ReadWarehouseProcessDTO>> ReadAll()
         {
             var processes = await warehouseProcessReopsitory.Read();
             var processesList = await processes
@@ -28,37 +28,36 @@ namespace Services.Services.Classes
             else
                 return processesList;
         }
-        public async Task<ReadWarehouseProcessDTO> ReadOneProcess(int processID, int warehouseID)
+        public async Task<ReadWarehouseProcessDTO> ReadByID(int processID, int warehouseID)
         {
-            var process = await warehouseProcessReopsitory.ReadOneByID(processID, warehouseID);
-            var mappedProcess = await process
-                .Select(p => mapper.Map<ReadWarehouseProcessDTO>(p))
-                .FirstOrDefaultAsync();
-            if (mappedProcess == null)
+            var process = await warehouseProcessReopsitory.ReadByID(processID, warehouseID);
+            if (process == null)
+            {
                 throw new ArgumentException("There is no process with this ID.");
+            }
             else
-                return mappedProcess;
+            {
+                return mapper.Map<ReadWarehouseProcessDTO>(process);
+            }
         }
         public async Task<List<ReadWarehouseProcessDTO>> SearchByWarehouse(int warehouseID)
         {
             var processes = await warehouseProcessReopsitory.SearchByWarehouse(warehouseID);
-            var processesList = await processes
-                .Where(p => p.WarehouseID == warehouseID)
-                .Include(p => p.AssetShipmentSuW)
-                .Select(p => mapper.Map<ReadWarehouseProcessDTO>(p))
-                .ToListAsync();
-            if (processesList.Any())
+            if (processes.Any())
+            {
                 throw new ArgumentException("There are no process to this warehouse.");
+            }
             else
-                return processesList;
+            {
+                return mapper.Map<List<ReadWarehouseProcessDTO>>(processes);
+            }
         }
 
         // _________________________ Update a Process  _________________________
-        public async Task<ReadWarehouseProcessDTO> UpdateProcess(int processId, int warehouseID, UpdateWarehouseProcessDTO warehouseProcessDTO)
+        public async Task<ReadWarehouseProcessDTO> Update(int processId, int warehouseID, UpdateWarehouseProcessDTO warehouseProcessDTO)
         {
-            var process = await warehouseProcessReopsitory.ReadOneByID(processId, warehouseID);
-            var updatedProcess = await process.FirstOrDefaultAsync();
-            if (updatedProcess == null)
+            var process = await warehouseProcessReopsitory.ReadByID(processId, warehouseID);
+            if (process == null)
                 throw new ArgumentException("There is no process with this ID.");
             else
             {
@@ -66,9 +65,9 @@ namespace Services.Services.Classes
                     throw new ArgumentException("Status is required.");
                 else
                 {
-                    updatedProcess.Status = warehouseProcessDTO.Status;
+                    process.Status = warehouseProcessDTO.Status;
                     await warehouseProcessReopsitory.Update();
-                    return mapper.Map<ReadWarehouseProcessDTO>(updatedProcess);
+                    return mapper.Map<ReadWarehouseProcessDTO>(process);
                 }
             }
         }

@@ -4,8 +4,8 @@ namespace Repository.Interfaces
 {
     public interface IDeliveryProcessWStRepository : IGenericRepository<DeliveryProcessWSt>
     {
-        public Task<IQueryable<DeliveryProcessWSt>> ReadOneByID(int id);
-        public Task<IQueryable<DeliveryProcessWSt>> SearchByWarehouse(int warehouseID);
-        public Task<IQueryable<DeliveryProcessWSt>> SearchByDate(DateTime date);
+        public Task<DeliveryProcessWSt> ReadByID(int ID);
+        public Task<List<DeliveryProcessWSt>> SearchByWarehouse(int warehouseID);
+        public Task<List<DeliveryProcessWSt>> SearchByDate(DateTime date);
     }
 }

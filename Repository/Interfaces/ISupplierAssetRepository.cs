@@ -1,14 +1,12 @@
 ﻿using Models.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Repository.Interfaces
 {
     public interface ISupplierAssetRepository
     {
-        Task<SupplierAsset> GetOneByID(int assetID, int supplierID);
-        Task<SupplierAsset> GetOneBySerialNumber(string serialNumber);
-        Task<List<SupplierAsset>> SearchByName(string assetName);
-        Task<int> GetCount(int assetID, int supplierID);
+        public Task<SupplierAsset> ReadByID(int assetID, int supplierID);
+        public Task<SupplierAsset> ReadBySerialNumber(string serialNumber);
+        public Task<List<SupplierAsset>> SearchByName(string assetName);
+        public Task<int> ReadCount(int assetID, int supplierID);
     }
 }

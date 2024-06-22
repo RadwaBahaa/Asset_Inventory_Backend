@@ -16,110 +16,110 @@ namespace Services.Services.Classes
             this.mapper = mapper;
         }
 
-        //________________ Create a new Supplier ______________
-        public async Task<bool> CreateSupplier(AddOrUpdateSupplierDTO createSupplierDTO)
+        //________________ Create supplier ______________
+        public async Task<bool> Create(AddOrUpdateSupplierDTO supplierDTO)
         {
-            if (string.IsNullOrEmpty(createSupplierDTO.SupplierName))
+            if (supplierDTO == null)
             {
                 throw new ArgumentException("Supplier name cannot be empty!");
             }
-
-            var newSupplier = new Supplier
+            else
             {
-                SupplierName = createSupplierDTO.SupplierName,
-                Location = createSupplierDTO.Location,
-                Address = createSupplierDTO.Address,
-
-            };
-            await supplierRepository.Create(newSupplier);
-
-            return true; 
+                var newSupplier = new Supplier
+                {
+                    SupplierName = supplierDTO.SupplierName,
+                    Location = supplierDTO.Location,
+                    Address = supplierDTO.Address,
+                };
+                await supplierRepository.Create(newSupplier);
+                return true;
+            }
         }
 
-        //_______________Read all Suppliers _________________ 
-
-        public async Task<List<ReadSupplierDTO>> GetAllSuppliers()
+        //_______________Read suppliers _________________ 
+        public async Task<List<ReadSupplierDTO>> ReadAll()
         {
             var suppliers = await supplierRepository.Read();
-            var readSupplierDTO = mapper.Map<List<ReadSupplierDTO>>(suppliers);
-            return readSupplierDTO;
+            if (suppliers.Any())
+            {
+                throw new AggregateException("There are no suppliers.");
+            }
+            else
+            {
+                return mapper.Map<List<ReadSupplierDTO>>(suppliers);
+            }
         }
-
-
-        //_______________Read Supplier by ID_________________ 
-        public async Task<ReadSupplierDTO> GetSupplierByID(int SupplierID)
+        public async Task<ReadSupplierDTO> ReadByID(int SupplierID)
         {
-            var supplier = await supplierRepository.GetOneByID(SupplierID);
-            if (supplier == null)
+            var supplier = await supplierRepository.ReadByID(SupplierID);
+            if (supplier != null)
             {
-                throw new KeyNotFoundException("Supplier not found");
+                return mapper.Map<ReadSupplierDTO>(supplier);
             }
-
-            var readSupplierDTO = mapper.Map<ReadSupplierDTO>(supplier);
-            return readSupplierDTO;
+            else
+            {
+                throw new AggregateException("There are no suppliers.");
+            }
         }
-        //_______________Search supplier by name _____________
-        public async Task<List<ReadSupplierDTO>> SearchByName(string supplierName)
+        //_______________Search for supplier _____________
+        public async Task<List<ReadSupplierDTO>> SearchByName(string SupplierName)
         {
-            if (string.IsNullOrWhiteSpace(supplierName))
+            var suppliersList = await supplierRepository.SearchByName(SupplierName);
+            if (suppliersList.Any())
             {
-                throw new ArgumentException("Supplier name cannot be null or empty.");
+                return mapper.Map<List<ReadSupplierDTO>>(suppliersList);
             }
-
-            var suppliersList = await supplierRepository.SearchByName(supplierName);
-            if (suppliersList == null || suppliersList.Count == 0)
+            else
             {
-                throw new KeyNotFoundException("No suppliers found with the given name.");
+                throw new AggregateException("There are no suppliers.");
             }
-
-            return mapper.Map<List<ReadSupplierDTO>>(suppliersList);
         }
-
-        //_______________Search supplier by Address _____________
         public async Task<List<ReadSupplierDTO>> SearchByAddress(string Address)
         {
             var suppliersList = await supplierRepository.SearchByAddress(Address);
-            return mapper.Map<List<ReadSupplierDTO>>(suppliersList);
+            if (suppliersList.Any())
+            {
+                return mapper.Map<List<ReadSupplierDTO>>(suppliersList);
+            }
+            else
+            {
+                throw new AggregateException("There are no suppliers.");
+            }
         }
 
+        //_______________Update supplier by ID_________________ 
 
-        //_______________Update Supplier by ID_________________ 
-
-        public async Task<ReadSupplierDTO> UpdateSupplier(AddOrUpdateSupplierDTO updateSupplierDTO, int SupplierID)
+        public async Task<ReadSupplierDTO> Update(AddOrUpdateSupplierDTO updateSupplierDTO, int SupplierID)
         {
-            var Supplier = await supplierRepository.GetOneByID(SupplierID);
-            if (Supplier == null)
+            var supplier = await supplierRepository.ReadByID(SupplierID);
+            if (supplier == null)
             {
-                throw new KeyNotFoundException("Supplier not found");
+                throw new AggregateException("There is no supplier by this ID.");
             }
-
-            if (string.IsNullOrEmpty(updateSupplierDTO.SupplierName))
+            else
             {
-                throw new ArgumentException("Supplier name cannot be empty!");
+                supplier.SupplierName = updateSupplierDTO.SupplierName;
+                supplier.Location = updateSupplierDTO.Location;
+                supplier.Address = updateSupplierDTO.Address;
+                await supplierRepository.Update();
+                return mapper.Map<ReadSupplierDTO>(supplier);
             }
-
-            Supplier.SupplierName = updateSupplierDTO.SupplierName;
-            Supplier.Location = updateSupplierDTO.Location;
-            Supplier.Address = updateSupplierDTO.Address;
-
-            await supplierRepository.Update();
-
-            var readSupplierDTO = mapper.Map<ReadSupplierDTO>(Supplier);
-            return readSupplierDTO;
         }
 
-        //_______________Delete Supplier by ID_________________ 
+        //_______________Delete supplier by ID_________________ 
 
-        public async Task<bool> DeleteSupplier(int SupplierID)
+        public async Task<bool> Delete(int SupplierID)
         {
-            var Supplier = await supplierRepository.GetOneByID(SupplierID);
-            if (Supplier == null)
+            var supplier = await supplierRepository.ReadByID(SupplierID);
+            if (supplier == null)
             {
-                throw new KeyNotFoundException("Supplier not found");
+                throw new AggregateException("There is no supplier by this ID.");
             }
-
-            await supplierRepository.Delete(Supplier);
-            return true;
+            else
+            {
+                await supplierRepository.Delete(supplier);
+                return true;
+            }
         }
     }
 }

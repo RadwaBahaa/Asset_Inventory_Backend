@@ -16,102 +16,110 @@ namespace Services.Services.Classes
             this.mapper = mapper;
         }
 
-        //________________ Create a new Warehouse ______________
-        public async Task<bool> CreateWarehouse(AddOrUpdateWarehouseDTO createWarehouseDTO)
+        //________________ Create warehouse ______________
+        public async Task<bool> Create(AddOrUpdateWarehouseDTO warehouseDTO)
         {
-            if (string.IsNullOrEmpty(createWarehouseDTO.WarehouseName))
+            if (warehouseDTO == null)
             {
                 throw new ArgumentException("Warehouse name cannot be empty!");
             }
-
-            var newWarehouse = new Warehouse
+            else
             {
-                WarehouseName = createWarehouseDTO.WarehouseName,
-                Location = createWarehouseDTO.Location,
-                Address = createWarehouseDTO.Address,
-
-            };
-            await warehouseRepository.Create(newWarehouse);
-
-            return true; 
+                var newWarehouse = new Warehouse
+                {
+                    WarehouseName = warehouseDTO.WarehouseName,
+                    Location = warehouseDTO.Location,
+                    Address = warehouseDTO.Address,
+                };
+                await warehouseRepository.Create(newWarehouse);
+                return true;
+            }
         }
 
-        //_______________Read all Warehouses _________________ 
-
-        public async Task<List<ReadWarehouseDTO>> GetAllWarehouses()
+        //_______________Read warehouses _________________ 
+        public async Task<List<ReadWarehouseDTO>> ReadAll()
         {
             var warehouses = await warehouseRepository.Read();
-            var readWarehouseDTO = mapper.Map<List<ReadWarehouseDTO>>(warehouses);
-            return readWarehouseDTO;
+            if (warehouses.Any())
+            {
+                throw new AggregateException("There are no warehouses.");
+            }
+            else
+            {
+                return mapper.Map<List<ReadWarehouseDTO>>(warehouses);
+            }
+        }
+        public async Task<ReadWarehouseDTO> ReadByID(int warehouseID)
+        {
+            var warehouse = await warehouseRepository.ReadByID(warehouseID);
+            if (warehouse != null)
+            {
+                return mapper.Map<ReadWarehouseDTO>(warehouse);
+            }
+            else
+            {
+                throw new AggregateException("There are no warehouses.");
+            }
+        }
+        //_______________Search for warehouse _____________
+        public async Task<List<ReadWarehouseDTO>> SearchByName(string warehouseName)
+        {
+            var warehousesList = await warehouseRepository.SearchByName(warehouseName);
+            if (warehousesList.Any())
+            {
+                return mapper.Map<List<ReadWarehouseDTO>>(warehousesList);
+            }
+            else
+            {
+                throw new AggregateException("There are no warehouses.");
+            }
+        }
+        public async Task<List<ReadWarehouseDTO>> SearchByAddress(string address)
+        {
+            var warehousesList = await warehouseRepository.SearchByAddress(address);
+            if (warehousesList.Any())
+            {
+                return mapper.Map<List<ReadWarehouseDTO>>(warehousesList);
+            }
+            else
+            {
+                throw new AggregateException("There are no warehouses.");
+            }
         }
 
+        //_______________Update warehouse by ID_________________ 
 
-        //_______________Read Warehouse by ID_________________ 
-
-        public async Task<ReadWarehouseDTO> GetWarehouseByID(int WarehouseID)
+        public async Task<ReadWarehouseDTO> Update(AddOrUpdateWarehouseDTO updateWarehouseDTO, int warehouseID)
         {
-            var warehouse = await warehouseRepository.GetOneByID(WarehouseID);
+            var warehouse = await warehouseRepository.ReadByID(warehouseID);
             if (warehouse == null)
             {
-                throw new KeyNotFoundException("Warehouse not found");
+                throw new AggregateException("There is no warehouse by this ID.");
             }
-
-            var readWarehouseDTO = mapper.Map<ReadWarehouseDTO>(warehouse);
-            return readWarehouseDTO;
+            else
+            {
+                warehouse.WarehouseName = updateWarehouseDTO.WarehouseName;
+                warehouse.Location = updateWarehouseDTO.Location;
+                warehouse.Address = updateWarehouseDTO.Address;
+                await warehouseRepository.Update();
+                return mapper.Map<ReadWarehouseDTO>(warehouse);
+            }
         }
 
-        //_______________Search warehouse by name _____________
-        public async Task<List<ReadWarehouseDTO>> SearchByName(string WarehouseName)
-        {
-            var warehousesList = await warehouseRepository.SearchByName(WarehouseName);
-            return mapper.Map<List<ReadWarehouseDTO>>(warehousesList);
-        }
+        //_______________Delete warehouse by ID_________________ 
 
-        //_______________Search warehouse by Address _____________
-        public async Task<List<ReadWarehouseDTO>> SearchByAddress(string Address)
+        public async Task<bool> Delete(int warehouseID)
         {
-            var warehousesList = await warehouseRepository.SearchByAddress(Address);
-            return mapper.Map<List<ReadWarehouseDTO>>(warehousesList);
-        }
-
-        //_______________Update Warehouse by ID_________________ 
-
-        public async Task<ReadWarehouseDTO> UpdateWarehouse(AddOrUpdateWarehouseDTO updateWarehouseDTO, int WarehouseID)
-        {
-            var warehouse = await warehouseRepository.GetOneByID(WarehouseID);
+            var warehouse = await warehouseRepository.ReadByID(warehouseID);
             if (warehouse == null)
             {
-                throw new KeyNotFoundException("Warehouse not found");
+                throw new AggregateException("There is no warehouse by this ID.");
             }
-
-            if (string.IsNullOrEmpty(updateWarehouseDTO.WarehouseName))
+            else
             {
-                throw new ArgumentException("Warehouse name cannot be empty!");
+                await warehouseRepository.Delete(warehouse);
+                return true;
             }
-
-            warehouse.WarehouseName = updateWarehouseDTO.WarehouseName;
-            warehouse.Location = updateWarehouseDTO.Location;
-            warehouse.Address = updateWarehouseDTO.Address;
-
-            await warehouseRepository.Update();
-
-            var readWarehouseDTO = mapper.Map<ReadWarehouseDTO>(warehouse);
-            return readWarehouseDTO;
         }
-
-        //_______________Delete Warehouse by ID_________________ 
-
-        public async Task<bool> DeleteWarehouse (int WarehouseID)
-        {
-            var warehouse = await warehouseRepository.GetOneByID(WarehouseID);
-            if (warehouse == null)
-            {
-                throw new KeyNotFoundException("Warehouse not found");
-            }
-
-            await warehouseRepository.Delete(warehouse);
-            return true;
-        }
-
     }
 }

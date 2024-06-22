@@ -20,7 +20,7 @@ namespace Presentation.Controllers
         {
             try
             {
-                var processes = await storeProcessServices.ReadAllProcess();
+                var processes = await storeProcessServices.ReadAll();
                 return Ok(processes);
             }
             catch (ArgumentException ex)
@@ -32,12 +32,12 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("/readOne/{processID:int}/{storeID:int}")]
-        public async Task<IActionResult> ReadOne(int processID, int storeID)
+        [HttpGet("/readByID/{processID:int}/{storeID:int}")]
+        public async Task<IActionResult> ReadOne([FromRoute] int processID, [FromRoute] int storeID)
         {
             try
             {
-                var process = await storeProcessServices.ReadOneProcess(processID, storeID);
+                var process = await storeProcessServices.ReadByID(processID, storeID);
                 return Ok(process);
             }
             catch (ArgumentException ex)
@@ -52,7 +52,7 @@ namespace Presentation.Controllers
 
         // __________________________ Search __________________________
         [HttpGet("/searchByStore/{storeID:int}")]
-        public async Task<IActionResult> SearchByStore(int storeID)
+        public async Task<IActionResult> SearchByStore([FromRoute] int storeID)
         {
             try
             {
@@ -71,11 +71,11 @@ namespace Presentation.Controllers
 
         // __________________________ Update __________________________
         [HttpPut("/update/{processID:int}/{storeID:int}")]
-        public async Task<IActionResult> Update(int processID, int storeID, UpdateStoreProcessDTO storeProcessDTO)
+        public async Task<IActionResult> Update([FromRoute] int processID, [FromRoute] int storeID, [FromBody] UpdateStoreProcessDTO storeProcessDTO)
         {
             try
             {
-                var updatedProcess = await storeProcessServices.UpdateProcess(processID, storeID, storeProcessDTO);
+                var updatedProcess = await storeProcessServices.Update(processID, storeID, storeProcessDTO);
                 return Ok(updatedProcess);
             }
             catch (ArgumentException ex)

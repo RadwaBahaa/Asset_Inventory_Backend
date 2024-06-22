@@ -1,31 +1,31 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Services.Services.Interface;
-using DTOs.DTOs.Suppliers;
+using DTOs.DTOs.Stores;
 
 namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SuppliersAssetsController : ControllerBase
+    public class StoreAssetsController : ControllerBase
     {
-        protected ISupplierAssetsServices supplierAssetServices;
-        public SuppliersAssetsController(ISupplierAssetsServices supplierAssetServices)
+        protected IStoreAssetsServices storeAssetServices;
+        public StoreAssetsController(IStoreAssetsServices storeAssetServices)
         {
-            this.supplierAssetServices = supplierAssetServices;
+            this.storeAssetServices = storeAssetServices;
         }
 
         // __________________________ Create __________________________
         [HttpPost("create")]
-        public async Task<IActionResult> CreateSupplierAsset([FromBody] AddOrUpdateSupplierAssetsDTO supplierAssetsDTO)
+        public async Task<IActionResult> CreateStoreAsset([FromBody] AddOrUpdateStoreAssetsDTO storeAssetsDTO)
         {
-            if (supplierAssetsDTO == null)
+            if (storeAssetsDTO == null)
             {
                 return BadRequest("Invalid input data.");
             }
             try
             {
-                var supplierAsset = await supplierAssetServices.Create(supplierAssetsDTO);
-                if (supplierAsset)
+                var storeAsset = await storeAssetServices.Create(storeAssetsDTO);
+                if (storeAsset)
                 {
                     return Ok("The asset was created successfully.");
                 }
@@ -50,8 +50,8 @@ namespace Presentation.Controllers
         {
             try
             {
-                var supplierAssets = await supplierAssetServices.ReadAll();
-                return Ok(supplierAssets);
+                var storeAssets = await storeAssetServices.ReadAll();
+                return Ok(storeAssets);
             }
             catch (ArgumentException ex)
             {
@@ -68,8 +68,8 @@ namespace Presentation.Controllers
         {
             try
             {
-                var supplierAsset = await supplierAssetServices.ReadBySerialNumber(serialNumber);
-                return Ok(supplierAsset);
+                var storeAsset = await storeAssetServices.ReadBySerialNumber(serialNumber);
+                return Ok(storeAsset);
             }
             catch (ArgumentException ex)
             {
@@ -83,12 +83,12 @@ namespace Presentation.Controllers
 
         // __________________________ Update __________________________
         [HttpPut("/update/{assetID:int}/{serialNumber:string}")]
-        public async Task<IActionResult> Update([FromRoute] int assetID, [FromRoute] int serialNumber, [FromBody] AddOrUpdateSupplierAssetsDTO supplierAssetsDTO)
+        public async Task<IActionResult> Update([FromRoute] int assetID, [FromRoute] int serialNumber, [FromBody] AddOrUpdateStoreAssetsDTO storeAssetsDTO)
         {
             try
             {
-                var updatedSupplierAsset = await supplierAssetServices.Update(supplierAssetsDTO, assetID, serialNumber);
-                return Ok(updatedSupplierAsset);
+                var updatedStoreAsset = await storeAssetServices.Update(storeAssetsDTO, assetID, serialNumber);
+                return Ok(updatedStoreAsset);
             }
             catch (ArgumentException ex)
             {
@@ -106,7 +106,7 @@ namespace Presentation.Controllers
         {
             try
             {
-                var result = await supplierAssetServices.Delete(assetID, serialNumber);
+                var result = await storeAssetServices.Delete(assetID, serialNumber);
                 return Ok(result);
             }
             catch (ArgumentException ex)

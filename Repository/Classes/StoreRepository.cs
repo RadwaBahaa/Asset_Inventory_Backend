@@ -12,12 +12,12 @@ namespace Repository.Classes
         {
             this.context = context;
         }
-        public async Task<Store> GetOneByID(int id)
+        public async Task<Store> ReadByID(int id)
         {
             var store = await context.Stores.FindAsync(id);
             return store;
         }
-        public async Task<Store> GetOneByName(string name)
+        public async Task<Store> ReadByName(string name)
         {
             var store = await context.Stores.FirstOrDefaultAsync(a => a.StoreName == name);
             return store;

@@ -36,3 +36,4 @@ D:\Project\Asset_Inventory_Backend\DTOs\obj\Debug\net8.0\DTOs.dll
 D:\Project\Asset_Inventory_Backend\DTOs\obj\Debug\net8.0\refint\DTOs.dll
 D:\Project\Asset_Inventory_Backend\DTOs\obj\Debug\net8.0\DTOs.pdb
 D:\Project\Asset_Inventory_Backend\DTOs\obj\Debug\net8.0\ref\DTOs.dll
+E:\ITI\Graduation Project\Backend\DTOs\obj\Debug\net8.0\DTOs.csproj.AssemblyReference.cache

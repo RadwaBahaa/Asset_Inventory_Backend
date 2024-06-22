@@ -18,19 +18,16 @@ namespace Asset_Inventory_API
 
             builder.Services.AddScoped<IAssetServices, AssetServices>();
             builder.Services.AddScoped<ICategoryServices, CategoryServices>();
-            builder.Services.AddScoped<IAssetServices, AssetServices>();
-            builder.Services.AddScoped<ICategoryServices, CategoryServices>();
             builder.Services.AddScoped<IDeliveryProcessSuWServices, DeliveryProcessSuWServices>();
             builder.Services.AddScoped<IDeliveryProcessWStServices, DeliveryProcessWStServices>();
-            builder.Services.AddScoped<IWarehouseProcessServices, WarehouseProcessServices>();
-            builder.Services.AddScoped<IStoreProcessServices, StoreProcessServices>();
-            builder.Services.AddScoped<ISupplierServices, SupplierServices>();
-            builder.Services.AddScoped<ISupplierAssetsServices, SupplierAssetsServices>();
-            builder.Services.AddScoped<IWarehouseServices, WarehouseServices>();
-            builder.Services.AddScoped<IWarehouseAssetsServices, WarehouseAssetsServices>();  
-            builder.Services.AddScoped<IStoreServices, StoreServices>();
             builder.Services.AddScoped<IStoreAssetsServices, StoreAssetsServices>();
-
+            builder.Services.AddScoped<IStoreProcessServices, StoreProcessServices>();
+            builder.Services.AddScoped<IStoreServices, StoreServices>();
+            builder.Services.AddScoped<ISupplierAssetsServices,SupplierAssetsServices>();
+            builder.Services.AddScoped<ISupplierServices, SupplierServices>();
+            builder.Services.AddScoped<IWarehouseAssetsServices,WarehouseAssetsServices>();
+            builder.Services.AddScoped<IWarehouseProcessServices, WarehouseProcessServices>();
+            builder.Services.AddScoped<IWarehouseServices, WarehouseServices>();
 
             builder.Services.AddAutoMapper(option =>
             {

@@ -1,4 +1,5 @@
 ﻿using Context.Context;
+using Microsoft.EntityFrameworkCore;
 using Models.Models;
 using Repository.Interfaces;
 
@@ -11,21 +12,30 @@ namespace Repository.Classes
         {
             this.context = context;
         }
-        public async Task<IQueryable<DeliveryProcessSuW>> ReadOneByID(int id)
+        public async Task<DeliveryProcessSuW> ReadByID(int ID)
         {
-            var process = context.DeliveryProcessSuW.Where(p => p.ProcessID == id);
+            var process = await context.DeliveryProcessSuW
+                .Include(p => p.WarehouseProcesses)
+                    .ThenInclude(wp => wp.AssetShipmentSuW)
+                .FirstOrDefaultAsync(p => p.ProcessID == ID);
             return process;
         }
-        public async Task<IQueryable<DeliveryProcessSuW>> SearchBySupplier(int supplierID)
+        public async Task<List<DeliveryProcessSuW>> SearchBySupplier(int supplierID)
         {
-            var processesList = context.DeliveryProcessSuW
-                .Where(p => p.SupplierID == supplierID);
+            var processesList = await context.DeliveryProcessSuW
+                .Include(p => p.WarehouseProcesses)
+                    .ThenInclude(wp => wp.AssetShipmentSuW)
+                .Where(p => p.SupplierID == supplierID)
+                .ToListAsync();
             return processesList;
         }
-        public async Task<IQueryable<DeliveryProcessSuW>> SearchByDate(DateTime date)
+        public async Task<List<DeliveryProcessSuW>> SearchByDate(DateTime date)
         {
-            var processesList = context.DeliveryProcessSuW
-                .Where(p => p.DateTime == date);
+            var processesList = await context.DeliveryProcessSuW
+                .Include(p => p.WarehouseProcesses)
+                    .ThenInclude(wp => wp.AssetShipmentSuW)
+                .Where(p => p.DateTime == date)
+                .ToListAsync();
             return processesList;
         }
     }

@@ -24,7 +24,7 @@ namespace Presentation.Controllers
             }
             try
             {
-                var result = await deliveryProcessWStServices.Create(addDeliveryProcessWStDTO, warehouseID); 
+                var result = await deliveryProcessWStServices.Create(addDeliveryProcessWStDTO, warehouseID);
                 if (result)
                 {
                     return Ok("Delivery process created successfully.");
@@ -50,7 +50,7 @@ namespace Presentation.Controllers
         {
             try
             {
-                var processes = await deliveryProcessWStServices.ReadAllProcess();
+                var processes = await deliveryProcessWStServices.ReadAll();
                 return Ok(processes);
             }
             catch (ArgumentException ex)
@@ -62,12 +62,12 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("/readOne/{processID:int}")]
-        public async Task<IActionResult> ReadOne(int processID)
+        [HttpGet("/readByID/{processID:int}")]
+        public async Task<IActionResult> ReadByID(int processID)
         {
             try
             {
-                var process = await deliveryProcessWStServices.ReadOneByID(processID);
+                var process = await deliveryProcessWStServices.ReadByID(processID);
                 return Ok(process);
             }
             catch (ArgumentException ex)

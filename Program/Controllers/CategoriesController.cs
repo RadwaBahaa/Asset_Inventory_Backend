@@ -1,11 +1,6 @@
-﻿using DTOs.DTOs.Assets;
-using DTOs.DTOs.Categories;
-using Microsoft.AspNetCore.Http;
+﻿using DTOs.DTOs.Categories;
 using Microsoft.AspNetCore.Mvc;
-using Models.Models;
-using Services.Services.Classes;
 using Services.Services.Interface;
-
 
 namespace Presentation.Controllers
 {
@@ -21,106 +16,132 @@ namespace Presentation.Controllers
         }
 
 
-        // ___________________________ 1- Create ___________________________
-        [HttpPost]
-        //[Authorize(Roles = "Admin")]
-        public async Task<ActionResult> Create(AddOrUpdateCategoryDTO categoryDTO)
+        // ___________________________ Create ___________________________
+        [HttpPost("/create")]
+        public async Task<IActionResult> Create([FromBody] AddOrUpdateCategoryDTO categoryDTO)
         {
-            var createcategory = await categoryServices.Create(categoryDTO);
-            if (createcategory != null)
+            if (categoryDTO == null)
             {
-                return Ok(createcategory);
+                return BadRequest("Invalid input data.");
             }
-            else
+            try
             {
-                return BadRequest("This category already exist !...");
+                var createcategory = await categoryServices.Create(categoryDTO);
+                if (createcategory)
+                {
+                    return Ok("The category was created successfully.");
+                }
+                else
+                {
+                    return NotFound("Process not found.");
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
-
-        // ___________________________ 2- Get one Asset ___________________________
-        [HttpGet]
-        //[Authorize]
-        public async Task<IActionResult> GetOne(string name)
+        // ___________________________ Read ___________________________
+        [HttpGet("/readAll")]
+        public async Task<IActionResult> ReadAll()
         {
-            var categories = await categoryServices.GetOneByName(name);
-            if (categories == null)
+            try
             {
-                return BadRequest();
-            }
-            else
-            {
+                var categories = await categoryServices.ReadAll();
                 return Ok(categories);
             }
-        }
-
-
-        // ___________________________ Get all categories ___________________________
-        [HttpGet]
-        //[Authorize]
-        public async Task<IActionResult> GetAll()
-        {
-            var categories = await categoryServices.GetAll();
-            if (categories == null)
+            catch (ArgumentException ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
-            else
+            catch (Exception ex)
             {
-                return Ok(categories);
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
-
-
-
-
-        // ___________________________ 3- to Search by Name And Category for Assets ___________________________
-
-        public async Task<List<ReadCategoryDTO>> SearchByName(string categoryName)
+        [HttpGet("/readByID/{ID:int}")]
+        public async Task<IActionResult> ReadByID([FromRoute] int ID)
         {
-            var categoryList = await categoryServices.SearchByName(categoryName);
-            return categoryList;
+            try
+            {
+                var category = await categoryServices.ReadByID(ID);
+                return Ok(category);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
-
-        //edited ( cat controller, catservices and IcatServices)
-
+        // __________________________ Search __________________________
+        [HttpPut("/searchByName/{name:string}")]
+        public async Task<IActionResult> SearchByName([FromRoute] string name)
+        {
+            try
+            {
+                var categoryList = await categoryServices.SearchByName(name);
+                return Ok(categoryList);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
 
         // ___________________________  Update ___________________________
-        [HttpPut("{name:string}")]
-        //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Update(AddOrUpdateCategoryDTO categoryDTO, string name)
+        [HttpPut("/update/{ID:int}")]
+        public async Task<IActionResult> Update([FromBody] AddOrUpdateCategoryDTO categoryDTO, [FromRoute] int ID)
         {
-            var UpdateCategory = await categoryServices.GetOneByName(name);
-            if (UpdateCategory == null)
+            if (categoryDTO == null)
             {
-                return BadRequest("There is no category with this name !....");
+                return BadRequest("Invalid input data.");
             }
-            else
+            try
             {
-                await categoryServices.Update(categoryDTO, name);
-                return Ok($"The name of category {name} was updated from '{UpdateCategory.CategoryName}' to be '{categoryDTO.CategoryName}' ....");
+                var updateCategory = await categoryServices.Update(categoryDTO, ID);
+                return Ok(updateCategory);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
         // ___________________________  Delete ___________________________
-
-        [HttpDelete("{name:string}")]
-        // [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete(string name)
+        [HttpDelete("/delete/{ID:int}")]
+        public async Task<IActionResult> Delete([FromRoute] int ID)
         {
-            var deleteServices = await categoryServices.Delete(name);
-            if (deleteServices)
+            try
             {
-                return Ok($"The category '{name}' was deleted successfully !....");
+                var deleteCategory = await categoryServices.Delete(ID);
+                return Ok($"The category was deleted successfully.");
             }
-            else
+            catch (ArgumentException ex)
             {
-                return BadRequest("There is no category with this name !....");
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
     }
 }
 

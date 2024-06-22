@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Services.Services.Interface;
 using DTOs.DTOs.Warehouses;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Presentation.Controllers
 {
@@ -19,16 +16,31 @@ namespace Presentation.Controllers
 
         // __________________________ Create __________________________
         [HttpPost("create")]
-        public async Task<IActionResult> CreateWarehouse(AddOrUpdateWarehouseDTO createWarehouseDTO)
+        public async Task<IActionResult> Create([FromBody] AddOrUpdateWarehouseDTO warehouseDTO)
         {
+            if (warehouseDTO == null)
+            {
+                return BadRequest("Invalid input data.");
+            }
             try
             {
-                var result = await warehouseServices.CreateWarehouse(createWarehouseDTO);
-                return Ok(result);
+                var createWarehouse = await warehouseServices.Create(warehouseDTO);
+                if (createWarehouse)
+                {
+                    return Ok("The warehouse was created successfully.");
+                }
+                else
+                {
+                    return NotFound("Process not found.");
+                }
             }
             catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
@@ -38,7 +50,7 @@ namespace Presentation.Controllers
         {
             try
             {
-                var warehouses = await warehouseServices.GetAllWarehouses();
+                var warehouses = await warehouseServices.ReadAll();
                 return Ok(warehouses);
             }
             catch (ArgumentException ex)
@@ -51,66 +63,96 @@ namespace Presentation.Controllers
             }
         }
 
-        [HttpGet("/readOne/{id:int}")]
-        public async Task<IActionResult> ReadOne(int id)
+        [HttpGet("/readByID/{ID:int}")]
+        public async Task<IActionResult> ReadByID([FromRoute] int ID)
         {
             try
             {
-                var warehouse = await warehouseServices.GetWarehouseByID(id);
+                var warehouse = await warehouseServices.ReadByID(ID);
                 return Ok(warehouse);
             }
-            catch (KeyNotFoundException ex)
+            catch (ArgumentException ex)
             {
                 return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
         // __________________________ Search __________________________
-        [HttpGet("/searchByName/{name}")]
-        public async Task<IActionResult> SearchByName(string name)
-        {
-            var warehouses = await warehouseServices.SearchByName(name);
-            return Ok(warehouses);
-        }
-
-        [HttpGet("/searchByAddress/{address}")]
-        public async Task<IActionResult> SearchByAddress(string address)
-        {
-            var warehouses = await warehouseServices.SearchByAddress(address);
-            return Ok(warehouses);
-        }
-
-        // __________________________ Update __________________________
-        [HttpPut("/update/{id:int}")]
-        public async Task<IActionResult> Update(int id, AddOrUpdateWarehouseDTO updateWarehouseDTO)
+        [HttpGet("/searchByName/{name:string}")]
+        public async Task<IActionResult> SearchByName([FromRoute] string name)
         {
             try
             {
-                var warehouse = await warehouseServices.UpdateWarehouse(updateWarehouseDTO, id);
-                return Ok(warehouse);
+                var warehouses = await warehouseServices.SearchByName(name);
+                return Ok(warehouses);
             }
-            catch (KeyNotFoundException ex)
+            catch (ArgumentException ex)
             {
                 return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("/searchByAddress/{address:string}")]
+        public async Task<IActionResult> SearchByAddress([FromRoute] string address)
+        {
+            try
+            {
+                var warehouses = await warehouseServices.SearchByAddress(address);
+                return Ok(warehouses);
             }
             catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
             }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        // __________________________ Update __________________________
+        [HttpPut("/update/{ID:int}")]
+        public async Task<IActionResult> Update([FromRoute] int ID, [FromBody] AddOrUpdateWarehouseDTO updateWarehouseDTO)
+        {
+            try
+            {
+                var warehouse = await warehouseServices.Update(updateWarehouseDTO, ID);
+                return Ok(warehouse);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         // __________________________ Delete __________________________
-        [HttpDelete("/delete/{id:int}")]
+        [HttpDelete("/delete/{ID:int}")]
         public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                var result = await warehouseServices.DeleteWarehouse(id);
+                var result = await warehouseServices.Delete(ID);
                 return Ok(result);
             }
-            catch (KeyNotFoundException ex)
+            catch (ArgumentException ex)
             {
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
     }

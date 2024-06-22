@@ -16,99 +16,110 @@ namespace Services.Services.Classes
             this.mapper = mapper;
         }
 
-        //________________ Create a new store ______________
-        public async Task<bool> CreateStore(AddOrUpdateStoreDTO createStoreDTO)
+        //________________ Create store ______________
+        public async Task<bool> Create(AddOrUpdateStoreDTO storeDTO)
         {
-            if (string.IsNullOrEmpty(createStoreDTO.StoreName))
+            if (storeDTO == null)
             {
                 throw new ArgumentException("Store name cannot be empty!");
             }
-
-            var newStore = new Store
+            else
             {
-                StoreName = createStoreDTO.StoreName,
-                Location = createStoreDTO.Location,
-                Address = createStoreDTO.Address,
-
-            };
-            await storeRepository.Create(newStore);
-
-            return true; 
+                var newStore = new Store
+                {
+                    StoreName = storeDTO.StoreName,
+                    Location = storeDTO.Location,
+                    Address = storeDTO.Address,
+                };
+                await storeRepository.Create(newStore);
+                return true;
+            }
         }
 
-        //_______________Read all stores _________________ 
-
-        public async Task<List<ReadStoreDTO>> GetAllStores()
+        //_______________Read stores _________________ 
+        public async Task<List<ReadStoreDTO>> ReadAll()
         {
             var stores = await storeRepository.Read();
-            var readStoreDTO = mapper.Map<List<ReadStoreDTO>>(stores);
-            return readStoreDTO;
-        }
-
-
-        //_______________Read store by ID_________________ 
-        public async Task<ReadStoreDTO> GetStoreByID(int StoreID)
-        {
-            var store = await storeRepository.GetOneByID(StoreID);
-            if (store == null)
+            if (stores.Any())
             {
-                throw new KeyNotFoundException("Store not found");
+                throw new AggregateException("There are no stores.");
             }
-
-            var readStoreDTO = mapper.Map<ReadStoreDTO>(store);
-            return readStoreDTO;
+            else
+            {
+                return mapper.Map<List<ReadStoreDTO>>(stores);
+            }
         }
-        //_______________Search store by name _____________
-        public async Task<List<ReadStoreDTO>> SearchByName(string StoreName)
+        public async Task<ReadStoreDTO> ReadByID(int storeID)
         {
-            var storesList = await storeRepository.SearchByName(StoreName);
-            return mapper.Map<List<ReadStoreDTO>>(storesList);
+            var store = await storeRepository.ReadByID(storeID);
+            if (store != null)
+            {
+                return mapper.Map<ReadStoreDTO>(store);
+            }
+            else
+            {
+                throw new AggregateException("There are no stores.");
+            }
         }
-
-        //_______________Search store by Address _____________
+        //_______________Search for store _____________
+        public async Task<List<ReadStoreDTO>> SearchByName(string storeName)
+        {
+            var storesList = await storeRepository.SearchByName(storeName);
+            if (storesList.Any())
+            {
+                return mapper.Map<List<ReadStoreDTO>>(storesList);
+            }
+            else
+            {
+                throw new AggregateException("There are no stores.");
+            }
+        }
         public async Task<List<ReadStoreDTO>> SearchByAddress(string Address)
         {
             var storesList = await storeRepository.SearchByAddress(Address);
-            return mapper.Map<List<ReadStoreDTO>>(storesList);
+            if (storesList.Any())
+            {
+                return mapper.Map<List<ReadStoreDTO>>(storesList);
+            }
+            else
+            {
+                throw new AggregateException("There are no stores.");
+            }
         }
 
         //_______________Update store by ID_________________ 
 
-        public async Task<ReadStoreDTO> UpdateStore(AddOrUpdateStoreDTO updateStoreDTO, int StoreID)
+        public async Task<ReadStoreDTO> Update(AddOrUpdateStoreDTO updateStoreDTO, int storeID)
         {
-            var store = await storeRepository.GetOneByID(StoreID);
+            var store = await storeRepository.ReadByID(storeID);
             if (store == null)
             {
-                throw new KeyNotFoundException("Store not found");
+                throw new AggregateException("There is no store by this ID.");
             }
-
-            if (string.IsNullOrEmpty(updateStoreDTO.StoreName))
+            else
             {
-                throw new ArgumentException("Store name cannot be empty!");
+                store.StoreName = updateStoreDTO.StoreName;
+                store.Location = updateStoreDTO.Location;
+                store.Address = updateStoreDTO.Address;
+                await storeRepository.Update();
+                return mapper.Map<ReadStoreDTO>(store);
             }
-
-            store.StoreName = updateStoreDTO.StoreName;
-            store.Location = updateStoreDTO.Location;
-            store.Address = updateStoreDTO.Address;
-
-            await storeRepository.Update();
-
-            var readStoreDTO = mapper.Map<ReadStoreDTO>(store);
-            return readStoreDTO;
         }
 
         //_______________Delete store by ID_________________ 
 
-        public async Task<bool> DeleteStore(int StoreID)
+        public async Task<bool> Delete(int storeID)
         {
-            var store = await storeRepository.GetOneByID(StoreID);
+            var store = await storeRepository.ReadByID(storeID);
             if (store == null)
             {
-                throw new KeyNotFoundException("Store not found");
+                throw new AggregateException("There is no store by this ID.");
             }
-
-            await storeRepository.Delete(store);
-            return true;
+            else
+            {
+                await storeRepository.Delete(store);
+                return true;
+            }
         }
     }
 }

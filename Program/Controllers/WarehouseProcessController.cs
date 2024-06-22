@@ -20,7 +20,7 @@ namespace Presentation.Controllers
         {
             try
             {
-                var processes = await warehouseProcessServices.ReadAllProcess();
+                var processes = await warehouseProcessServices.ReadAll();
                 return Ok(processes);
             }
             catch (ArgumentException ex)
@@ -32,12 +32,12 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("/readOne/{processID:int}/{warehouseID:int}")]
-        public async Task<IActionResult> ReadOne(int processID, int warehouseID)
+        [HttpGet("/readByID/{processID:int}/{warehouseID:int}")]
+        public async Task<IActionResult> ReadOne([FromRoute] int processID, [FromRoute] int warehouseID)
         {
             try
             {
-                var process = await warehouseProcessServices.ReadOneProcess(processID, warehouseID);
+                var process = await warehouseProcessServices.ReadByID(processID, warehouseID);
                 return Ok(process);
             }
             catch (ArgumentException ex)
@@ -52,7 +52,7 @@ namespace Presentation.Controllers
 
         // __________________________ Search __________________________
         [HttpGet("/searchBywarehouse/{warehouseID:int}")]
-        public async Task<IActionResult> SearchBywarehouse(int warehouseID)
+        public async Task<IActionResult> SearchBywarehouse([FromRoute] int warehouseID)
         {
             try
             {
@@ -71,11 +71,11 @@ namespace Presentation.Controllers
 
         // __________________________ Update __________________________
         [HttpPut("/update/{processID:int}/{warehouseID:int}")]
-        public async Task<IActionResult> Update(int processID, int warehouseID, UpdateWarehouseProcessDTO warehouseProcessDTO)
+        public async Task<IActionResult> Update([FromRoute] int processID, [FromRoute] int warehouseID, [FromBody] UpdateWarehouseProcessDTO warehouseProcessDTO)
         {
             try
             {
-                var updatedProcess = await warehouseProcessServices.UpdateProcess(processID, warehouseID, warehouseProcessDTO);
+                var updatedProcess = await warehouseProcessServices.Update(processID, warehouseID, warehouseProcessDTO);
                 return Ok(updatedProcess);
             }
             catch (ArgumentException ex)

@@ -2,48 +2,40 @@
 using Microsoft.EntityFrameworkCore;
 using Models.Models;
 using Repository.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Repository.Classes
 {
     public class StoreAssetRepository : GenericRepository<StoreAsset>, IStoreAssetRepository
     {
-        protected readonly AssetInventoryContext _context;
+        protected readonly AssetInventoryContext context;
 
         public StoreAssetRepository(AssetInventoryContext context) : base(context)
         {
-            _context = context;
+            this.context = context;
         }
 
-        public async Task<StoreAsset> GetOneByID(int assetID, int storeID)
+        public async Task<StoreAsset> ReadByID(int assetID, int storeID)
         {
-            return await _context.StoreAssets.FindAsync(assetID, storeID);
+            var storeAsset = await context.StoreAssets
+                .FirstOrDefaultAsync(sa => sa.StoreID == storeID && sa.AssetID == assetID);
+            return storeAsset;
         }
-
-        public async Task<StoreAsset> GetOneBySerialNumber(string serialNumber)
+        public async Task<StoreAsset> ReadBySerialNumber(string serialNumber)
         {
-            return await _context.StoreAssets.FirstOrDefaultAsync(a => a.SerialNumber == serialNumber);
+            var storeAsset = await context.StoreAssets.FirstOrDefaultAsync(sa => sa.SerialNumber == serialNumber);
+            return storeAsset;
         }
-
         public async Task<List<StoreAsset>> SearchByName(string assetName)
         {
-            return await _context.StoreAssets
+            var storeAsset = await context.StoreAssets
                 .Where(a => a.AssetName.ToLower().Contains(assetName.ToLower()))
                 .ToListAsync();
+            return storeAsset;
         }
-
-        public async Task<int> GetCount(int assetID, int storeID)
+        public async Task<int> ReadCount(int assetID, int storeID)
         {
-            var storeAsset = await _context.StoreAssets
+            var storeAsset = await context.StoreAssets
                 .FirstOrDefaultAsync(a => a.AssetID == assetID && a.StoreID == storeID);
-
-            if (storeAsset == null)
-            {
-                throw new KeyNotFoundException("StoreAsset not found");
-            }
-
             return storeAsset.Count;
         }
     }

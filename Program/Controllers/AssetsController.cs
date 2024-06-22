@@ -45,12 +45,29 @@ namespace Presentation.Controllers
         }
 
         // ___________________________ Read ___________________________
-        [HttpGet("/readOne/{id:int}")]
-        public async Task<IActionResult> ReadOne([FromRoute] int id)
+        [HttpGet("/readAll")]
+        public async Task<IActionResult> ReadOne()
         {
             try
             {
-                var asset = await assetServices.ReadByID(id);
+                var assets = await assetServices.ReadAll();
+                return Ok(assets);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+        [HttpGet("/readByID/{ID:int}")]
+        public async Task<IActionResult> ReadByID([FromRoute] int ID)
+        {
+            try
+            {
+                var asset = await assetServices.ReadByID(ID);
                 return Ok(asset);
             }
             catch (ArgumentException ex)
@@ -81,7 +98,7 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpPut("/searchByCategory/{category:int}")]
+        [HttpPut("/searchByCategory/{categoryID:int}")]
         public async Task<IActionResult> SearchByCategory([FromRoute] int categoryID)
         {
             try
@@ -100,8 +117,8 @@ namespace Presentation.Controllers
         }
 
         // ___________________________ Update ___________________________
-        [HttpPut("/update/{id:int}")]
-        public async Task<IActionResult> Update([FromBody] AddOrUpdateAssetDTO assetDTO, [FromRoute] int id)
+        [HttpPut("/update/{ID:int}")]
+        public async Task<IActionResult> Update([FromBody] AddOrUpdateAssetDTO assetDTO, [FromRoute] int ID)
         {
             if (assetDTO == null)
             {
@@ -109,7 +126,7 @@ namespace Presentation.Controllers
             }
             try
             {
-                var updateAsset = await assetServices.ReadByID(id);
+                var updateAsset = await assetServices.Update(assetDTO, ID);
                 return Ok(updateAsset);
             }
             catch (ArgumentException ex)
@@ -123,12 +140,12 @@ namespace Presentation.Controllers
         }
 
         // ___________________________ Delete ___________________________
-        [HttpDelete("/delete/{id:int}")]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        [HttpDelete("/delete/{ID:int}")]
+        public async Task<IActionResult> Delete([FromRoute] int ID)
         {
             try
             {
-                var deleteServices = await assetServices.Delete(id);
+                var deleteAssets = await assetServices.Delete(ID);
                 return Ok($"The asset was deleted successfully.");
             }
             catch (ArgumentException ex)
