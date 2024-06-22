@@ -156,20 +156,15 @@ namespace Context.Context
             builder.Entity<AssetShipmentSuW>(assetShipment =>
             {
                 //Primary Key
-<<<<<<< HEAD
-                assetShipment.HasKey(ash => new { ash.AssetID, ash.SupplierID, ash.SerialNo, ash.ProcessID, ash.WarehouseID });
-=======
-                assetShipment.HasKey(ash => new { ash.AssetID, ash.SupplierID, ash.SerialNumber, ash.ProcessID });
->>>>>>> a2f6e0375224a5cb3ea9f16d95c6e15d04075860
+
+                assetShipment.HasKey(ash => new { ash.AssetID, ash.SupplierID, ash.SerialNumber, ash.ProcessID, ash.WarehouseID });
+
             });
             builder.Entity<AssetShipmentWSt>(assetShipment =>
             {
                 //Primary Key
-<<<<<<< HEAD
-                assetShipment.HasKey(ash => new { ash.AssetID, ash.WarehouseID, ash.SerialNo, ash.ProcessID, ash.StoreID });
-=======
-                assetShipment.HasKey(ash => new { ash.AssetID, ash.WarehouseID, ash.SerialNumber, ash.ProcessID });
->>>>>>> a2f6e0375224a5cb3ea9f16d95c6e15d04075860
+
+                assetShipment.HasKey(ash => new { ash.AssetID, ash.WarehouseID, ash.SerialNumber, ash.ProcessID, ash.StoreID });
             });
             builder.Entity<WarehouseProcess>(warehouseProcess =>
             {

@@ -2,6 +2,22 @@
   "version": 3,
   "targets": {
     "net8.0": {
+      "AutoMapper/13.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Options": "6.0.0"
+        },
+        "compile": {
+          "lib/net6.0/AutoMapper.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/AutoMapper.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Azure.Core/1.35.0": {
         "type": "package",
         "dependencies": {
@@ -1126,6 +1142,9 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
+          "AutoMapper": "13.0.1",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.6",
+          "Microsoft.EntityFrameworkCore": "8.0.6",
           "NetTopologySuite": "2.5.0"
         },
         "compile": {
@@ -1138,6 +1157,21 @@
     }
   },
   "libraries": {
+    "AutoMapper/13.0.1": {
+      "sha512": "/Fx1SbJ16qS7dU4i604Sle+U9VLX+WSNVJggk6MupKVkYvvBm4XqYaeFuf67diHefHKHs50uQIS2YEDFhPCakQ==",
+      "type": "package",
+      "path": "automapper/13.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "automapper.13.0.1.nupkg.sha512",
+        "automapper.nuspec",
+        "icon.png",
+        "lib/net6.0/AutoMapper.dll",
+        "lib/net6.0/AutoMapper.xml"
+      ]
+    },
     "Azure.Core/1.35.0": {
       "sha512": "hENcx03Jyuqv05F4RBEPbxz29UrM3Nbhnr6Wl6NQpoU9BCIbL3XLentrxDCTrH54NLS11Exxi/o8MYgT/cnKFA==",
       "type": "package",
@@ -3032,6 +3066,7 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "AutoMapper >= 13.0.1",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 8.0.6",
       "Microsoft.EntityFrameworkCore >= 8.0.6",
       "Microsoft.EntityFrameworkCore.SqlServer >= 8.0.6",
@@ -3045,11 +3080,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Context\\Context.csproj",
+      "projectUniqueName": "D:\\ITI\\New folder\\Context\\Context.csproj",
       "projectName": "Context",
-      "projectPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Context\\Context.csproj",
+      "projectPath": "D:\\ITI\\New folder\\Context\\Context.csproj",
       "packagesPath": "C:\\Users\\mosha\\.nuget\\packages\\",
-      "outputPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Context\\obj\\",
+      "outputPath": "D:\\ITI\\New folder\\Context\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mosha\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -3066,8 +3101,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Models\\Models.csproj": {
-              "projectPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Models\\Models.csproj"
+            "D:\\ITI\\New folder\\Models\\Models.csproj": {
+              "projectPath": "D:\\ITI\\New folder\\Models\\Models.csproj"
             }
           }
         }
@@ -3087,6 +3122,10 @@
       "net8.0": {
         "targetAlias": "net8.0",
         "dependencies": {
+          "AutoMapper": {
+            "target": "Package",
+            "version": "[13.0.1, )"
+          },
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
             "target": "Package",
             "version": "[8.0.6, )"

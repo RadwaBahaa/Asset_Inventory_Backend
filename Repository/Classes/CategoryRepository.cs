@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Models.Models;
 using Repository.Interfaces;
+using AutoMapper;
 
 namespace Repository.Classes
 {
@@ -12,6 +13,12 @@ namespace Repository.Classes
         {
             this.context = context;
         }
+
+        public Task<IEnumerable<object>> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Category> GetOneByID(int id)
         {
             var category = await context.Categories.FindAsync(id);
