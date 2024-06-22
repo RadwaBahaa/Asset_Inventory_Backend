@@ -3146,11 +3146,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\ITI\\New folder\\Services\\Services.csproj",
+      "projectUniqueName": "D:\\Project\\Asset_Inventory_Backend\\Services\\Services.csproj",
       "projectName": "Services",
-      "projectPath": "D:\\ITI\\New folder\\Services\\Services.csproj",
+      "projectPath": "D:\\Project\\Asset_Inventory_Backend\\Services\\Services.csproj",
       "packagesPath": "C:\\Users\\mosha\\.nuget\\packages\\",
-      "outputPath": "D:\\ITI\\New folder\\Services\\obj\\",
+      "outputPath": "D:\\Project\\Asset_Inventory_Backend\\Services\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mosha\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -3167,17 +3167,17 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\ITI\\New folder\\Context\\Context.csproj": {
-              "projectPath": "D:\\ITI\\New folder\\Context\\Context.csproj"
+            "D:\\Project\\Asset_Inventory_Backend\\Context\\Context.csproj": {
+              "projectPath": "D:\\Project\\Asset_Inventory_Backend\\Context\\Context.csproj"
             },
-            "D:\\ITI\\New folder\\DTOs\\DTOs.csproj": {
-              "projectPath": "D:\\ITI\\New folder\\DTOs\\DTOs.csproj"
+            "D:\\Project\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj": {
+              "projectPath": "D:\\Project\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj"
             },
-            "D:\\ITI\\New folder\\Models\\Models.csproj": {
-              "projectPath": "D:\\ITI\\New folder\\Models\\Models.csproj"
+            "D:\\Project\\Asset_Inventory_Backend\\Models\\Models.csproj": {
+              "projectPath": "D:\\Project\\Asset_Inventory_Backend\\Models\\Models.csproj"
             },
-            "D:\\ITI\\New folder\\Repository\\Repository.csproj": {
-              "projectPath": "D:\\ITI\\New folder\\Repository\\Repository.csproj"
+            "D:\\Project\\Asset_Inventory_Backend\\Repository\\Repository.csproj": {
+              "projectPath": "D:\\Project\\Asset_Inventory_Backend\\Repository\\Repository.csproj"
             }
           }
         }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/ImwEYsWQVdtHo/t8YDgogH6dmxTDu3TotqGBOgE/bRjjrTZlEcF/V9o5G4paReM/tKhSnuIr8bdLIz0v+ld1Q==",
+  "dgSpecHash": "Eig8v2CmQN8qn1yV2BUoPgE5Hxv4w4vMeAByRQB6tQtfgihRNaPKoIx36Rr1Lo2aSjTOhPeP0BfcrUk01UoV+A==",
   "success": true,
-  "projectFilePath": "D:\\ITI\\New folder\\DTOs\\DTOs.csproj",
+  "projectFilePath": "D:\\Project\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mosha\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\mosha\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\8.0.6\\microsoft.aspnetcore.cryptography.internal.8.0.6.nupkg.sha512",

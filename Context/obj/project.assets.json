@@ -3080,11 +3080,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\ITI\\New folder\\Context\\Context.csproj",
+      "projectUniqueName": "D:\\Project\\Asset_Inventory_Backend\\Context\\Context.csproj",
       "projectName": "Context",
-      "projectPath": "D:\\ITI\\New folder\\Context\\Context.csproj",
+      "projectPath": "D:\\Project\\Asset_Inventory_Backend\\Context\\Context.csproj",
       "packagesPath": "C:\\Users\\mosha\\.nuget\\packages\\",
-      "outputPath": "D:\\ITI\\New folder\\Context\\obj\\",
+      "outputPath": "D:\\Project\\Asset_Inventory_Backend\\Context\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mosha\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -3101,8 +3101,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\ITI\\New folder\\Models\\Models.csproj": {
-              "projectPath": "D:\\ITI\\New folder\\Models\\Models.csproj"
+            "D:\\Project\\Asset_Inventory_Backend\\Models\\Models.csproj": {
+              "projectPath": "D:\\Project\\Asset_Inventory_Backend\\Models\\Models.csproj"
             }
           }
         }

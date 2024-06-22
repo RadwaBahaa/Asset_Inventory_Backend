@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ITI\\New folder\\Models\\Models.csproj": {}
+    "D:\\Project\\Asset_Inventory_Backend\\Models\\Models.csproj": {}
   },
   "projects": {
-    "D:\\ITI\\New folder\\Models\\Models.csproj": {
+    "D:\\Project\\Asset_Inventory_Backend\\Models\\Models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ITI\\New folder\\Models\\Models.csproj",
+        "projectUniqueName": "D:\\Project\\Asset_Inventory_Backend\\Models\\Models.csproj",
         "projectName": "Models",
-        "projectPath": "D:\\ITI\\New folder\\Models\\Models.csproj",
+        "projectPath": "D:\\Project\\Asset_Inventory_Backend\\Models\\Models.csproj",
         "packagesPath": "C:\\Users\\mosha\\.nuget\\packages\\",
-        "outputPath": "D:\\ITI\\New folder\\Models\\obj\\",
+        "outputPath": "D:\\Project\\Asset_Inventory_Backend\\Models\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mosha\\AppData\\Roaming\\NuGet\\NuGet.Config",

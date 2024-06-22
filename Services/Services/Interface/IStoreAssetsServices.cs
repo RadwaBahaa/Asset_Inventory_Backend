@@ -2,7 +2,7 @@
 
 namespace Services.Services.Interface
 {
-    public interface IStoreAssetServices
+    public interface IStoreAssetsServices
     {
         public Task<bool> CreateStoreAsset(AddOrUpdateStoreAssetsDTO addOrUpdateStoreAssetsDTO);
         public Task<List<ReadStoreAssetsDTO>> GetAllStoreAssets();
