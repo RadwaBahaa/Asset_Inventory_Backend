@@ -1,15 +1,9 @@
 ﻿using AutoMapper;
-using DTOs.DTOs.Assets;
 using DTOs.DTOs.Categories;
 using Models.Models;
-using Repository.Classes;
 using Repository.Interfaces;
 using Services.Services.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Services.Services.Classes
 {
@@ -116,6 +110,16 @@ namespace Services.Services.Classes
                 await categoryRepository.Delete(findcategory);
                 return true;
             }
+        }
+
+        public Task Update(AddOrUpdateCategoryDTO categoryDTO, string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> Delete(string name)
+        {
+            throw new NotImplementedException();
         }
     }
 }

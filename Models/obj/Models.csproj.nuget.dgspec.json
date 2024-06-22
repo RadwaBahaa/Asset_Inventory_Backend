@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Models\\Models.csproj": {}
+    "D:\\ITI\\New folder\\Models\\Models.csproj": {}
   },
   "projects": {
-    "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Models\\Models.csproj": {
+    "D:\\ITI\\New folder\\Models\\Models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Models\\Models.csproj",
+        "projectUniqueName": "D:\\ITI\\New folder\\Models\\Models.csproj",
         "projectName": "Models",
-        "projectPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Models\\Models.csproj",
+        "projectPath": "D:\\ITI\\New folder\\Models\\Models.csproj",
         "packagesPath": "C:\\Users\\mosha\\.nuget\\packages\\",
-        "outputPath": "D:\\ITI\\Graduation Project\\BackEnd\\Asset_Inventory_Backend\\Models\\obj\\",
+        "outputPath": "D:\\ITI\\New folder\\Models\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mosha\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -45,6 +45,18 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.6, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.6, )"
+            },
             "NetTopologySuite": {
               "target": "Package",
               "version": "[2.5.0, )"
