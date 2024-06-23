@@ -1,17 +1,17 @@
 ﻿using AutoMapper;
-using Repository.Classes;
 using DTOs.DTOs.Suppliers;
 using Services.Services.Interface;
 using Models.Models;
+using Repository.Interfaces;
 
 namespace Services.Services.Classes
 {
     public class SupplierAssetsServices : ISupplierAssetsServices
     {
-        protected SupplierAssetRepository supplierAssetRepository { get; set; }
+        protected ISupplierAssetRepository supplierAssetRepository { get; set; }
         protected IMapper mapper { get; set; }
 
-        public SupplierAssetsServices(SupplierAssetRepository supplierAssetRepository, IMapper mapper)
+        public SupplierAssetsServices(ISupplierAssetRepository supplierAssetRepository, IMapper mapper)
         {
             this.supplierAssetRepository = supplierAssetRepository;
             this.mapper = mapper;

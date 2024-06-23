@@ -1,17 +1,17 @@
 ﻿using AutoMapper;
-using Repository.Classes;
 using DTOs.DTOs.Warehouses;
 using Services.Services.Interface;
 using Models.Models;
+using Repository.Interfaces;
 
 namespace Services.Services.Classes
 {
     public class WarehouseAssetsServices : IWarehouseAssetsServices
     {
-        protected WarehouseAssetRepository warehouseAssetRepository { get; set; }
+        protected IWarehouseAssetRepository warehouseAssetRepository { get; set; }
         protected IMapper mapper { get; set; }
 
-        public WarehouseAssetsServices(WarehouseAssetRepository warehouseAssetRepository, IMapper mapper)
+        public WarehouseAssetsServices(IWarehouseAssetRepository warehouseAssetRepository, IMapper mapper)
         {
             this.warehouseAssetRepository = warehouseAssetRepository;
             this.mapper = mapper;

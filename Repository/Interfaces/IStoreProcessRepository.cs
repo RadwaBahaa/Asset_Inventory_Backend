@@ -2,7 +2,7 @@
 
 namespace Repository.Interfaces
 {
-    public interface IStoreProcessReopsitory : IGenericRepository<StoreProcess>
+    public interface IStoreProcessRepository : IGenericRepository<StoreProcess>
     {
         public Task<StoreProcess> ReadByID(int processID, int storeID);
         public Task<List<StoreProcess>> SearchByStore(int storeID);

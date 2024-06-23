@@ -2,7 +2,7 @@
 
 namespace Repository.Interfaces
 {
-    public interface ISupplierAssetRepository
+    public interface ISupplierAssetRepository :IGenericRepository<SupplierAsset>
     {
         public Task<SupplierAsset> ReadByID(int assetID, int supplierID);
         public Task<SupplierAsset> ReadBySerialNumber(string serialNumber);

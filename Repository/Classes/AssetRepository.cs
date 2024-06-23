@@ -29,6 +29,7 @@ namespace Repository.Classes
         public async Task<List<Asset>> SearchByName(string name)
         {
             var assetsList = await context.Assets
+                .Include(a => a.Category)
                 .Where(a => a.AssetName.ToLower().Contains(name.ToLower()))
                 .ToListAsync();
             return assetsList;
@@ -36,6 +37,7 @@ namespace Repository.Classes
         public async Task<List<Asset>> SearchByCategory(int categoryID)
         {
             var assetsList = await context.Assets
+                .Include(a => a.Category)
                 .Where(a => a.CategoryID == categoryID)
                 .ToListAsync();
             return assetsList;

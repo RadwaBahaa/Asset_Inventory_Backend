@@ -1,16 +1,16 @@
 ﻿using AutoMapper;
 using DTOs.DTOs.DeliveryProcesses;
 using Microsoft.EntityFrameworkCore;
-using Repository.Classes;
+using Repository.Interfaces;
 using Services.Services.Interface;
 
 namespace Services.Services.Classes
 {
     public class StoreProcessServices : IStoreProcessServices
     {
-        protected StoreProcessReopsitory storeProcessReopsitory { get; set; }
+        protected IStoreProcessRepository storeProcessReopsitory { get; set; }
         protected IMapper mapper;
-        public StoreProcessServices(StoreProcessReopsitory storeProcessReopsitory, IMapper mapper)
+        public StoreProcessServices(IStoreProcessRepository storeProcessReopsitory, IMapper mapper)
         {
             this.storeProcessReopsitory = storeProcessReopsitory;
             this.mapper = mapper;

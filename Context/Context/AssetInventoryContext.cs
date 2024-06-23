@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Models.Models;
+using NetTopologySuite.Geometries;
+using NetTopologySuite.IO;
 
 namespace Context.Context
 {
@@ -25,8 +27,6 @@ namespace Context.Context
         public DbSet<StoreRequest> StoreRequests { get; set; }
         public DbSet<WarehouseRequestAsset> WarehouseRequestAssets { get; set; }
         public DbSet<StoreRequestAsset> StoreRequestAssets { get; set; }
-
-
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -62,6 +62,7 @@ namespace Context.Context
                 store.HasKey(s => s.StoreID);
                 // Properties
                 store.Property(s => s.Location).HasColumnType("geometry");
+
                 // Relations
                 store.HasMany(s => s.StoreAssets)
                     .WithOne(sa => sa.Store)

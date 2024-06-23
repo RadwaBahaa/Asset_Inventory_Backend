@@ -44,10 +44,6 @@ namespace Context.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<byte[]>("Picture")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
                     b.Property<float>("Price")
                         .HasColumnType("real");
 
@@ -66,18 +62,21 @@ namespace Context.Migrations
                     b.Property<int>("SupplierID")
                         .HasColumnType("int");
 
-                    b.Property<string>("SerialNo")
+                    b.Property<string>("SerialNumber")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ProcessID")
                         .HasColumnType("int");
 
+                    b.Property<int>("WarehouseID")
+                        .HasColumnType("int");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("AssetID", "SupplierID", "SerialNo", "ProcessID");
+                    b.HasKey("AssetID", "SupplierID", "SerialNumber", "ProcessID", "WarehouseID");
 
-                    b.HasIndex("ProcessID");
+                    b.HasIndex("ProcessID", "WarehouseID");
 
                     b.ToTable("AssetShipmentSuW");
                 });
@@ -90,18 +89,21 @@ namespace Context.Migrations
                     b.Property<int>("WarehouseID")
                         .HasColumnType("int");
 
-                    b.Property<string>("SerialNo")
+                    b.Property<string>("SerialNumber")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ProcessID")
                         .HasColumnType("int");
 
+                    b.Property<int>("StoreID")
+                        .HasColumnType("int");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("AssetID", "WarehouseID", "SerialNo", "ProcessID");
+                    b.HasKey("AssetID", "WarehouseID", "SerialNumber", "ProcessID", "StoreID");
 
-                    b.HasIndex("ProcessID");
+                    b.HasIndex("ProcessID", "StoreID");
 
                     b.ToTable("AssetShipmentWSt");
                 });
@@ -208,8 +210,12 @@ namespace Context.Migrations
                     b.Property<int>("StoreID")
                         .HasColumnType("int");
 
-                    b.Property<string>("SerialNo")
+                    b.Property<string>("SerialNumber")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AssetName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Count")
                         .HasColumnType("int");
@@ -217,7 +223,7 @@ namespace Context.Migrations
                     b.Property<DateOnly>("ProductionDate")
                         .HasColumnType("date");
 
-                    b.HasKey("AssetID", "StoreID", "SerialNo");
+                    b.HasKey("AssetID", "StoreID", "SerialNumber");
 
                     b.HasIndex("StoreID");
 
@@ -339,8 +345,12 @@ namespace Context.Migrations
                     b.Property<int>("SupplierID")
                         .HasColumnType("int");
 
-                    b.Property<string>("SerialNo")
+                    b.Property<string>("SerialNumber")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AssetName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Count")
                         .HasColumnType("int");
@@ -348,7 +358,7 @@ namespace Context.Migrations
                     b.Property<DateOnly>("ProductionDate")
                         .HasColumnType("date");
 
-                    b.HasKey("AssetID", "SupplierID", "SerialNo");
+                    b.HasKey("AssetID", "SupplierID", "SerialNumber");
 
                     b.HasIndex("SupplierID");
 
@@ -388,8 +398,12 @@ namespace Context.Migrations
                     b.Property<int>("WarehouseID")
                         .HasColumnType("int");
 
-                    b.Property<string>("SerialNo")
+                    b.Property<string>("SerialNumber")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AssetName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Count")
                         .HasColumnType("int");
@@ -397,7 +411,7 @@ namespace Context.Migrations
                     b.Property<DateOnly>("ProductionDate")
                         .HasColumnType("date");
 
-                    b.HasKey("AssetID", "WarehouseID", "SerialNo");
+                    b.HasKey("AssetID", "WarehouseID", "SerialNumber");
 
                     b.HasIndex("WarehouseID");
 
@@ -499,38 +513,38 @@ namespace Context.Migrations
 
             modelBuilder.Entity("Models.Models.AssetShipmentSuW", b =>
                 {
-                    b.HasOne("Models.Models.DeliveryProcessSuW", "DeliveryProcessSuW")
+                    b.HasOne("Models.Models.WarehouseProcess", "WarehouseProcess")
                         .WithMany("AssetShipmentSuW")
-                        .HasForeignKey("ProcessID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("ProcessID", "WarehouseID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Models.Models.SupplierAsset", "SupplierAsset")
                         .WithMany("AssetShipmentSuW")
-                        .HasForeignKey("AssetID", "SupplierID", "SerialNo")
+                        .HasForeignKey("AssetID", "SupplierID", "SerialNumber")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("DeliveryProcessSuW");
-
                     b.Navigation("SupplierAsset");
+
+                    b.Navigation("WarehouseProcess");
                 });
 
             modelBuilder.Entity("Models.Models.AssetShipmentWSt", b =>
                 {
-                    b.HasOne("Models.Models.DeliveryProcessWSt", "DeliveryProcessWSt")
+                    b.HasOne("Models.Models.StoreProcess", "StoreProcess")
                         .WithMany("AssetShipmentWSt")
-                        .HasForeignKey("ProcessID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("ProcessID", "StoreID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Models.Models.WarehouseAsset", "WarehouseAsset")
                         .WithMany("AssetShipmentWSts")
-                        .HasForeignKey("AssetID", "WarehouseID", "SerialNo")
+                        .HasForeignKey("AssetID", "WarehouseID", "SerialNumber")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("DeliveryProcessWSt");
+                    b.Navigation("StoreProcess");
 
                     b.Navigation("WarehouseAsset");
                 });
@@ -748,15 +762,11 @@ namespace Context.Migrations
 
             modelBuilder.Entity("Models.Models.DeliveryProcessSuW", b =>
                 {
-                    b.Navigation("AssetShipmentSuW");
-
                     b.Navigation("WarehouseProcesses");
                 });
 
             modelBuilder.Entity("Models.Models.DeliveryProcessWSt", b =>
                 {
-                    b.Navigation("AssetShipmentWSt");
-
                     b.Navigation("StoreProcesses");
                 });
 
@@ -767,6 +777,11 @@ namespace Context.Migrations
                     b.Navigation("StoreProcesses");
 
                     b.Navigation("StoreRequests");
+                });
+
+            modelBuilder.Entity("Models.Models.StoreProcess", b =>
+                {
+                    b.Navigation("AssetShipmentWSt");
                 });
 
             modelBuilder.Entity("Models.Models.StoreRequest", b =>
@@ -804,6 +819,11 @@ namespace Context.Migrations
             modelBuilder.Entity("Models.Models.WarehouseAsset", b =>
                 {
                     b.Navigation("AssetShipmentWSts");
+                });
+
+            modelBuilder.Entity("Models.Models.WarehouseProcess", b =>
+                {
+                    b.Navigation("AssetShipmentSuW");
                 });
 
             modelBuilder.Entity("Models.Models.WarehouseRequest", b =>

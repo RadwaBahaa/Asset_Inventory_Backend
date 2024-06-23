@@ -1,15 +1,13 @@
-﻿using DTOs.DTOs.Categories;
-using DTOs.DTOs.Stores;
-using NetTopologySuite.Geometries;
-
-namespace DTOs.DTOs.Stores
+﻿namespace DTOs.DTOs.Stores
 {
     public class ReadStoreDTO
     {
         public int StoreID { get; set; }
         public string StoreName { get; set; }
-        public Point Location { get; set; }
+        public double Longitude { get; set; }
+        public double Latitude { get; set; }
+        public int SRID { get; set; }
         public string Address { get; set; }
-        public List<ReadStoreAssetsDTO> Assets { get; set; }
+        public List<ReadStoreAssetsDTO> StoreAssets { get; set; }
     }
 }

@@ -1,17 +1,17 @@
 ﻿using AutoMapper;
-using Repository.Classes;
 using DTOs.DTOs.Stores;
 using Services.Services.Interface;
 using Models.Models;
+using Repository.Interfaces;
 
 namespace Services.Services.Classes
 {
     public class StoreAssetsServices : IStoreAssetsServices
     {
-        protected StoreAssetRepository storeAssetRepository { get; set; }
+        protected IStoreAssetRepository storeAssetRepository { get; set; }
         protected IMapper mapper { get; set; }
 
-        public StoreAssetsServices(StoreAssetRepository storeAssetRepository, IMapper mapper)
+        public StoreAssetsServices(IStoreAssetRepository storeAssetRepository, IMapper mapper)
         {
             this.storeAssetRepository = storeAssetRepository;
             this.mapper = mapper;

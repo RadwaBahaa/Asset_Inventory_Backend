@@ -108,7 +108,11 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "E:\\ITI\\Graduation Project\\Backend\\Models\\Models.csproj": {
+                "projectPath": "E:\\ITI\\Graduation Project\\Backend\\Models\\Models.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -136,6 +140,10 @@
             "NetTopologySuite": {
               "target": "Package",
               "version": "[2.5.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
             }
           },
           "imports": [

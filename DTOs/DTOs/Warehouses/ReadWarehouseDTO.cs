@@ -1,13 +1,13 @@
-﻿using NetTopologySuite.Geometries;
-
-namespace DTOs.DTOs.Warehouses
+﻿namespace DTOs.DTOs.Warehouses
 {
     public class ReadWarehouseDTO
     {
         public int WarehouseID { get; set; }
         public string WarehouseName { get; set; }
-        public Point Location { get; set; }
+        public double Longitude { get; set; }
+        public double Latitude { get; set; }
+        public int SRID { get; set; }
         public string Address { get; set; }
-        public List<ReadWarehouseAssetsDTO> Assets { get; set; }
+        public List<ReadWarehouseAssetsDTO> WarehouseAssets { get; set; }
     }
 }

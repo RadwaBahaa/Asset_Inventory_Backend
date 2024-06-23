@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "dAsWcII10TjBl/v+2sHzJSR9yWRC2xOFhqCczsCfUTVIjUfLQqi1AwoNmFAfwjE498Wv0nJvUdTAchjH2d3ZXg==",
+  "dgSpecHash": "Hzxx8CbmJb5cFMONNtBuo4iCHz799Sd2bvwA3DUawZluJoP3o1F96HD4PAe4IGqO1xIkR3/CpqWN0YADHS0CFA==",
   "success": true,
   "projectFilePath": "E:\\ITI\\Graduation Project\\Backend\\DTOs\\DTOs.csproj",
   "expectedPackageFiles": [
@@ -24,6 +24,7 @@
     "C:\\Users\\radwa\\.nuget\\packages\\microsoft.extensions.options\\8.0.2\\microsoft.extensions.options.8.0.2.nupkg.sha512",
     "C:\\Users\\radwa\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0\\microsoft.extensions.primitives.8.0.0.nupkg.sha512",
     "C:\\Users\\radwa\\.nuget\\packages\\nettopologysuite\\2.5.0\\nettopologysuite.2.5.0.nupkg.sha512",
+    "C:\\Users\\radwa\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\radwa\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512"
   ],
   "logs": []

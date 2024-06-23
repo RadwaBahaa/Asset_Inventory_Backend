@@ -15,12 +15,12 @@ namespace Presentation.Controllers
         }
 
         // ___________________________ Create ___________________________
-        [HttpPost("/create")]
+        [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] AddOrUpdateAssetDTO assetDTO)
         {
             if (assetDTO == null)
             {
-                return BadRequest("Invalid input data.");
+                return BadRequest("Invalid input data. The request body must not be empty.");
             }
             try
             {
@@ -45,12 +45,16 @@ namespace Presentation.Controllers
         }
 
         // ___________________________ Read ___________________________
-        [HttpGet("/readAll")]
-        public async Task<IActionResult> ReadOne()
+        [HttpGet("readAll")]
+        public async Task<IActionResult> ReadAll()
         {
             try
             {
                 var assets = await assetServices.ReadAll();
+                if(assets == null || !assets.Any())
+                {
+                    return NotFound("There are no assets.");
+                }
                 return Ok(assets);
             }
             catch (ArgumentException ex)
@@ -62,12 +66,16 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("/readByID/{ID:int}")]
-        public async Task<IActionResult> ReadByID([FromRoute] int ID)
+        [HttpGet("readByID/{id}")]
+        public async Task<IActionResult> ReadByID([FromRoute] int id)
         {
             try
             {
-                var asset = await assetServices.ReadByID(ID);
+                var asset = await assetServices.ReadByID(id);
+                if (asset == null)
+                {
+                    return NotFound("There is no asset by this ID.");
+                }
                 return Ok(asset);
             }
             catch (ArgumentException ex)
@@ -81,12 +89,16 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Search __________________________
-        [HttpPut("/searchByName/{name:string}")]
+        [HttpGet("searchByName/{name}")]
         public async Task<IActionResult> SearchByName([FromRoute] string name)
         {
             try
             {
                 var assetsList = await assetServices.SearchByName(name);
+                if (assetsList == null || !assetsList.Any())
+                {
+                    return NotFound("There are no assets.");
+                }
                 return Ok(assetsList);
             }
             catch (ArgumentException ex)
@@ -98,13 +110,17 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpPut("/searchByCategory/{categoryID:int}")]
+        [HttpGet("searchByCategory/{categoryID}")]
         public async Task<IActionResult> SearchByCategory([FromRoute] int categoryID)
         {
             try
             {
-                var assetList = await assetServices.SearchByCategory(categoryID);
-                return Ok(assetList);
+                var assetsList = await assetServices.SearchByCategory(categoryID);
+                if (assetsList == null || !assetsList.Any())
+                {
+                    return NotFound("There are no assets.");
+                }
+                return Ok(assetsList);
             }
             catch (ArgumentException ex)
             {
@@ -117,8 +133,8 @@ namespace Presentation.Controllers
         }
 
         // ___________________________ Update ___________________________
-        [HttpPut("/update/{ID:int}")]
-        public async Task<IActionResult> Update([FromBody] AddOrUpdateAssetDTO assetDTO, [FromRoute] int ID)
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> Update([FromBody] AddOrUpdateAssetDTO assetDTO, [FromRoute] int id)
         {
             if (assetDTO == null)
             {
@@ -126,8 +142,12 @@ namespace Presentation.Controllers
             }
             try
             {
-                var updateAsset = await assetServices.Update(assetDTO, ID);
+                var updateAsset = await assetServices.Update(assetDTO, id);
                 return Ok(updateAsset);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (ArgumentException ex)
             {
@@ -140,13 +160,17 @@ namespace Presentation.Controllers
         }
 
         // ___________________________ Delete ___________________________
-        [HttpDelete("/delete/{ID:int}")]
-        public async Task<IActionResult> Delete([FromRoute] int ID)
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
             try
             {
-                var deleteAssets = await assetServices.Delete(ID);
+                var deleteAssets = await assetServices.Delete(id);
                 return Ok($"The asset was deleted successfully.");
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (ArgumentException ex)
             {

@@ -4,7 +4,7 @@ using Services.Services.Interface;
 
 namespace Presentation.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class DeliveryProcessSuWController : ControllerBase
     {
@@ -15,7 +15,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Create __________________________
-        [HttpPost("/create/{supplierID:int}")]
+        [HttpPost("create/{supplierID}")]
         public async Task<IActionResult> Create(AddDeliveryProcessSuWDTO addDeliveryProcessSuWDTO, int supplierID)
         {
             if (addDeliveryProcessSuWDTO == null || supplierID <= 0)
@@ -44,7 +44,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Read __________________________
-        [HttpGet("/readAll")]
+        [HttpGet("readAll")]
         public async Task<IActionResult> ReadAll()
         {
             try
@@ -61,7 +61,7 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("/readByID/{processID:int}")]
+        [HttpGet("readByID/{processID}")]
         public async Task<IActionResult> ReadByID(int processID)
         {
             try
@@ -80,7 +80,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Search __________________________
-        [HttpGet("/searchBySupplier/{supplierID:int}")]
+        [HttpGet("searchBySupplier/{supplierID}")]
         public async Task<IActionResult> SearchBySupplier(int supplierID)
         {
             try
@@ -97,7 +97,7 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("/searchByDate/{date:datetime}")]
+        [HttpGet("searchByDate/{date}")]
         public async Task<IActionResult> SearchByDate(DateTime date)
         {
             try
@@ -116,7 +116,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Delete __________________________
-        [HttpDelete("/delete/{processID:int}")]
+        [HttpDelete("delete/{processID}")]
         public async Task<IActionResult> Delete(int processID)
         {
             try

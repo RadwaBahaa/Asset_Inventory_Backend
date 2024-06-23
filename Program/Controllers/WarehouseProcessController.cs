@@ -15,7 +15,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Read __________________________
-        [HttpGet("/readAll")]
+        [HttpGet("readAll")]
         public async Task<IActionResult> ReadAll()
         {
             try
@@ -32,7 +32,7 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("/readByID/{processID:int}/{warehouseID:int}")]
+        [HttpGet("readByID/{processID}/{warehouseID}")]
         public async Task<IActionResult> ReadOne([FromRoute] int processID, [FromRoute] int warehouseID)
         {
             try
@@ -51,7 +51,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Search __________________________
-        [HttpGet("/searchBywarehouse/{warehouseID:int}")]
+        [HttpGet("searchBywarehouse/{warehouseID}")]
         public async Task<IActionResult> SearchBywarehouse([FromRoute] int warehouseID)
         {
             try
@@ -70,7 +70,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Update __________________________
-        [HttpPut("/update/{processID:int}/{warehouseID:int}")]
+        [HttpPut("update/{processID}/{warehouseID}")]
         public async Task<IActionResult> Update([FromRoute] int processID, [FromRoute] int warehouseID, [FromBody] UpdateWarehouseProcessDTO warehouseProcessDTO)
         {
             try

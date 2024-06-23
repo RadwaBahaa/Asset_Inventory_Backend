@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "NFfX0tY6GyjBpUX9Sxg1T8aQGs4mWulBR6+fShZ1hwJde+GJhMbuwNAJ19pQONCzMK3JmAp9XpHMTCpKB7ZB8w==",
+  "dgSpecHash": "His0o/eW/x5D/71gJTSmYg6mWk64+GPWArVEV7T6l3HQekQugOPae268dE8NCNLKv6RDfipZzUJ1aMNspDW4fQ==",
   "success": true,
   "projectFilePath": "E:\\ITI\\Graduation Project\\Backend\\Services\\Services.csproj",
   "expectedPackageFiles": [
@@ -45,6 +45,7 @@
     "C:\\Users\\radwa\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
     "C:\\Users\\radwa\\.nuget\\packages\\nettopologysuite\\2.5.0\\nettopologysuite.2.5.0.nupkg.sha512",
     "C:\\Users\\radwa\\.nuget\\packages\\nettopologysuite.io.sqlserverbytes\\2.1.0\\nettopologysuite.io.sqlserverbytes.2.1.0.nupkg.sha512",
+    "C:\\Users\\radwa\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\radwa\\.nuget\\packages\\system.configuration.configurationmanager\\6.0.1\\system.configuration.configurationmanager.6.0.1.nupkg.sha512",
     "C:\\Users\\radwa\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.1\\system.diagnostics.diagnosticsource.6.0.1.nupkg.sha512",
     "C:\\Users\\radwa\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512",

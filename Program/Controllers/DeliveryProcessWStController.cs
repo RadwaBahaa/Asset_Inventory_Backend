@@ -15,7 +15,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Create __________________________
-        [HttpPost("/create/{warehouseID:int}")]
+        [HttpPost("create/{warehouseID}")]
         public async Task<IActionResult> Create(AddDeliveryProcessWStDTO addDeliveryProcessWStDTO, int warehouseID)
         {
             if (addDeliveryProcessWStDTO == null || warehouseID <= 0)
@@ -45,7 +45,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Read __________________________
-        [HttpGet("/readAll")]
+        [HttpGet("readAll")]
         public async Task<IActionResult> ReadAll()
         {
             try
@@ -62,7 +62,7 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("/readByID/{processID:int}")]
+        [HttpGet("readByID/{processID:int}")]
         public async Task<IActionResult> ReadByID(int processID)
         {
             try
@@ -81,7 +81,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Search __________________________
-        [HttpGet("/searchByWarehouse/{warehouseID:int}")]
+        [HttpGet("searchByWarehouse/{warehouseID}")]
         public async Task<IActionResult> SearchByWarehouse(int warehouseID)
         {
             try
@@ -99,7 +99,7 @@ namespace Presentation.Controllers
             }
         }
 
-        [HttpGet("/searchByDate/{date:datetime}")]
+        [HttpGet("searchByDate/{date}")]
         public async Task<IActionResult> SearchByDate(DateTime date)
         {
             try
@@ -118,7 +118,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Delete __________________________
-        [HttpDelete("/delete/{processID:int}")]
+        [HttpDelete("delete/{processID}")]
         public async Task<IActionResult> Delete(int processID)
         {
             try

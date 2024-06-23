@@ -2,16 +2,16 @@
 using DTOs.DTOs.DeliveryProcesses;
 using Microsoft.EntityFrameworkCore;
 using Models.Models;
-using Repository.Classes;
+using Repository.Interfaces;
 using Services.Services.Interface;
 
 namespace Services.Services.Classes
 {
     public class DeliveryProcessSuWServices : IDeliveryProcessSuWServices
     {
-        protected DeliveryProcessSuWRepository deliveryProcessSuWRepository { get; set; }
+        protected IDeliveryProcessSuWRepository deliveryProcessSuWRepository { get; set; }
         protected IMapper mapper { get; set; }
-        public DeliveryProcessSuWServices(DeliveryProcessSuWRepository deliveryProcessSuWRepository, IMapper mapper)
+        public DeliveryProcessSuWServices(IDeliveryProcessSuWRepository deliveryProcessSuWRepository, IMapper mapper)
         {
             this.deliveryProcessSuWRepository = deliveryProcessSuWRepository;
             this.mapper = mapper;

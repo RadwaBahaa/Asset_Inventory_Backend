@@ -45,7 +45,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Read __________________________
-        [HttpGet("/readAll")]
+        [HttpGet("readAll")]
         public async Task<IActionResult> ReadAll()
         {
             try
@@ -63,7 +63,7 @@ namespace Presentation.Controllers
             }
         }
 
-        [HttpGet("/readBySerialNumber/{serialNumber:string}")]
+        [HttpGet("readBySerialNumber/{serialNumber}")]
         public async Task<IActionResult> ReadBySerialNumber([FromRoute] string serialNumber)
         {
             try
@@ -82,7 +82,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Update __________________________
-        [HttpPut("/update/{assetID:int}/{serialNumber:string}")]
+        [HttpPut("update/{assetID}/{serialNumber}")]
         public async Task<IActionResult> Update([FromRoute] int assetID, [FromRoute] int serialNumber, [FromBody] AddOrUpdateStoreAssetsDTO storeAssetsDTO)
         {
             try
@@ -101,7 +101,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Delete __________________________
-        [HttpDelete("/delete/{assetID:int}/{serialNumber:string}")]
+        [HttpDelete("delete/{assetID}/{serialNumber}")]
         public async Task<IActionResult> Delete([FromRoute] int assetID, [FromRoute] int serialNumber)
         {
             try

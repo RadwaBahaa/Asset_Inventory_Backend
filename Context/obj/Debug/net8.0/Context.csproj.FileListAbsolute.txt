@@ -1,20 +1,3 @@
-E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.csproj.AssemblyReference.cache
-E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.GeneratedMSBuildEditorConfig.editorconfig
-E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.AssemblyInfoInputs.cache
-E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.AssemblyInfo.cs
-E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.csproj.CoreCompileInputs.cache
-E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\EFCoreSqlServerNetTopologySuite.cs
-E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.sourcelink.json
-E:\ITI\Graduation Project\Backend\Context\bin\Debug\net8.0\Context.deps.json
-E:\ITI\Graduation Project\Backend\Context\bin\Debug\net8.0\Context.dll
-E:\ITI\Graduation Project\Backend\Context\bin\Debug\net8.0\Context.pdb
-E:\ITI\Graduation Project\Backend\Context\bin\Debug\net8.0\Models.dll
-E:\ITI\Graduation Project\Backend\Context\bin\Debug\net8.0\Models.pdb
-E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.csproj.CopyComplete
-E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.dll
-E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\refint\Context.dll
-E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.pdb
-E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\ref\Context.dll
 D:\ITI\New folder\Context\bin\Debug\net8.0\Context.deps.json
 D:\ITI\New folder\Context\bin\Debug\net8.0\Context.dll
 D:\ITI\New folder\Context\bin\Debug\net8.0\Context.pdb
@@ -49,3 +32,20 @@ D:\Project\Asset_Inventory_Backend\Context\obj\Debug\net8.0\Context.dll
 D:\Project\Asset_Inventory_Backend\Context\obj\Debug\net8.0\refint\Context.dll
 D:\Project\Asset_Inventory_Backend\Context\obj\Debug\net8.0\Context.pdb
 D:\Project\Asset_Inventory_Backend\Context\obj\Debug\net8.0\ref\Context.dll
+E:\ITI\Graduation Project\Backend\Context\bin\Debug\net8.0\Context.deps.json
+E:\ITI\Graduation Project\Backend\Context\bin\Debug\net8.0\Context.dll
+E:\ITI\Graduation Project\Backend\Context\bin\Debug\net8.0\Context.pdb
+E:\ITI\Graduation Project\Backend\Context\bin\Debug\net8.0\Models.dll
+E:\ITI\Graduation Project\Backend\Context\bin\Debug\net8.0\Models.pdb
+E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.csproj.AssemblyReference.cache
+E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.GeneratedMSBuildEditorConfig.editorconfig
+E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.AssemblyInfoInputs.cache
+E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.AssemblyInfo.cs
+E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.csproj.CoreCompileInputs.cache
+E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\EFCoreSqlServerNetTopologySuite.cs
+E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.sourcelink.json
+E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.csproj.CopyComplete
+E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.dll
+E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\refint\Context.dll
+E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\Context.pdb
+E:\ITI\Graduation Project\Backend\Context\obj\Debug\net8.0\ref\Context.dll

@@ -5,10 +5,10 @@ using Repository.Interfaces;
 
 namespace Repository.Classes
 {
-    public class StoreProcessReopsitory : GenericRepository<StoreProcess>, IStoreProcessReopsitory
+    public class StoreProcessRepository : GenericRepository<StoreProcess>, IStoreProcessRepository
     {
         protected AssetInventoryContext context;
-        public StoreProcessReopsitory(AssetInventoryContext context) : base(context)
+        public StoreProcessRepository(AssetInventoryContext context) : base(context)
         {
             this.context = context;
         }

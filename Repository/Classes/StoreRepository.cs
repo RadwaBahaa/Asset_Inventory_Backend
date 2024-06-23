@@ -14,17 +14,34 @@ namespace Repository.Classes
         }
         public async Task<Store> ReadByID(int id)
         {
-            var store = await context.Stores.FindAsync(id);
+            var store = await context.Stores
+                .Include(s => s.StoreAssets)
+                .Include(s => s.StoreProcesses)
+                .Include(s => s.StoreRequests)
+                .FirstOrDefaultAsync(s => s.StoreID == id);
             return store;
         }
         public async Task<Store> ReadByName(string name)
         {
-            var store = await context.Stores.FirstOrDefaultAsync(a => a.StoreName == name);
+            var store = await context.Stores
+                .Include(s => s.StoreAssets)
+                .Include(s => s.StoreProcesses)
+                .Include(s => s.StoreRequests)
+                .FirstOrDefaultAsync(a => a.StoreName == name);
+            return store;
+        }
+        public async Task<Store> ReadByLocation(double? lon, double? lat)
+        {
+            var store = await context.Stores
+                .FirstOrDefaultAsync(a => a.Location.X == lon && a.Location.Y == lat);
             return store;
         }
         public async Task<List<Store>> SearchByName(string name)
         {
             var storesList = await context.Stores
+                .Include(s => s.StoreAssets)
+                .Include(s => s.StoreProcesses)
+                .Include(s => s.StoreRequests)
                 .Where(a => a.StoreName.ToLower().Contains(name.ToLower()))
                 .ToListAsync();
             return storesList;
@@ -32,6 +49,9 @@ namespace Repository.Classes
         public async Task<List<Store>> SearchByAddress(string address)
         {
             var storesList = await context.Stores
+                .Include(s => s.StoreAssets)
+                .Include(s => s.StoreProcesses)
+                .Include(s => s.StoreRequests)
                 .Where(a => a.Address.ToLower().Contains(address.ToLower()))
                 .ToListAsync();
             return storesList;

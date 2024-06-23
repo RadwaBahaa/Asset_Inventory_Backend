@@ -2,7 +2,7 @@
 
 namespace Repository.Interfaces
 {
-    public interface IWarehouseAssetRepository
+    public interface IWarehouseAssetRepository : IGenericRepository<WarehouseAsset>
     {
         public Task<WarehouseAsset> ReadByID(int assetID, int warehouseID);
         public Task<WarehouseAsset> ReadBySerialNumber(string serialNumber);

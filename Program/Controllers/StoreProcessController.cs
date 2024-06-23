@@ -15,7 +15,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Read __________________________
-        [HttpGet("/readAll")]
+        [HttpGet("readAll")]
         public async Task<IActionResult> ReadAll()
         {
             try
@@ -32,7 +32,7 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("/readByID/{processID:int}/{storeID:int}")]
+        [HttpGet("readByID/{processID}/{storeID}")]
         public async Task<IActionResult> ReadOne([FromRoute] int processID, [FromRoute] int storeID)
         {
             try
@@ -51,7 +51,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Search __________________________
-        [HttpGet("/searchByStore/{storeID:int}")]
+        [HttpGet("searchByStore/{storeID}")]
         public async Task<IActionResult> SearchByStore([FromRoute] int storeID)
         {
             try
@@ -70,7 +70,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Update __________________________
-        [HttpPut("/update/{processID:int}/{storeID:int}")]
+        [HttpPut("update/{processID}/{storeID}")]
         public async Task<IActionResult> Update([FromRoute] int processID, [FromRoute] int storeID, [FromBody] UpdateStoreProcessDTO storeProcessDTO)
         {
             try

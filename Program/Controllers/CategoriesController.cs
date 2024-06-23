@@ -17,7 +17,7 @@ namespace Presentation.Controllers
 
 
         // ___________________________ Create ___________________________
-        [HttpPost("/create")]
+        [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] AddOrUpdateCategoryDTO categoryDTO)
         {
             if (categoryDTO == null)
@@ -47,12 +47,16 @@ namespace Presentation.Controllers
         }
 
         // ___________________________ Read ___________________________
-        [HttpGet("/readAll")]
+        [HttpGet("readAll")]
         public async Task<IActionResult> ReadAll()
         {
             try
             {
                 var categories = await categoryServices.ReadAll();
+                if (categories == null || !categories.Any())
+                {
+                    return NotFound("There are no categories.");
+                }
                 return Ok(categories);
             }
             catch (ArgumentException ex)
@@ -64,12 +68,16 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("/readByID/{ID:int}")]
-        public async Task<IActionResult> ReadByID([FromRoute] int ID)
+        [HttpGet("readByID/{id}")]
+        public async Task<IActionResult> ReadByID([FromRoute] int id)
         {
             try
             {
-                var category = await categoryServices.ReadByID(ID);
+                var category = await categoryServices.ReadByID(id);
+                if (category == null)
+                {
+                    return NotFound("There is no category by this id.");
+                }
                 return Ok(category);
             }
             catch (ArgumentException ex)
@@ -83,12 +91,16 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Search __________________________
-        [HttpPut("/searchByName/{name:string}")]
+        [HttpGet("searchByName/{name}")]
         public async Task<IActionResult> SearchByName([FromRoute] string name)
         {
             try
             {
                 var categoryList = await categoryServices.SearchByName(name);
+                if (categoryList == null || !categoryList.Any())
+                {
+                    return NotFound("There are no categories.");
+                }
                 return Ok(categoryList);
             }
             catch (ArgumentException ex)
@@ -102,8 +114,8 @@ namespace Presentation.Controllers
         }
 
         // ___________________________  Update ___________________________
-        [HttpPut("/update/{ID:int}")]
-        public async Task<IActionResult> Update([FromBody] AddOrUpdateCategoryDTO categoryDTO, [FromRoute] int ID)
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> Update([FromBody] AddOrUpdateCategoryDTO categoryDTO, [FromRoute] int id)
         {
             if (categoryDTO == null)
             {
@@ -111,8 +123,12 @@ namespace Presentation.Controllers
             }
             try
             {
-                var updateCategory = await categoryServices.Update(categoryDTO, ID);
+                var updateCategory = await categoryServices.Update(categoryDTO, id);
                 return Ok(updateCategory);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (ArgumentException ex)
             {
@@ -125,13 +141,17 @@ namespace Presentation.Controllers
         }
 
         // ___________________________  Delete ___________________________
-        [HttpDelete("/delete/{ID:int}")]
-        public async Task<IActionResult> Delete([FromRoute] int ID)
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
             try
             {
-                var deleteCategory = await categoryServices.Delete(ID);
+                var deleteCategory = await categoryServices.Delete(id);
                 return Ok($"The category was deleted successfully.");
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (ArgumentException ex)
             {

@@ -77,12 +77,10 @@ namespace Context.Migrations
                 {
                     AssetID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AssetName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AssetName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CategoryID = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SerialNumber = table.Column<int>(type: "int", nullable: false),
-                    Picture = table.Column<byte[]>(type: "varbinary(max)", nullable: false)
+                    Price = table.Column<float>(type: "real", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -146,8 +144,8 @@ namespace Context.Migrations
                     StoreID = table.Column<int>(type: "int", nullable: false),
                     WarehouseID = table.Column<int>(type: "int", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -175,8 +173,8 @@ namespace Context.Migrations
                     WarehouseID = table.Column<int>(type: "int", nullable: false),
                     SupplierID = table.Column<int>(type: "int", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -201,12 +199,14 @@ namespace Context.Migrations
                 {
                     AssetID = table.Column<int>(type: "int", nullable: false),
                     StoreID = table.Column<int>(type: "int", nullable: false),
-                    AssetCreationDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    SerialNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AssetName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductionDate = table.Column<DateOnly>(type: "date", nullable: false),
                     Count = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StoreAssets", x => new { x.AssetID, x.StoreID, x.AssetCreationDate });
+                    table.PrimaryKey("PK_StoreAssets", x => new { x.AssetID, x.StoreID, x.SerialNumber });
                     table.ForeignKey(
                         name: "FK_StoreAssets_Assets_AssetID",
                         column: x => x.AssetID,
@@ -227,12 +227,14 @@ namespace Context.Migrations
                 {
                     AssetID = table.Column<int>(type: "int", nullable: false),
                     SupplierID = table.Column<int>(type: "int", nullable: false),
-                    AssetCreationDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    SerialNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AssetName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductionDate = table.Column<DateOnly>(type: "date", nullable: false),
                     Count = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SupplierAssets", x => new { x.AssetID, x.SupplierID, x.AssetCreationDate });
+                    table.PrimaryKey("PK_SupplierAssets", x => new { x.AssetID, x.SupplierID, x.SerialNumber });
                     table.ForeignKey(
                         name: "FK_SupplierAssets_Assets_AssetID",
                         column: x => x.AssetID,
@@ -253,12 +255,14 @@ namespace Context.Migrations
                 {
                     AssetID = table.Column<int>(type: "int", nullable: false),
                     WarehouseID = table.Column<int>(type: "int", nullable: false),
-                    AssetCreationDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    SerialNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AssetName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductionDate = table.Column<DateOnly>(type: "date", nullable: false),
                     Count = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WarehouseAssets", x => new { x.AssetID, x.WarehouseID, x.AssetCreationDate });
+                    table.PrimaryKey("PK_WarehouseAssets", x => new { x.AssetID, x.WarehouseID, x.SerialNumber });
                     table.ForeignKey(
                         name: "FK_WarehouseAssets_Assets_AssetID",
                         column: x => x.AssetID,
@@ -280,8 +284,8 @@ namespace Context.Migrations
                     ProcessID = table.Column<int>(type: "int", nullable: false),
                     WarehouseID = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -307,8 +311,8 @@ namespace Context.Migrations
                     ProcessID = table.Column<int>(type: "int", nullable: false),
                     StoreID = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -385,25 +389,26 @@ namespace Context.Migrations
                 {
                     AssetID = table.Column<int>(type: "int", nullable: false),
                     SupplierID = table.Column<int>(type: "int", nullable: false),
-                    AssetCreationDate = table.Column<DateOnly>(type: "date", nullable: false),
                     ProcessID = table.Column<int>(type: "int", nullable: false),
+                    WarehouseID = table.Column<int>(type: "int", nullable: false),
+                    SerialNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AssetShipmentSuW", x => new { x.AssetID, x.SupplierID, x.AssetCreationDate, x.ProcessID });
+                    table.PrimaryKey("PK_AssetShipmentSuW", x => new { x.AssetID, x.SupplierID, x.SerialNumber, x.ProcessID, x.WarehouseID });
                     table.ForeignKey(
-                        name: "FK_AssetShipmentSuW_DeliveryProcessSuW_ProcessID",
-                        column: x => x.ProcessID,
-                        principalTable: "DeliveryProcessSuW",
-                        principalColumn: "ProcessID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_AssetShipmentSuW_SupplierAssets_AssetID_SupplierID_AssetCreationDate",
-                        columns: x => new { x.AssetID, x.SupplierID, x.AssetCreationDate },
+                        name: "FK_AssetShipmentSuW_SupplierAssets_AssetID_SupplierID_SerialNumber",
+                        columns: x => new { x.AssetID, x.SupplierID, x.SerialNumber },
                         principalTable: "SupplierAssets",
-                        principalColumns: new[] { "AssetID", "SupplierID", "AssetCreationDate" },
+                        principalColumns: new[] { "AssetID", "SupplierID", "SerialNumber" },
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AssetShipmentSuW_WarehouseProcesses_ProcessID_WarehouseID",
+                        columns: x => new { x.ProcessID, x.WarehouseID },
+                        principalTable: "WarehouseProcesses",
+                        principalColumns: new[] { "ProcessID", "WarehouseID" },
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -412,24 +417,25 @@ namespace Context.Migrations
                 {
                     AssetID = table.Column<int>(type: "int", nullable: false),
                     WarehouseID = table.Column<int>(type: "int", nullable: false),
-                    AssetCreationDate = table.Column<DateOnly>(type: "date", nullable: false),
                     ProcessID = table.Column<int>(type: "int", nullable: false),
+                    StoreID = table.Column<int>(type: "int", nullable: false),
+                    SerialNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AssetShipmentWSt", x => new { x.AssetID, x.WarehouseID, x.AssetCreationDate, x.ProcessID });
+                    table.PrimaryKey("PK_AssetShipmentWSt", x => new { x.AssetID, x.WarehouseID, x.SerialNumber, x.ProcessID, x.StoreID });
                     table.ForeignKey(
-                        name: "FK_AssetShipmentWSt_DeliveryProcessWSt_ProcessID",
-                        column: x => x.ProcessID,
-                        principalTable: "DeliveryProcessWSt",
-                        principalColumn: "ProcessID",
-                        onDelete: ReferentialAction.Restrict);
+                        name: "FK_AssetShipmentWSt_StoreProcesses_ProcessID_StoreID",
+                        columns: x => new { x.ProcessID, x.StoreID },
+                        principalTable: "StoreProcesses",
+                        principalColumns: new[] { "ProcessID", "StoreID" },
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AssetShipmentWSt_WarehouseAssets_AssetID_WarehouseID_AssetCreationDate",
-                        columns: x => new { x.AssetID, x.WarehouseID, x.AssetCreationDate },
+                        name: "FK_AssetShipmentWSt_WarehouseAssets_AssetID_WarehouseID_SerialNumber",
+                        columns: x => new { x.AssetID, x.WarehouseID, x.SerialNumber },
                         principalTable: "WarehouseAssets",
-                        principalColumns: new[] { "AssetID", "WarehouseID", "AssetCreationDate" },
+                        principalColumns: new[] { "AssetID", "WarehouseID", "SerialNumber" },
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -439,14 +445,14 @@ namespace Context.Migrations
                 column: "CategoryID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AssetShipmentSuW_ProcessID",
+                name: "IX_AssetShipmentSuW_ProcessID_WarehouseID",
                 table: "AssetShipmentSuW",
-                column: "ProcessID");
+                columns: new[] { "ProcessID", "WarehouseID" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AssetShipmentWSt_ProcessID",
+                name: "IX_AssetShipmentWSt_ProcessID_StoreID",
                 table: "AssetShipmentWSt",
-                column: "ProcessID");
+                columns: new[] { "ProcessID", "StoreID" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_DeliveryProcessSuW_SupplierID",
@@ -527,13 +533,7 @@ namespace Context.Migrations
                 name: "StoreAssets");
 
             migrationBuilder.DropTable(
-                name: "StoreProcesses");
-
-            migrationBuilder.DropTable(
                 name: "StoreRequestAssets");
-
-            migrationBuilder.DropTable(
-                name: "WarehouseProcesses");
 
             migrationBuilder.DropTable(
                 name: "WarehouseRequestAssets");
@@ -542,19 +542,25 @@ namespace Context.Migrations
                 name: "SupplierAssets");
 
             migrationBuilder.DropTable(
-                name: "WarehouseAssets");
+                name: "WarehouseProcesses");
 
             migrationBuilder.DropTable(
-                name: "DeliveryProcessWSt");
+                name: "StoreProcesses");
+
+            migrationBuilder.DropTable(
+                name: "WarehouseAssets");
 
             migrationBuilder.DropTable(
                 name: "StoreRequests");
 
             migrationBuilder.DropTable(
+                name: "WarehouseRequests");
+
+            migrationBuilder.DropTable(
                 name: "DeliveryProcessSuW");
 
             migrationBuilder.DropTable(
-                name: "WarehouseRequests");
+                name: "DeliveryProcessWSt");
 
             migrationBuilder.DropTable(
                 name: "Assets");

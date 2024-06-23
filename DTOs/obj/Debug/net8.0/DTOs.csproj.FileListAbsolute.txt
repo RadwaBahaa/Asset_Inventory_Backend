@@ -1,15 +1,3 @@
-E:\ITI\Graduation Project\Backend\DTOs\bin\Debug\net8.0\DTOs.deps.json
-E:\ITI\Graduation Project\Backend\DTOs\bin\Debug\net8.0\DTOs.dll
-E:\ITI\Graduation Project\Backend\DTOs\bin\Debug\net8.0\DTOs.pdb
-E:\ITI\Graduation Project\Backend\DTOs\obj\Debug\net8.0\DTOs.GeneratedMSBuildEditorConfig.editorconfig
-E:\ITI\Graduation Project\Backend\DTOs\obj\Debug\net8.0\DTOs.AssemblyInfoInputs.cache
-E:\ITI\Graduation Project\Backend\DTOs\obj\Debug\net8.0\DTOs.AssemblyInfo.cs
-E:\ITI\Graduation Project\Backend\DTOs\obj\Debug\net8.0\DTOs.csproj.CoreCompileInputs.cache
-E:\ITI\Graduation Project\Backend\DTOs\obj\Debug\net8.0\DTOs.sourcelink.json
-E:\ITI\Graduation Project\Backend\DTOs\obj\Debug\net8.0\DTOs.dll
-E:\ITI\Graduation Project\Backend\DTOs\obj\Debug\net8.0\refint\DTOs.dll
-E:\ITI\Graduation Project\Backend\DTOs\obj\Debug\net8.0\DTOs.pdb
-E:\ITI\Graduation Project\Backend\DTOs\obj\Debug\net8.0\ref\DTOs.dll
 D:\ITI\New folder\DTOs\bin\Debug\net8.0\DTOs.deps.json
 D:\ITI\New folder\DTOs\bin\Debug\net8.0\DTOs.dll
 D:\ITI\New folder\DTOs\bin\Debug\net8.0\DTOs.pdb
@@ -36,4 +24,19 @@ D:\Project\Asset_Inventory_Backend\DTOs\obj\Debug\net8.0\DTOs.dll
 D:\Project\Asset_Inventory_Backend\DTOs\obj\Debug\net8.0\refint\DTOs.dll
 D:\Project\Asset_Inventory_Backend\DTOs\obj\Debug\net8.0\DTOs.pdb
 D:\Project\Asset_Inventory_Backend\DTOs\obj\Debug\net8.0\ref\DTOs.dll
+E:\ITI\Graduation Project\Backend\DTOs\bin\Debug\net8.0\DTOs.deps.json
+E:\ITI\Graduation Project\Backend\DTOs\bin\Debug\net8.0\DTOs.dll
+E:\ITI\Graduation Project\Backend\DTOs\bin\Debug\net8.0\DTOs.pdb
 E:\ITI\Graduation Project\Backend\DTOs\obj\Debug\net8.0\DTOs.csproj.AssemblyReference.cache
+E:\ITI\Graduation Project\Backend\DTOs\obj\Debug\net8.0\DTOs.GeneratedMSBuildEditorConfig.editorconfig
+E:\ITI\Graduation Project\Backend\DTOs\obj\Debug\net8.0\DTOs.AssemblyInfoInputs.cache
+E:\ITI\Graduation Project\Backend\DTOs\obj\Debug\net8.0\DTOs.AssemblyInfo.cs
+E:\ITI\Graduation Project\Backend\DTOs\obj\Debug\net8.0\DTOs.csproj.CoreCompileInputs.cache
+E:\ITI\Graduation Project\Backend\DTOs\obj\Debug\net8.0\DTOs.sourcelink.json
+E:\ITI\Graduation Project\Backend\DTOs\obj\Debug\net8.0\DTOs.dll
+E:\ITI\Graduation Project\Backend\DTOs\obj\Debug\net8.0\refint\DTOs.dll
+E:\ITI\Graduation Project\Backend\DTOs\obj\Debug\net8.0\DTOs.pdb
+E:\ITI\Graduation Project\Backend\DTOs\obj\Debug\net8.0\ref\DTOs.dll
+E:\ITI\Graduation Project\Backend\DTOs\bin\Debug\net8.0\Models.dll
+E:\ITI\Graduation Project\Backend\DTOs\bin\Debug\net8.0\Models.pdb
+E:\ITI\Graduation Project\Backend\DTOs\obj\Debug\net8.0\DTOs.csproj.CopyComplete

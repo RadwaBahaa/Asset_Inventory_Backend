@@ -44,7 +44,7 @@ namespace Services.Mapper
             CreateMap<ReadAssetShipmentSuWDTO, AssetShipmentSuW>().ReverseMap();
             CreateMap<AddAssetShipmentDTO, AssetShipmentSuW>().ReverseMap();
             CreateMap<ReadAssetShipmentWStDTO, AssetShipmentWSt>().ReverseMap();
-            CreateMap<AddAssetShipmentDTO,AssetShipmentWSt>().ReverseMap();
+            CreateMap<AddAssetShipmentDTO, AssetShipmentWSt>().ReverseMap();
 
             // Mapping AddStoreRequestAsset Model______________________________________________
             CreateMap<AddStoreRequestAssetsDTO, StoreRequestAsset>().ReverseMap();
@@ -65,15 +65,23 @@ namespace Services.Mapper
             CreateMap<ReadWarehouseRequestDTO, WarehouseRequest>().ReverseMap();
 
             // Mapping Store Model______________________________________________
-            CreateMap<ReadStoreDTO,Store>().ReverseMap();
+            CreateMap<Store, ReadStoreDTO>()
+                .ForMember(dest => dest.Longitude, opt => opt.MapFrom(src => src.Location.X))
+                .ForMember(dest => dest.Latitude, opt => opt.MapFrom(src => src.Location.Y))
+                .ForMember(dest => dest.SRID, opt => opt.MapFrom(src => src.Location.SRID))
+                .ReverseMap();
             CreateMap<AddOrUpdateStoreDTO, Store>().ReverseMap();
 
             // Mapping StoreAssets Model______________________________________________
             CreateMap<ReadStoreAssetsDTO, StoreAsset>().ReverseMap();
-            CreateMap<AddOrUpdateStoreAssetsDTO,StoreAsset>().ReverseMap();
+            CreateMap<AddOrUpdateStoreAssetsDTO, StoreAsset>().ReverseMap();
 
             // Mapping Supplier Model______________________________________________
-            CreateMap<ReadSupplierDTO, Supplier>().ReverseMap();
+            CreateMap<Supplier, ReadSupplierDTO>()
+                .ForMember(dest => dest.Longitude, opt => opt.MapFrom(src => src.Location.X))
+                .ForMember(dest => dest.Latitude, opt => opt.MapFrom(src => src.Location.Y))
+                .ForMember(dest => dest.SRID, opt => opt.MapFrom(src => src.Location.SRID))
+                .ReverseMap();
             CreateMap<AddOrUpdateSupplierDTO, Supplier>().ReverseMap();
 
             // Mapping SupplierAssets Model______________________________________________
@@ -81,7 +89,11 @@ namespace Services.Mapper
             CreateMap<AddOrUpdateSupplierAssetsDTO, SupplierAsset>().ReverseMap();
 
             // Mapping Warehouse Model______________________________________________
-            CreateMap<ReadWarehouseDTO, Warehouse>().ReverseMap();
+            CreateMap<Warehouse, ReadWarehouseDTO>()
+                .ForMember(dest => dest.Longitude, opt => opt.MapFrom(src => src.Location.X))
+                .ForMember(dest => dest.Latitude, opt => opt.MapFrom(src => src.Location.Y))
+                .ForMember(dest => dest.SRID, opt => opt.MapFrom(src => src.Location.SRID))
+                .ReverseMap();
             CreateMap<AddOrUpdateWarehouseDTO, Warehouse>().ReverseMap();
 
             // Mapping WarehouseAssets Model______________________________________________

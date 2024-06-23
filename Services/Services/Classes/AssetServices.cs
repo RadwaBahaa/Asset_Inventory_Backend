@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DTOs.DTOs.Assets;
+using Microsoft.EntityFrameworkCore;
 using Models.Models;
 using Repository.Interfaces;
 using Services.Services.Interface;
@@ -32,7 +33,6 @@ namespace Services.Services.Classes
                 }
                 else
                 {
-                    assetDTO.AssetName = char.ToUpper(assetDTO.AssetName[0]) + assetDTO.AssetName.Substring(1).ToLower();
                     var newAsset = mapper.Map<Asset>(assetDTO);
                     await assetRepository.Create(newAsset);
                     return true;
@@ -44,64 +44,34 @@ namespace Services.Services.Classes
         public async Task<List<ReadAssetDTO>> ReadAll()
         {
             var assets = await assetRepository.Read();
-            if (assets.Any())
-            {
-                return mapper.Map<List<ReadAssetDTO>>(assets);
-            }
-            else
-            {
-                throw new AggregateException("There are no assets.");
-            }
+            var mappedAssets = await assets
+                .Include(a => a.Category)
+                .Select(a => mapper.Map<ReadAssetDTO>(a))
+                .ToListAsync();
+            return mappedAssets;
         }
         public async Task<ReadAssetDTO> ReadByID(int ID)
         {
             var asset = await assetRepository.ReadByID(ID);
-            if (asset != null)
-            {
-                return mapper.Map<ReadAssetDTO>(asset);
-            }
-            else
-            {
-                throw new AggregateException("There is no asset by this ID.");
-            }
+            return mapper.Map<ReadAssetDTO>(asset);
         }
         public async Task<ReadAssetDTO> ReadByName(string name)
         {
             var asset = await assetRepository.ReadByName(name);
-            if (asset != null)
-            {
-                return mapper.Map<ReadAssetDTO>(asset);
-            }
-            else
-            {
-                throw new AggregateException("There is no asset by this name.");
-            }
+            return mapper.Map<ReadAssetDTO>(asset);
+
         }
 
         // __________________________ Search for Assets ___________________________
         public async Task<List<ReadAssetDTO>> SearchByName(string name)
         {
             var assetsList = await assetRepository.SearchByName(name);
-            if (assetsList.Any())
-            {
-                return mapper.Map<List<ReadAssetDTO>>(assetsList);
-            }
-            else
-            {
-                throw new AggregateException("There is no assets.");
-            }
+            return mapper.Map<List<ReadAssetDTO>>(assetsList);
         }
         public async Task<List<ReadAssetDTO>> SearchByCategory(int categoryID)
         {
             var assetsList = await assetRepository.SearchByCategory(categoryID);
-            if (assetsList.Any())
-            {
-                return mapper.Map<List<ReadAssetDTO>>(assetsList);
-            }
-            else
-            {
-                throw new AggregateException("There is no assets.");
-            }
+            return mapper.Map<List<ReadAssetDTO>>(assetsList);
         }
 
         // __________________________ Update an Asssets ___________________________
@@ -110,11 +80,10 @@ namespace Services.Services.Classes
             var findAsset = await assetRepository.ReadByID(ID);
             if (findAsset == null)
             {
-                throw new AggregateException("There is no asset by this ID.");
+                throw new KeyNotFoundException("There is no asset by this ID.");
             }
             else
             {
-                assetDTO.AssetName = char.ToUpper(assetDTO.AssetName[0]) + assetDTO.AssetName.Substring(1).ToLower();
                 mapper.Map(assetDTO, findAsset);
                 await assetRepository.Update();
                 return mapper.Map<ReadAssetDTO>(findAsset);
@@ -127,7 +96,7 @@ namespace Services.Services.Classes
             var findasset = await assetRepository.ReadByID(ID);
             if (findasset == null)
             {
-                throw new AggregateException("There is no asset by this ID.");
+                throw new KeyNotFoundException("There is no asset by this ID.");
             }
             else
             {

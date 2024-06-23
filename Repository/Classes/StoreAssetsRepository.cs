@@ -7,7 +7,7 @@ namespace Repository.Classes
 {
     public class StoreAssetRepository : GenericRepository<StoreAsset>, IStoreAssetRepository
     {
-        protected readonly AssetInventoryContext context;
+        protected AssetInventoryContext context;
 
         public StoreAssetRepository(AssetInventoryContext context) : base(context)
         {
