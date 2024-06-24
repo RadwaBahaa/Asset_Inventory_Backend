@@ -20,6 +20,7 @@ namespace Repository.Classes
                 .Include(s => s.WarehouseRequests)
                 .Include(s=>s.DeliveryProcessWSt)
                 .Include(s=>s.WarehouseProcesses)
+                .Include(s => s.StoreRequests)
                 .FirstOrDefaultAsync(s => s.WarehouseID == id);
             return warehouse;
         }
@@ -31,6 +32,7 @@ namespace Repository.Classes
                 .Include(s => s.WarehouseRequests)
                 .Include(s => s.DeliveryProcessWSt)
                 .Include(s => s.WarehouseProcesses)
+                .Include(s => s.StoreRequests)
                 .FirstOrDefaultAsync(a => a.WarehouseName.ToLower() == name.ToLower());
             return warehouse;
         }
@@ -47,7 +49,8 @@ namespace Repository.Classes
                 .Include(s => s.WarehouseProcesses)
                 .Include(s => s.WarehouseRequests)
                 .Include(s => s.DeliveryProcessWSt)
-                .Include(s => s.WarehouseProcesses);
+                .Include(s => s.WarehouseProcesses)
+                .Include(s => s.StoreRequests);
 
             if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(address))
             {

@@ -90,6 +90,11 @@ namespace Services.Services.Classes
             var warehouses = await warehouseRepository.Read();
             var allWarehouses = await warehouses
                 .Include(s => s.WarehouseAssets)
+                .Include(s => s.WarehouseProcesses)
+                .Include(s => s.WarehouseRequests)
+                .Include(s => s.DeliveryProcessWSt)
+                .Include(s => s.WarehouseProcesses)
+                .Include (s => s.StoreRequests)
                 .ToListAsync();
             return mapper.Map<List<ReadWarehouseDTO>>(allWarehouses);
         }
@@ -98,6 +103,11 @@ namespace Services.Services.Classes
             var warehouses = await warehouseRepository.Read();
             var allWarehouses = await warehouses
                 .Include(s => s.WarehouseAssets)
+                .Include(s => s.WarehouseProcesses)
+                .Include(s => s.WarehouseRequests)
+                .Include(s => s.DeliveryProcessWSt)
+                .Include(s => s.WarehouseProcesses)
+                .Include(s => s.StoreRequests)
                 .Select(warehouse => new ReadWarehouseGeoJsonDTO(warehouse))
                 .ToListAsync();
             return allWarehouses;
