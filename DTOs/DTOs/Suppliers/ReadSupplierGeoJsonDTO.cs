@@ -1,15 +1,16 @@
-﻿using Models.Models;
+﻿using DTOs.DTOs;
+using Models.Models;
 
 namespace Models.DTOs
 {
-    public class SupplierGeoJsonDTO
+    public class ReadSupplierGeoJsonDTO
     {
         public string type => "Feature";
-        public SupplierGeometryDTO geometry { get; set; }
+        public GeometryDTO geometry { get; set; }
         public SupplierPropertiesDTO properties { get; set; }
-        public SupplierGeoJsonDTO(Supplier supplier)
+        public ReadSupplierGeoJsonDTO(Supplier supplier)
         {
-            geometry = new SupplierGeometryDTO
+            geometry = new GeometryDTO
             {
                 type = "Point",
                 coordinates = new double[] { supplier.Location.X, supplier.Location.Y }
@@ -24,12 +25,6 @@ namespace Models.DTOs
                 WarehouseRequests = supplier.WarehouseRequests
             };
         }
-    }
-
-    public class SupplierGeometryDTO
-    {
-        public string type { get; set; }
-        public double[] coordinates { get; set; }
     }
 
     public class SupplierPropertiesDTO

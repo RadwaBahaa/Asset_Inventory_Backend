@@ -23,7 +23,7 @@ namespace Repository.Classes
         {
             var asset = await context.Assets
                 .Include(a => a.Category)
-                .FirstOrDefaultAsync(a => a.AssetName == name);
+                .FirstOrDefaultAsync(a => a.AssetName.ToLower() == name.ToLower());
             return asset;
         }
         public async Task<List<Asset>> SearchByName(string name)

@@ -23,7 +23,7 @@ namespace Repository.Classes
         public async Task<Category> ReadByName(string name)
         {
             var category = await context.Categories
-                .FirstOrDefaultAsync(a => a.CategoryName == name);
+                .FirstOrDefaultAsync(a => a.CategoryName.ToLower() == name.ToLower());
             return category;
         }
         public async Task<List<Category>> SearchByName(string name)

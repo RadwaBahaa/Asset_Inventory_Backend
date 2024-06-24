@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Services.Services.Interface;
 using DTOs.DTOs.Suppliers;
+using Models.DTOs;
 
 namespace Presentation.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/suppliers")]
     [ApiController]
     public class SuppliersController : ControllerBase
     {
@@ -15,7 +16,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Create __________________________
-        [HttpPost("create")]
+        [HttpPost("create/data")]
         public async Task<IActionResult> Create([FromBody] AddOrUpdateSupplierDTO supplierDTO)
         {
             if (supplierDTO == null)
@@ -24,7 +25,35 @@ namespace Presentation.Controllers
             }
             try
             {
-                var createSupplier = await supplierServices.Create(supplierDTO);
+                var createSupplier = await supplierServices.CreateByData(supplierDTO);
+                if (createSupplier)
+                {
+                    return Ok("The supplier was created successfully.");
+                }
+                else
+                {
+                    return NotFound("Process not found.");
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+        [HttpPost("create/geojson")]
+        public async Task<IActionResult> Create([FromBody] AddSupplierGeoJsonDTO supplierDTO)
+        {
+            if (supplierDTO == null)
+            {
+                return BadRequest("Invalid input data.");
+            }
+            try
+            {
+                var createSupplier = await supplierServices.CreateByGeoJSON(supplierDTO);
                 if (createSupplier)
                 {
                     return Ok("The supplier was created successfully.");
@@ -45,7 +74,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Read __________________________
-        [HttpGet("readAll")]
+        [HttpGet("read/json")]
         public async Task<IActionResult> ReadAll()
         {
             try
@@ -59,14 +88,14 @@ namespace Presentation.Controllers
             }
             catch (ArgumentException ex)
             {
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("readAllSuppliersAsGeoJson")]
+        [HttpGet("read/geojson")]
         public async Task<IActionResult> ReadAllSuppliersAsGeoJson()
         {
             try
@@ -80,19 +109,19 @@ namespace Presentation.Controllers
             }
             catch (ArgumentException ex)
             {
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("readByID/{ID}")]
-        public async Task<IActionResult> ReadByID([FromRoute] int ID)
+        [HttpGet("read/json/{id}")]
+        public async Task<IActionResult> ReadByID([FromRoute] int id)
         {
             try
             {
-                var supplier = await supplierServices.ReadByID(ID);
+                var supplier = await supplierServices.ReadByID(id);
                 if (supplier == null)
                 {
                     return NotFound("There is no supplier by this ID.");
@@ -101,52 +130,32 @@ namespace Presentation.Controllers
             }
             catch (ArgumentException ex)
             {
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("readSupplierAsGeoJson/{id}")]
+        [HttpGet("read/geojson/{id}")]
         public async Task<IActionResult> ReadSupplierAsGeoJson(int id)
         {
             try
             {
-                var supplierGeoJson = await supplierServices.ReadSupplierAsGeoJson(id);
-                if (supplierGeoJson == null)
+                var supplier = await supplierServices.ReadByID(id);
+                if (supplier == null)
                 {
-                    return NotFound();
+                    return NotFound("There is no supplier by this ID.");
                 }
-                return Ok(supplierGeoJson);
+                else
+                {
+                    var supplierGeoJson = await supplierServices.ReadSupplierAsGeoJson(id);
+                    return Ok(supplierGeoJson);
+                }
             }
             catch (ArgumentException ex)
             {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-
-        }
-
-        // __________________________ Search __________________________
-        [HttpGet("searchByName/{name}")]
-        public async Task<IActionResult> SearchByName([FromRoute] string name)
-        {
-            try
-            {
-                var suppliers = await supplierServices.SearchByName(name);
-                if (suppliers == null || !suppliers.Any())
-                {
-                    return NotFound("There are no suppliers.");
-                }
-                return Ok(suppliers);
-            }
-            catch (ArgumentException ex)
-            {
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -154,12 +163,16 @@ namespace Presentation.Controllers
             }
         }
 
-        [HttpGet("searchByAddress/{address}")]
-        public async Task<IActionResult> SearchByAddress([FromRoute] string address)
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] string? name, [FromQuery] string? address)
         {
             try
             {
-                var suppliers = await supplierServices.SearchByAddress(address);
+                if (string.IsNullOrWhiteSpace(name) && string.IsNullOrWhiteSpace(address))
+                {
+                    return BadRequest("Either 'name' or 'address' must be provided.");
+                }
+                var suppliers = await supplierServices.Search(name, address);
                 if (suppliers == null || !suppliers.Any())
                 {
                     return NotFound("There are no suppliers.");
@@ -176,14 +189,19 @@ namespace Presentation.Controllers
             }
         }
 
+
         // __________________________ Update __________________________
-        [HttpPut("update/{ID}")]
-        public async Task<IActionResult> Update([FromRoute] int ID, [FromBody] AddOrUpdateSupplierDTO updateSupplierDTO)
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] AddOrUpdateSupplierDTO updateSupplierDTO)
         {
             try
             {
-                var supplier = await supplierServices.Update(updateSupplierDTO, ID);
+                var supplier = await supplierServices.Update(updateSupplierDTO, id);
                 return Ok(supplier);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (ArgumentException ex)
             {
@@ -196,13 +214,17 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Delete __________________________
-        [HttpDelete("delete/{ID}")]
-        public async Task<IActionResult> Delete(int ID)
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
             try
             {
-                var result = await supplierServices.Delete(ID);
-                return Ok(result);
+                var result = await supplierServices.Delete(id);
+                return Ok("The supplier was deleted successfully.");
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (ArgumentException ex)
             {

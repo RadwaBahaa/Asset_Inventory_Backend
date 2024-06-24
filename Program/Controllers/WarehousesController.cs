@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Services.Services.Interface;
 using DTOs.DTOs.Warehouses;
+using Models.DTOs;
 
 namespace Presentation.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/warehouses")]
     [ApiController]
     public class WarehousesController : ControllerBase
     {
@@ -15,7 +16,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Create __________________________
-        [HttpPost("create")]
+        [HttpPost("create/data")]
         public async Task<IActionResult> Create([FromBody] AddOrUpdateWarehouseDTO warehouseDTO)
         {
             if (warehouseDTO == null)
@@ -24,7 +25,35 @@ namespace Presentation.Controllers
             }
             try
             {
-                var createWarehouse = await warehouseServices.Create(warehouseDTO);
+                var createWarehouse = await warehouseServices.CreateByData(warehouseDTO);
+                if (createWarehouse)
+                {
+                    return Ok("The warehouse was created successfully.");
+                }
+                else
+                {
+                    return NotFound("Process not found.");
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+        [HttpPost("create/geojson")]
+        public async Task<IActionResult> Create([FromBody] AddWarehouseGeoJsonDTO warehouseDTO)
+        {
+            if (warehouseDTO == null)
+            {
+                return BadRequest("Invalid input data.");
+            }
+            try
+            {
+                var createWarehouse = await warehouseServices.CreateByGeoJSON(warehouseDTO);
                 if (createWarehouse)
                 {
                     return Ok("The warehouse was created successfully.");
@@ -45,7 +74,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Read __________________________
-        [HttpGet("readAll")]
+        [HttpGet("read/json")]
         public async Task<IActionResult> ReadAll()
         {
             try
@@ -59,14 +88,14 @@ namespace Presentation.Controllers
             }
             catch (ArgumentException ex)
             {
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("readAllWarehousesAsGeoJson")]
+        [HttpGet("read/geojson")]
         public async Task<IActionResult> ReadAllWarehousesAsGeoJson()
         {
             try
@@ -80,19 +109,19 @@ namespace Presentation.Controllers
             }
             catch (ArgumentException ex)
             {
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("readByID/{ID}")]
-        public async Task<IActionResult> ReadByID([FromRoute] int ID)
+        [HttpGet("read/json/{id}")]
+        public async Task<IActionResult> ReadByID([FromRoute] int id)
         {
             try
             {
-                var warehouse = await warehouseServices.ReadByID(ID);
+                var warehouse = await warehouseServices.ReadByID(id);
                 if (warehouse == null)
                 {
                     return NotFound("There is no warehouse by this ID.");
@@ -101,52 +130,32 @@ namespace Presentation.Controllers
             }
             catch (ArgumentException ex)
             {
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("readWarehouseAsGeoJson/{id}")]
+        [HttpGet("read/geojson/{id}")]
         public async Task<IActionResult> ReadWarehouseAsGeoJson(int id)
         {
             try
             {
-                var warehouseGeoJson = await warehouseServices.ReadWarehouseAsGeoJson(id);
-                if (warehouseGeoJson == null)
+                var warehouse = await warehouseServices.ReadByID(id);
+                if (warehouse == null)
                 {
-                    return NotFound();
+                    return NotFound("There is no warehouse by this ID.");
                 }
-                return Ok(warehouseGeoJson);
+                else
+                {
+                    var warehouseGeoJson = await warehouseServices.ReadWarehouseAsGeoJson(id);
+                    return Ok(warehouseGeoJson);
+                }
             }
             catch (ArgumentException ex)
             {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-
-        }
-
-        // __________________________ Search __________________________
-        [HttpGet("searchByName/{name}")]
-        public async Task<IActionResult> SearchByName([FromRoute] string name)
-        {
-            try
-            {
-                var warehouses = await warehouseServices.SearchByName(name);
-                if (warehouses == null || !warehouses.Any())
-                {
-                    return NotFound("There are no warehouses.");
-                }
-                return Ok(warehouses);
-            }
-            catch (ArgumentException ex)
-            {
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -154,12 +163,16 @@ namespace Presentation.Controllers
             }
         }
 
-        [HttpGet("searchByAddress/{address}")]
-        public async Task<IActionResult> SearchByAddress([FromRoute] string address)
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] string? name, [FromQuery] string? address)
         {
             try
             {
-                var warehouses = await warehouseServices.SearchByAddress(address);
+                if (string.IsNullOrWhiteSpace(name) && string.IsNullOrWhiteSpace(address))
+                {
+                    return BadRequest("Either 'name' or 'address' must be provided.");
+                }
+                var warehouses = await warehouseServices.Search(name, address);
                 if (warehouses == null || !warehouses.Any())
                 {
                     return NotFound("There are no warehouses.");
@@ -176,14 +189,19 @@ namespace Presentation.Controllers
             }
         }
 
+
         // __________________________ Update __________________________
-        [HttpPut("update/{ID}")]
-        public async Task<IActionResult> Update([FromRoute] int ID, [FromBody] AddOrUpdateWarehouseDTO updateWarehouseDTO)
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] AddOrUpdateWarehouseDTO updateWarehouseDTO)
         {
             try
             {
-                var warehouse = await warehouseServices.Update(updateWarehouseDTO, ID);
+                var warehouse = await warehouseServices.Update(updateWarehouseDTO, id);
                 return Ok(warehouse);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (ArgumentException ex)
             {
@@ -196,13 +214,17 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Delete __________________________
-        [HttpDelete("delete/{ID}")]
-        public async Task<IActionResult> Delete(int ID)
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
             try
             {
-                var result = await warehouseServices.Delete(ID);
-                return Ok(result);
+                var result = await warehouseServices.Delete(id);
+                return Ok("The warehouse was deleted successfully.");
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (ArgumentException ex)
             {

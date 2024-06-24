@@ -20,20 +20,25 @@ namespace Services.Services.Classes
         }
 
         //________________ Create supplier ______________
-        public async Task<bool> Create(AddOrUpdateSupplierDTO supplierDTO)
+        public async Task<bool> CreateByData(AddOrUpdateSupplierDTO supplierDTO)
         {
 
             if (supplierDTO == null)
             {
-                throw new ArgumentException("Supplier name cannot be empty!");
+                throw new ArgumentException("Supplier data cannot be empty!");
             }
             else
             {
                 var findSupplierByName = await supplierRepository.ReadByName(supplierDTO.SupplierName);
                 var findSupplierByLocation = await supplierRepository.ReadByLocation(supplierDTO.Longitude, supplierDTO.Latitude);
-                if (findSupplierByName != null || findSupplierByLocation != null)
+                if (findSupplierByName != null)
                 {
-                    throw new AggregateException("This Supplier already exists.");
+                    throw new ArgumentException("A supplier with this name already exists.");
+                }
+
+                if (findSupplierByLocation != null)
+                {
+                    throw new ArgumentException("A supplier at this location already exists.");
                 }
                 else
                 {
@@ -42,6 +47,36 @@ namespace Services.Services.Classes
                         SupplierName = supplierDTO.SupplierName,
                         Location = new Point(supplierDTO.Longitude.Value, supplierDTO.Latitude.Value) { SRID = 4326 },
                         Address = supplierDTO.Address,
+                    };
+                    await supplierRepository.Create(newSupplier);
+                    return true;
+                }
+            }
+        }
+        public async Task<bool> CreateByGeoJSON(AddSupplierGeoJsonDTO supplierDTO)
+        {
+            if (supplierDTO == null)
+            { throw new ArgumentException("Supplier data cannot be empty!"); }
+            else
+            {
+                var findSupplierByName = await supplierRepository.ReadByName(supplierDTO.properties.supplierName);
+                var findSupplierByLocation = await supplierRepository.ReadByLocation(supplierDTO.geometry.coordinates[0], supplierDTO.geometry.coordinates[1]);
+                if (findSupplierByName != null)
+                {
+                    throw new ArgumentException("A supplier with this name already exists.");
+                }
+
+                if (findSupplierByLocation != null)
+                {
+                    throw new ArgumentException("A supplier at this location already exists.");
+                }
+                else
+                {
+                    var newSupplier = new Supplier
+                    {
+                        SupplierName = supplierDTO.properties.supplierName,
+                        Location = new Point(supplierDTO.geometry.coordinates[0], supplierDTO.geometry.coordinates[1]) { SRID = 4326 },
+                        Address = supplierDTO.properties.address,
                     };
                     await supplierRepository.Create(newSupplier);
                     return true;
@@ -58,12 +93,12 @@ namespace Services.Services.Classes
                 .ToListAsync();
             return mapper.Map<List<ReadSupplierDTO>>(allSuppliers);
         }
-        public async Task<List<SupplierGeoJsonDTO>> ReadAllSuppliersAsGeoJson()
+        public async Task<List<ReadSupplierGeoJsonDTO>> ReadAllSuppliersAsGeoJson()
         {
             var suppliers = await supplierRepository.Read();
             var allSuppliers = await suppliers
                 .Include(s => s.SupplierAssets)
-                .Select(supplier => new SupplierGeoJsonDTO(supplier))
+                .Select(supplier => new ReadSupplierGeoJsonDTO(supplier))
                 .ToListAsync();
             return allSuppliers;
         }
@@ -72,21 +107,16 @@ namespace Services.Services.Classes
             var supplier = await supplierRepository.ReadByID(supplierID);
             return mapper.Map<ReadSupplierDTO>(supplier);
         }
-        public async Task<SupplierGeoJsonDTO> ReadSupplierAsGeoJson(int id)
+        public async Task<ReadSupplierGeoJsonDTO> ReadSupplierAsGeoJson(int id)
         {
             var supplier = await supplierRepository.ReadByID(id);
-            return new SupplierGeoJsonDTO(supplier);
+            return new ReadSupplierGeoJsonDTO(supplier);
         }
 
         //_______________Search for supplier _____________
-        public async Task<List<ReadSupplierDTO>> SearchByName(string supplierName)
+        public async Task<List<ReadSupplierDTO>> Search(string name, string address)
         {
-            var suppliersList = await supplierRepository.SearchByName(supplierName);
-            return mapper.Map<List<ReadSupplierDTO>>(suppliersList);
-        }
-        public async Task<List<ReadSupplierDTO>> SearchByAddress(string Address)
-        {
-            var suppliersList = await supplierRepository.SearchByAddress(Address);
+            var suppliersList = await supplierRepository.Search(name, address);
             return mapper.Map<List<ReadSupplierDTO>>(suppliersList);
         }
 

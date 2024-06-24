@@ -4,7 +4,7 @@ using Services.Services.Interface;
 
 namespace Presentation.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/assets")]
     [ApiController]
     public class AssetsController : ControllerBase
     {
@@ -45,13 +45,13 @@ namespace Presentation.Controllers
         }
 
         // ___________________________ Read ___________________________
-        [HttpGet("readAll")]
+        [HttpGet("read")]
         public async Task<IActionResult> ReadAll()
         {
             try
             {
                 var assets = await assetServices.ReadAll();
-                if(assets == null || !assets.Any())
+                if (assets == null || !assets.Any())
                 {
                     return NotFound("There are no assets.");
                 }
@@ -66,7 +66,7 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("readByID/{id}")]
+        [HttpGet("read/{id}")]
         public async Task<IActionResult> ReadByID([FromRoute] int id)
         {
             try
@@ -89,33 +89,27 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Search __________________________
-        [HttpGet("searchByName/{name}")]
-        public async Task<IActionResult> SearchByName([FromRoute] string name)
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] string? name, [FromQuery] int categoryID)
         {
             try
             {
-                var assetsList = await assetServices.SearchByName(name);
-                if (assetsList == null || !assetsList.Any())
+                List<ReadAssetDTO> assetsList;
+                if (string.IsNullOrWhiteSpace(name) && categoryID == 0)
                 {
-                    return NotFound("There are no assets.");
+                    return BadRequest("Either 'name' or 'categoryID' must be provided.");
                 }
-                return Ok(assetsList);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-        [HttpGet("searchByCategory/{categoryID}")]
-        public async Task<IActionResult> SearchByCategory([FromRoute] int categoryID)
-        {
-            try
-            {
-                var assetsList = await assetServices.SearchByCategory(categoryID);
+                else
+                {
+                    if (categoryID != 0)
+                    {
+                        assetsList = await assetServices.SearchByCategory(categoryID);
+                    }
+                    else
+                    {
+                        assetsList = await assetServices.SearchByName(name);
+                    }
+                }
                 if (assetsList == null || !assetsList.Any())
                 {
                     return NotFound("There are no assets.");

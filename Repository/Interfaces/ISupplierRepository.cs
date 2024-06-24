@@ -7,7 +7,6 @@ namespace Repository.Interfaces
         public Task<Supplier> ReadByID(int id);
         public Task<Supplier> ReadByName(string name);
         public Task<Supplier> ReadByLocation(double? lon, double? lat);
-        public Task<List<Supplier>> SearchByName(string name);
-        public Task<List<Supplier>> SearchByAddress(string address);
+        public Task<List<Supplier>> Search(string name, string address);
     }
 }

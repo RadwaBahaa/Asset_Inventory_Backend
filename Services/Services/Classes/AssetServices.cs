@@ -10,10 +10,12 @@ namespace Services.Services.Classes
     public class AssetServices : IAssetServices
     {
         protected IAssetRepository assetRepository;
+        protected ICategoryRepository categoryRepository;
         protected IMapper mapper;
-        public AssetServices(IAssetRepository assetRepository, IMapper mapper)
+        public AssetServices(IAssetRepository assetRepository, ICategoryRepository categoryRepository, IMapper mapper)
         {
             this.assetRepository = assetRepository;
+            this.categoryRepository = categoryRepository;
             this.mapper = mapper;
         }
 
@@ -33,9 +35,17 @@ namespace Services.Services.Classes
                 }
                 else
                 {
-                    var newAsset = mapper.Map<Asset>(assetDTO);
-                    await assetRepository.Create(newAsset);
-                    return true;
+                    var findCategory = categoryRepository.ReadByID(assetDTO.CategoryID);
+                    if (findCategory == null)
+                    {
+                        throw new AggregateException("There is no Category by this ID");
+                    }
+                    else
+                    {
+                        var newAsset = mapper.Map<Asset>(assetDTO);
+                        await assetRepository.Create(newAsset);
+                        return true;
+                    }
                 }
             }
         }

@@ -20,31 +20,66 @@ namespace Services.Services.Classes
         }
 
         //________________ Create store ______________
-        public async Task<bool> Create(AddOrUpdateStoreDTO storeDTO)
+        public async Task<bool> CreateByData(AddOrUpdateStoreDTO storeDTO)
         {
 
             if (storeDTO == null)
             {
-                throw new ArgumentException("Store name cannot be empty!");
+                throw new ArgumentException("Store data cannot be empty!");
             }
             else
             {
                 var findStoreByName = await storeRepository.ReadByName(storeDTO.StoreName);
                 var findStoreByLocation = await storeRepository.ReadByLocation(storeDTO.Longitude, storeDTO.Latitude);
-                if (findStoreByName != null || findStoreByLocation !=null)
+                if (findStoreByName != null)
                 {
-                    throw new AggregateException("This Store already exists.");
+                    throw new ArgumentException("A store with this name already exists.");
+                }
+
+                if (findStoreByLocation != null)
+                {
+                    throw new ArgumentException("A store at this location already exists.");
                 }
                 else
                 {
-                var newStore = new Store
+                    var newStore = new Store
+                    {
+                        StoreName = storeDTO.StoreName,
+                        Location = new Point(storeDTO.Longitude.Value, storeDTO.Latitude.Value) { SRID = 4326 },
+                        Address = storeDTO.Address,
+                    };
+                    await storeRepository.Create(newStore);
+                    return true;
+                }
+            }
+        }
+        public async Task<bool> CreateByGeoJSON(AddStoreGeoJsonDTO storeDTO)
+        {
+            if (storeDTO == null)
+            { throw new ArgumentException("Store data cannot be empty!"); }
+            else
+            {
+                var findStoreByName = await storeRepository.ReadByName(storeDTO.properties.storeName);
+                var findStoreByLocation = await storeRepository.ReadByLocation(storeDTO.geometry.coordinates[0], storeDTO.geometry.coordinates[1]);
+                if (findStoreByName != null)
                 {
-                    StoreName = storeDTO.StoreName,
-                    Location = new Point(storeDTO.Longitude.Value, storeDTO.Latitude.Value) { SRID = 4326 },
-                    Address = storeDTO.Address,
-                };
-                await storeRepository.Create(newStore);
-                return true;
+                    throw new ArgumentException("A store with this name already exists.");
+                }
+
+                if (findStoreByLocation != null)
+                {
+                    throw new ArgumentException("A store at this location already exists.");
+                }
+                else
+                {
+                    var newStore = new Store
+                    {
+                        StoreName = storeDTO.properties.storeName,
+                        Location = new Point(storeDTO.geometry.coordinates[0], storeDTO.geometry.coordinates[1]) { SRID = 4326 },
+                        Address = storeDTO.properties.address,
+                    };
+                    await storeRepository.Create(newStore);
+                    return true;
                 }
             }
         }
@@ -58,12 +93,14 @@ namespace Services.Services.Classes
                 .ToListAsync();
             return mapper.Map<List<ReadStoreDTO>>(allStores);
         }
-        public async Task<List<StoreGeoJsonDTO>> ReadAllStoresAsGeoJson()
+        public async Task<List<ReadStoreGeoJsonDTO>> ReadAllStoresAsGeoJson()
         {
             var stores = await storeRepository.Read();
             var allStores = await stores
                 .Include(s => s.StoreAssets)
-                .Select(store => new StoreGeoJsonDTO(store))
+                .Include(s => s.StoreProcesses)
+                .Include(s => s.StoreRequests)
+                .Select(store => new ReadStoreGeoJsonDTO(store))
                 .ToListAsync();
             return allStores;
         }
@@ -72,21 +109,16 @@ namespace Services.Services.Classes
             var store = await storeRepository.ReadByID(storeID);
             return mapper.Map<ReadStoreDTO>(store);
         }
-        public async Task<StoreGeoJsonDTO> ReadStoreAsGeoJson(int id)
+        public async Task<ReadStoreGeoJsonDTO> ReadStoreAsGeoJson(int id)
         {
             var store = await storeRepository.ReadByID(id);
-            return new StoreGeoJsonDTO(store);
+            return new ReadStoreGeoJsonDTO(store);
         }
 
         //_______________Search for store _____________
-        public async Task<List<ReadStoreDTO>> SearchByName(string storeName)
+        public async Task<List<ReadStoreDTO>> Search(string name, string address)
         {
-            var storesList = await storeRepository.SearchByName(storeName);
-            return mapper.Map<List<ReadStoreDTO>>(storesList);
-        }
-        public async Task<List<ReadStoreDTO>> SearchByAddress(string Address)
-        {
-            var storesList = await storeRepository.SearchByAddress(Address);
+            var storesList = await storeRepository.Search(name, address);
             return mapper.Map<List<ReadStoreDTO>>(storesList);
         }
 

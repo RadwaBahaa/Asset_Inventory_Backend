@@ -4,7 +4,7 @@ using Services.Services.Interface;
 
 namespace Presentation.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/category")]
     [ApiController]
     public class CategoriesController : ControllerBase
     {
@@ -47,7 +47,7 @@ namespace Presentation.Controllers
         }
 
         // ___________________________ Read ___________________________
-        [HttpGet("readAll")]
+        [HttpGet("read")]
         public async Task<IActionResult> ReadAll()
         {
             try
@@ -68,7 +68,7 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("readByID/{id}")]
+        [HttpGet("read/{id}")]
         public async Task<IActionResult> ReadByID([FromRoute] int id)
         {
             try
@@ -91,8 +91,8 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Search __________________________
-        [HttpGet("searchByName/{name}")]
-        public async Task<IActionResult> SearchByName([FromRoute] string name)
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchByName([FromQuery] string name)
         {
             try
             {

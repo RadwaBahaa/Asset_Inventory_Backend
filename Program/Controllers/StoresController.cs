@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Services.Services.Interface;
 using DTOs.DTOs.Stores;
+using Models.DTOs;
 
 namespace Presentation.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/stores")]
     [ApiController]
     public class StoresController : ControllerBase
     {
@@ -15,7 +16,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Create __________________________
-        [HttpPost("create")]
+        [HttpPost("create/data")]
         public async Task<IActionResult> Create([FromBody] AddOrUpdateStoreDTO storeDTO)
         {
             if (storeDTO == null)
@@ -24,7 +25,35 @@ namespace Presentation.Controllers
             }
             try
             {
-                var createStore = await storeServices.Create(storeDTO);
+                var createStore = await storeServices.CreateByData(storeDTO);
+                if (createStore)
+                {
+                    return Ok("The store was created successfully.");
+                }
+                else
+                {
+                    return NotFound("Process not found.");
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+        [HttpPost("create/geojson")]
+        public async Task<IActionResult> Create([FromBody] AddStoreGeoJsonDTO storeDTO)
+        {
+            if (storeDTO == null)
+            {
+                return BadRequest("Invalid input data.");
+            }
+            try
+            {
+                var createStore = await storeServices.CreateByGeoJSON(storeDTO);
                 if (createStore)
                 {
                     return Ok("The store was created successfully.");
@@ -45,7 +74,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Read __________________________
-        [HttpGet("readAll")]
+        [HttpGet("read/json")]
         public async Task<IActionResult> ReadAll()
         {
             try
@@ -59,14 +88,14 @@ namespace Presentation.Controllers
             }
             catch (ArgumentException ex)
             {
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("readAllStoresAsGeoJson")]
+        [HttpGet("read/geojson")]
         public async Task<IActionResult> ReadAllStoresAsGeoJson()
         {
             try
@@ -80,19 +109,19 @@ namespace Presentation.Controllers
             }
             catch (ArgumentException ex)
             {
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("readByID/{ID}")]
-        public async Task<IActionResult> ReadByID([FromRoute] int ID)
+        [HttpGet("read/json/{id}")]
+        public async Task<IActionResult> ReadByID([FromRoute] int id)
         {
             try
             {
-                var store = await storeServices.ReadByID(ID);
+                var store = await storeServices.ReadByID(id);
                 if (store == null)
                 {
                     return NotFound("There is no store by this ID.");
@@ -101,52 +130,32 @@ namespace Presentation.Controllers
             }
             catch (ArgumentException ex)
             {
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("readStoreAsGeoJson/{id}")]
+        [HttpGet("read/geojson/{id}")]
         public async Task<IActionResult> ReadStoreAsGeoJson(int id)
         {
             try
             {
-                var storeGeoJson = await storeServices.ReadStoreAsGeoJson(id);
-                if (storeGeoJson == null)
+                var store = await storeServices.ReadByID(id);
+                if (store == null)
                 {
-                    return NotFound();
+                    return NotFound("There is no store by this ID.");
                 }
-                return Ok(storeGeoJson);
+                else
+                {
+                    var storeGeoJson = await storeServices.ReadStoreAsGeoJson(id);
+                    return Ok(storeGeoJson);
+                }
             }
             catch (ArgumentException ex)
             {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-
-        }
-
-        // __________________________ Search __________________________
-        [HttpGet("searchByName/{name}")]
-        public async Task<IActionResult> SearchByName([FromRoute] string name)
-        {
-            try
-            {
-                var stores = await storeServices.SearchByName(name);
-                if (stores == null || !stores.Any())
-                {
-                    return NotFound("There are no stores.");
-                }
-                return Ok(stores);
-            }
-            catch (ArgumentException ex)
-            {
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -154,12 +163,16 @@ namespace Presentation.Controllers
             }
         }
 
-        [HttpGet("searchByAddress/{address}")]
-        public async Task<IActionResult> SearchByAddress([FromRoute] string address)
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] string? name, [FromQuery] string? address)
         {
             try
             {
-                var stores = await storeServices.SearchByAddress(address);
+                if (string.IsNullOrWhiteSpace(name) && string.IsNullOrWhiteSpace(address))
+                {
+                    return BadRequest("Either 'name' or 'address' must be provided.");
+                }
+                var stores = await storeServices.Search(name, address);
                 if (stores == null || !stores.Any())
                 {
                     return NotFound("There are no stores.");
@@ -176,14 +189,19 @@ namespace Presentation.Controllers
             }
         }
 
+
         // __________________________ Update __________________________
-        [HttpPut("update/{ID}")]
-        public async Task<IActionResult> Update([FromRoute] int ID, [FromBody] AddOrUpdateStoreDTO updateStoreDTO)
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] AddOrUpdateStoreDTO updateStoreDTO)
         {
             try
             {
-                var store = await storeServices.Update(updateStoreDTO, ID);
+                var store = await storeServices.Update(updateStoreDTO, id);
                 return Ok(store);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (ArgumentException ex)
             {
@@ -196,13 +214,17 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Delete __________________________
-        [HttpDelete("delete/{ID}")]
-        public async Task<IActionResult> Delete(int ID)
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> Delete([FromRoute]int id)
         {
             try
             {
-                var result = await storeServices.Delete(ID);
-                return Ok(result);
+                var result = await storeServices.Delete(id);
+                return Ok("The store was deleted successfully.");
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (ArgumentException ex)
             {

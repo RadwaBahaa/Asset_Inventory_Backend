@@ -27,7 +27,7 @@ namespace Repository.Classes
                 .Include(s => s.StoreAssets)
                 .Include(s => s.StoreProcesses)
                 .Include(s => s.StoreRequests)
-                .FirstOrDefaultAsync(a => a.StoreName == name);
+                .FirstOrDefaultAsync(a => a.StoreName.ToLower() == name.ToLower());
             return store;
         }
         public async Task<Store> ReadByLocation(double? lon, double? lat)
@@ -36,25 +36,26 @@ namespace Repository.Classes
                 .FirstOrDefaultAsync(a => a.Location.X == lon && a.Location.Y == lat);
             return store;
         }
-        public async Task<List<Store>> SearchByName(string name)
+        public async Task<List<Store>> Search(string name, string address)
         {
-            var storesList = await context.Stores
+            IQueryable<Store> stores = context.Stores
                 .Include(s => s.StoreAssets)
                 .Include(s => s.StoreProcesses)
-                .Include(s => s.StoreRequests)
-                .Where(a => a.StoreName.ToLower().Contains(name.ToLower()))
-                .ToListAsync();
-            return storesList;
-        }
-        public async Task<List<Store>> SearchByAddress(string address)
-        {
-            var storesList = await context.Stores
-                .Include(s => s.StoreAssets)
-                .Include(s => s.StoreProcesses)
-                .Include(s => s.StoreRequests)
-                .Where(a => a.Address.ToLower().Contains(address.ToLower()))
-                .ToListAsync();
-            return storesList;
+                .Include(s => s.StoreRequests);
+
+            if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(address))
+            {
+                stores = stores.Where(s => s.StoreName.ToLower().Contains(name.ToLower()) && s.Address.ToLower().Contains(address.ToLower()));
+            }
+            else if (!string.IsNullOrWhiteSpace(name))
+            {
+                stores = stores.Where(s => s.StoreName.ToLower().Contains(name.ToLower()));
+            }
+            else if (!string.IsNullOrWhiteSpace(address))
+            {
+                stores = stores.Where(s => s.Address.ToLower().Contains(address.ToLower()));
+            }
+            return await stores.ToListAsync();
         }
     }
 }

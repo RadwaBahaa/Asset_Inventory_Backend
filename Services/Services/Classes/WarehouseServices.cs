@@ -20,20 +20,25 @@ namespace Services.Services.Classes
         }
 
         //________________ Create warehouse ______________
-        public async Task<bool> Create(AddOrUpdateWarehouseDTO warehouseDTO)
+        public async Task<bool> CreateByData(AddOrUpdateWarehouseDTO warehouseDTO)
         {
 
             if (warehouseDTO == null)
             {
-                throw new ArgumentException("Warehouse name cannot be empty!");
+                throw new ArgumentException("Warehouse data cannot be empty!");
             }
             else
             {
                 var findWarehouseByName = await warehouseRepository.ReadByName(warehouseDTO.WarehouseName);
                 var findWarehouseByLocation = await warehouseRepository.ReadByLocation(warehouseDTO.Longitude, warehouseDTO.Latitude);
-                if (findWarehouseByName != null || findWarehouseByLocation != null)
+                if (findWarehouseByName != null)
                 {
-                    throw new AggregateException("This Warehouse already exists.");
+                    throw new ArgumentException("A warehouse with this name already exists.");
+                }
+
+                if (findWarehouseByLocation != null)
+                {
+                    throw new ArgumentException("A warehouse at this location already exists.");
                 }
                 else
                 {
@@ -42,6 +47,36 @@ namespace Services.Services.Classes
                         WarehouseName = warehouseDTO.WarehouseName,
                         Location = new Point(warehouseDTO.Longitude.Value, warehouseDTO.Latitude.Value) { SRID = 4326 },
                         Address = warehouseDTO.Address,
+                    };
+                    await warehouseRepository.Create(newWarehouse);
+                    return true;
+                }
+            }
+        }
+        public async Task<bool> CreateByGeoJSON(AddWarehouseGeoJsonDTO warehouseDTO)
+        {
+            if (warehouseDTO == null)
+            { throw new ArgumentException("Warehouse data cannot be empty!"); }
+            else
+            {
+                var findWarehouseByName = await warehouseRepository.ReadByName(warehouseDTO.properties.warehouseName);
+                var findWarehouseByLocation = await warehouseRepository.ReadByLocation(warehouseDTO.geometry.coordinates[0], warehouseDTO.geometry.coordinates[1]);
+                if (findWarehouseByName != null)
+                {
+                    throw new ArgumentException("A warehouse with this name already exists.");
+                }
+
+                if (findWarehouseByLocation != null)
+                {
+                    throw new ArgumentException("A warehouse at this location already exists.");
+                }
+                else
+                {
+                    var newWarehouse = new Warehouse
+                    {
+                        WarehouseName = warehouseDTO.properties.warehouseName,
+                        Location = new Point(warehouseDTO.geometry.coordinates[0], warehouseDTO.geometry.coordinates[1]) { SRID = 4326 },
+                        Address = warehouseDTO.properties.address,
                     };
                     await warehouseRepository.Create(newWarehouse);
                     return true;
@@ -58,12 +93,12 @@ namespace Services.Services.Classes
                 .ToListAsync();
             return mapper.Map<List<ReadWarehouseDTO>>(allWarehouses);
         }
-        public async Task<List<WarehouseGeoJsonDTO>> ReadAllWarehousesAsGeoJson()
+        public async Task<List<ReadWarehouseGeoJsonDTO>> ReadAllWarehousesAsGeoJson()
         {
             var warehouses = await warehouseRepository.Read();
             var allWarehouses = await warehouses
                 .Include(s => s.WarehouseAssets)
-                .Select(warehouse => new WarehouseGeoJsonDTO(warehouse))
+                .Select(warehouse => new ReadWarehouseGeoJsonDTO(warehouse))
                 .ToListAsync();
             return allWarehouses;
         }
@@ -72,21 +107,16 @@ namespace Services.Services.Classes
             var warehouse = await warehouseRepository.ReadByID(warehouseID);
             return mapper.Map<ReadWarehouseDTO>(warehouse);
         }
-        public async Task<WarehouseGeoJsonDTO> ReadWarehouseAsGeoJson(int id)
+        public async Task<ReadWarehouseGeoJsonDTO> ReadWarehouseAsGeoJson(int id)
         {
             var warehouse = await warehouseRepository.ReadByID(id);
-            return new WarehouseGeoJsonDTO(warehouse);
+            return new ReadWarehouseGeoJsonDTO(warehouse);
         }
 
         //_______________Search for warehouse _____________
-        public async Task<List<ReadWarehouseDTO>> SearchByName(string warehouseName)
+        public async Task<List<ReadWarehouseDTO>> Search(string name, string address)
         {
-            var warehousesList = await warehouseRepository.SearchByName(warehouseName);
-            return mapper.Map<List<ReadWarehouseDTO>>(warehousesList);
-        }
-        public async Task<List<ReadWarehouseDTO>> SearchByAddress(string Address)
-        {
-            var warehousesList = await warehouseRepository.SearchByAddress(Address);
+            var warehousesList = await warehouseRepository.Search(name, address);
             return mapper.Map<List<ReadWarehouseDTO>>(warehousesList);
         }
 
