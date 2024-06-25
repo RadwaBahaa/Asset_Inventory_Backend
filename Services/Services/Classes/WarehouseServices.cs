@@ -27,61 +27,54 @@ namespace Services.Services.Classes
             {
                 throw new ArgumentException("Warehouse data cannot be empty!");
             }
-            else
-            {
-                var findWarehouseByName = await warehouseRepository.ReadByName(warehouseDTO.WarehouseName);
-                var findWarehouseByLocation = await warehouseRepository.ReadByLocation(warehouseDTO.Longitude, warehouseDTO.Latitude);
-                if (findWarehouseByName != null)
-                {
-                    throw new ArgumentException("A warehouse with this name already exists.");
-                }
 
-                if (findWarehouseByLocation != null)
-                {
-                    throw new ArgumentException("A warehouse at this location already exists.");
-                }
-                else
-                {
-                    var newWarehouse = new Warehouse
-                    {
-                        WarehouseName = warehouseDTO.WarehouseName,
-                        Location = new Point(warehouseDTO.Longitude.Value, warehouseDTO.Latitude.Value) { SRID = 4326 },
-                        Address = warehouseDTO.Address,
-                    };
-                    await warehouseRepository.Create(newWarehouse);
-                    return true;
-                }
+            var findWarehouseByName = await warehouseRepository.ReadByName(warehouseDTO.WarehouseName);
+            var findWarehouseByLocation = await warehouseRepository.ReadByLocation(warehouseDTO.Longitude, warehouseDTO.Latitude);
+            if (findWarehouseByName != null)
+            {
+                throw new ArgumentException("A warehouse with this name already exists.");
             }
+
+            if (findWarehouseByLocation != null)
+            {
+                throw new ArgumentException("A warehouse at this location already exists.");
+            }
+
+            var newWarehouse = new Warehouse
+            {
+                WarehouseName = warehouseDTO.WarehouseName,
+                Location = new Point(warehouseDTO.Longitude, warehouseDTO.Latitude) { SRID = 4326 },
+                Address = warehouseDTO.Address,
+            };
+            await warehouseRepository.Create(newWarehouse);
+            return true;
         }
         public async Task<bool> CreateByGeoJSON(AddWarehouseGeoJsonDTO warehouseDTO)
         {
             if (warehouseDTO == null)
             { throw new ArgumentException("Warehouse data cannot be empty!"); }
-            else
-            {
-                var findWarehouseByName = await warehouseRepository.ReadByName(warehouseDTO.properties.warehouseName);
-                var findWarehouseByLocation = await warehouseRepository.ReadByLocation(warehouseDTO.geometry.coordinates[0], warehouseDTO.geometry.coordinates[1]);
-                if (findWarehouseByName != null)
-                {
-                    throw new ArgumentException("A warehouse with this name already exists.");
-                }
 
-                if (findWarehouseByLocation != null)
-                {
-                    throw new ArgumentException("A warehouse at this location already exists.");
-                }
-                else
-                {
-                    var newWarehouse = new Warehouse
-                    {
-                        WarehouseName = warehouseDTO.properties.warehouseName,
-                        Location = new Point(warehouseDTO.geometry.coordinates[0], warehouseDTO.geometry.coordinates[1]) { SRID = 4326 },
-                        Address = warehouseDTO.properties.address,
-                    };
-                    await warehouseRepository.Create(newWarehouse);
-                    return true;
-                }
+            var findWarehouseByName = await warehouseRepository.ReadByName(warehouseDTO.properties.warehouseName);
+            var findWarehouseByLocation = await warehouseRepository.ReadByLocation(warehouseDTO.geometry.coordinates[0], warehouseDTO.geometry.coordinates[1]);
+            if (findWarehouseByName != null)
+            {
+                throw new ArgumentException("A warehouse with this name already exists.");
             }
+
+            if (findWarehouseByLocation != null)
+            {
+                throw new ArgumentException("A warehouse at this location already exists.");
+            }
+
+            var newWarehouse = new Warehouse
+            {
+                WarehouseName = warehouseDTO.properties.warehouseName,
+                Location = new Point(warehouseDTO.geometry.coordinates[0], warehouseDTO.geometry.coordinates[1]) { SRID = 4326 },
+                Address = warehouseDTO.properties.address,
+            };
+            await warehouseRepository.Create(newWarehouse);
+            return true;
+
         }
 
         //_______________Read warehouses _________________ 
@@ -94,7 +87,7 @@ namespace Services.Services.Classes
                 .Include(s => s.WarehouseRequests)
                 .Include(s => s.DeliveryProcessWSt)
                 .Include(s => s.WarehouseProcesses)
-                .Include (s => s.StoreRequests)
+                .Include(s => s.StoreRequests)
                 .ToListAsync();
             return mapper.Map<List<ReadWarehouseDTO>>(allWarehouses);
         }
@@ -138,14 +131,12 @@ namespace Services.Services.Classes
             {
                 throw new KeyNotFoundException("There is no warehouse by this ID.");
             }
-            else
-            {
-                warehouse.WarehouseName = warehouseDTO.WarehouseName;
-                warehouse.Location = new Point(warehouseDTO.Longitude.Value, warehouseDTO.Latitude.Value) { SRID = 4326 };
-                warehouse.Address = warehouseDTO.Address;
-                await warehouseRepository.Update();
-                return mapper.Map<ReadWarehouseDTO>(warehouse);
-            }
+
+            warehouse.WarehouseName = warehouseDTO.WarehouseName;
+            warehouse.Location = new Point(warehouseDTO.Longitude, warehouseDTO.Latitude) { SRID = 4326 };
+            warehouse.Address = warehouseDTO.Address;
+            await warehouseRepository.Update();
+            return mapper.Map<ReadWarehouseDTO>(warehouse);
         }
 
         //_______________Delete warehouse by ID_________________ 
@@ -156,11 +147,9 @@ namespace Services.Services.Classes
             {
                 throw new KeyNotFoundException("There is no warehouse by this ID.");
             }
-            else
-            {
-                await warehouseRepository.Delete(warehouse);
-                return true;
-            }
+
+            await warehouseRepository.Delete(warehouse);
+            return true;
         }
     }
 }

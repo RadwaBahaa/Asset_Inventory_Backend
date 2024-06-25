@@ -45,7 +45,7 @@ namespace Services.Services.Classes
                     var newStore = new Store
                     {
                         StoreName = storeDTO.StoreName,
-                        Location = new Point(storeDTO.Longitude.Value, storeDTO.Latitude.Value) { SRID = 4326 },
+                        Location = new Point(storeDTO.Longitude, storeDTO.Latitude) { SRID = 4326 },
                         Address = storeDTO.Address,
                     };
                     await storeRepository.Create(newStore);
@@ -133,7 +133,7 @@ namespace Services.Services.Classes
             else
             {
                 store.StoreName = storeDTO.StoreName;
-                store.Location = new Point(storeDTO.Longitude.Value, storeDTO.Latitude.Value) { SRID = 4326 };
+                store.Location = new Point(storeDTO.Longitude, storeDTO.Latitude) { SRID = 4326 };
                 store.Address = storeDTO.Address;
                 await storeRepository.Update();
                 return mapper.Map<ReadStoreDTO>(store);

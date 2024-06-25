@@ -27,61 +27,52 @@ namespace Services.Services.Classes
             {
                 throw new ArgumentException("Supplier data cannot be empty!");
             }
-            else
-            {
-                var findSupplierByName = await supplierRepository.ReadByName(supplierDTO.SupplierName);
-                var findSupplierByLocation = await supplierRepository.ReadByLocation(supplierDTO.Longitude, supplierDTO.Latitude);
-                if (findSupplierByName != null)
-                {
-                    throw new ArgumentException("A supplier with this name already exists.");
-                }
 
-                if (findSupplierByLocation != null)
-                {
-                    throw new ArgumentException("A supplier at this location already exists.");
-                }
-                else
-                {
-                    var newSupplier = new Supplier
-                    {
-                        SupplierName = supplierDTO.SupplierName,
-                        Location = new Point(supplierDTO.Longitude.Value, supplierDTO.Latitude.Value) { SRID = 4326 },
-                        Address = supplierDTO.Address,
-                    };
-                    await supplierRepository.Create(newSupplier);
-                    return true;
-                }
+            var findSupplierByName = await supplierRepository.ReadByName(supplierDTO.SupplierName);
+            var findSupplierByLocation = await supplierRepository.ReadByLocation(supplierDTO.Longitude, supplierDTO.Latitude);
+            if (findSupplierByName != null)
+            {
+                throw new ArgumentException("A supplier with this name already exists.");
             }
+
+            if (findSupplierByLocation != null)
+            {
+                throw new ArgumentException("A supplier at this location already exists.");
+            }
+
+            var newSupplier = new Supplier
+            {
+                SupplierName = supplierDTO.SupplierName,
+                Location = new Point(supplierDTO.Longitude, supplierDTO.Latitude) { SRID = 4326 },
+                Address = supplierDTO.Address,
+            };
+            await supplierRepository.Create(newSupplier);
+            return true;
         }
         public async Task<bool> CreateByGeoJSON(AddSupplierGeoJsonDTO supplierDTO)
         {
             if (supplierDTO == null)
             { throw new ArgumentException("Supplier data cannot be empty!"); }
-            else
+            var findSupplierByName = await supplierRepository.ReadByName(supplierDTO.properties.supplierName);
+            var findSupplierByLocation = await supplierRepository.ReadByLocation(supplierDTO.geometry.coordinates[0], supplierDTO.geometry.coordinates[1]);
+            if (findSupplierByName != null)
             {
-                var findSupplierByName = await supplierRepository.ReadByName(supplierDTO.properties.supplierName);
-                var findSupplierByLocation = await supplierRepository.ReadByLocation(supplierDTO.geometry.coordinates[0], supplierDTO.geometry.coordinates[1]);
-                if (findSupplierByName != null)
-                {
-                    throw new ArgumentException("A supplier with this name already exists.");
-                }
-
-                if (findSupplierByLocation != null)
-                {
-                    throw new ArgumentException("A supplier at this location already exists.");
-                }
-                else
-                {
-                    var newSupplier = new Supplier
-                    {
-                        SupplierName = supplierDTO.properties.supplierName,
-                        Location = new Point(supplierDTO.geometry.coordinates[0], supplierDTO.geometry.coordinates[1]) { SRID = 4326 },
-                        Address = supplierDTO.properties.address,
-                    };
-                    await supplierRepository.Create(newSupplier);
-                    return true;
-                }
+                throw new ArgumentException("A supplier with this name already exists.");
             }
+
+            if (findSupplierByLocation != null)
+            {
+                throw new ArgumentException("A supplier at this location already exists.");
+            }
+
+            var newSupplier = new Supplier
+            {
+                SupplierName = supplierDTO.properties.supplierName,
+                Location = new Point(supplierDTO.geometry.coordinates[0], supplierDTO.geometry.coordinates[1]) { SRID = 4326 },
+                Address = supplierDTO.properties.address,
+            };
+            await supplierRepository.Create(newSupplier);
+            return true;
         }
 
         //_______________Read suppliers _________________ 
@@ -128,14 +119,12 @@ namespace Services.Services.Classes
             {
                 throw new KeyNotFoundException("There is no supplier by this ID.");
             }
-            else
-            {
-                supplier.SupplierName = supplierDTO.SupplierName;
-                supplier.Location = new Point(supplierDTO.Longitude.Value, supplierDTO.Latitude.Value) { SRID = 4326 };
-                supplier.Address = supplierDTO.Address;
-                await supplierRepository.Update();
-                return mapper.Map<ReadSupplierDTO>(supplier);
-            }
+
+            supplier.SupplierName = supplierDTO.SupplierName;
+            supplier.Location = new Point(supplierDTO.Longitude, supplierDTO.Latitude) { SRID = 4326 };
+            supplier.Address = supplierDTO.Address;
+            await supplierRepository.Update();
+            return mapper.Map<ReadSupplierDTO>(supplier);
         }
 
         //_______________Delete supplier by ID_________________ 
@@ -146,11 +135,9 @@ namespace Services.Services.Classes
             {
                 throw new KeyNotFoundException("There is no supplier by this ID.");
             }
-            else
-            {
-                await supplierRepository.Delete(supplier);
-                return true;
-            }
+
+            await supplierRepository.Delete(supplier);
+            return true;
         }
     }
 }
