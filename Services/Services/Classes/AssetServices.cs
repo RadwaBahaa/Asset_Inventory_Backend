@@ -67,9 +67,9 @@ namespace Services.Services.Classes
         }
 
         // __________________________ Search for Assets ___________________________
-        public async Task<List<ReadAssetDTO>> Search(string? name, int? categoryID)
+        public async Task<List<ReadAssetDTO>> Search(string? name, string? categoryName)
         {
-            var assetsList = await assetRepository.Search(name, categoryID);
+            var assetsList = await assetRepository.Search(name, categoryName);
             return mapper.Map<List<ReadAssetDTO>>(assetsList);
         }
 

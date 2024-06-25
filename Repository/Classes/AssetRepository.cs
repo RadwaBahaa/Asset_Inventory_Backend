@@ -27,20 +27,20 @@ namespace Repository.Classes
                 .FirstOrDefaultAsync(a => a.AssetName.ToLower() == name.ToLower());
             return asset;
         }
-        public async Task<List<Asset>> Search(string? name, int? categoryID)
+        public async Task<List<Asset>> Search(string? name, string? categoryName)
         {
             IQueryable<Asset> assetsList = context.Assets
                 .Include(a => a.Category);
-            if(!string.IsNullOrWhiteSpace(name) && categoryID > 0)
+            if(!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(categoryName))
             {
-                assetsList = assetsList.Where(a=>a.AssetName.ToLower() == name.ToLower() && a.CategoryID==categoryID);
+                assetsList = assetsList.Where(a=>a.AssetName.ToLower().Contains(name.ToLower()) && a.Category.CategoryName.ToLower().Contains(categoryName.ToLower()));
             }else if (!string.IsNullOrWhiteSpace(name))
             {
-                assetsList = assetsList.Where(a => a.AssetName.ToLower() == name.ToLower());
+                assetsList = assetsList.Where(a => a.AssetName.ToLower().Contains(name.ToLower()));
             }
             else
             {
-                assetsList = assetsList.Where(a => a.CategoryID == categoryID);
+                assetsList = assetsList.Where(a => a.Category.CategoryName.ToLower().Contains(categoryName.ToLower()));
             }
             return await assetsList.ToListAsync();
         }

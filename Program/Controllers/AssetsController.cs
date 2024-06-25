@@ -90,16 +90,16 @@ namespace Presentation.Controllers
 
         // __________________________ Search __________________________
         [HttpGet("search")]
-        public async Task<IActionResult> Search([FromQuery] string? name, [FromQuery] int? categoryID)
+        public async Task<IActionResult> Search([FromQuery] string? name, [FromQuery] string? categoryName)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(name) && categoryID == 0)
+                if (string.IsNullOrWhiteSpace(name) && string.IsNullOrWhiteSpace(categoryName))
                 {
                     return BadRequest("Either 'name' or 'categoryID' must be provided.");
                 }
-                
-                var assetsList = await assetServices.Search(name, categoryID);
+
+                var assetsList = await assetServices.Search(name, categoryName);
                 if (assetsList == null || !assetsList.Any())
                 {
                     return NotFound("There are no assets.");
@@ -115,6 +115,7 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
 
         // ___________________________ Update ___________________________
         [HttpPut("update/{id}")]

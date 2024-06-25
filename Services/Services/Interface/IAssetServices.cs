@@ -8,7 +8,7 @@ namespace Services.Services.Interface
         public Task<List<ReadAssetDTO>> ReadAll();
         public Task<ReadAssetDTO> ReadByID(int ID);
         public Task<ReadAssetDTO> ReadByName(string name);
-        public Task<List<ReadAssetDTO>> Search(string? name, int? categoryID);
+        public Task<List<ReadAssetDTO>> Search(string? name, string? categoryName);
         public Task<ReadAssetDTO> Update(AddOrUpdateAssetDTO assetDTO, int ID);
         public Task<bool> Delete(int ID);
     }
