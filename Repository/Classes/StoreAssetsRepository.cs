@@ -20,9 +20,9 @@ namespace Repository.Classes
                 .FirstOrDefaultAsync(sa => sa.StoreID == storeID && sa.AssetID == assetID);
             return storeAsset;
         }
-        public async Task<StoreAsset> ReadBySerialNumber(string serialNumber)
+        public async Task<List<StoreAsset>> ReadBySerialNumber(string serialNumber)
         {
-            var storeAsset = await context.StoreAssets.FirstOrDefaultAsync(sa => sa.SerialNumber == serialNumber);
+            var storeAsset = await context.StoreAssets.Where(sa => sa.SerialNumber == serialNumber).ToListAsync();
             return storeAsset;
         }
         public async Task<List<StoreAsset>> SearchByName(string assetName)

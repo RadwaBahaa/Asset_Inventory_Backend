@@ -45,12 +45,16 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Read __________________________
-        [HttpGet("readAll")]
+        [HttpGet("read")]
         public async Task<IActionResult> ReadAll()
         {
             try
             {
                 var storeAssets = await storeAssetServices.ReadAll();
+                if (storeAssets == null || storeAssets.Any())
+                {
+                    return NotFound("There are no assets.");
+                }
                 return Ok(storeAssets);
             }
             catch (ArgumentException ex)
@@ -63,13 +67,17 @@ namespace Presentation.Controllers
             }
         }
 
-        [HttpGet("readBySerialNumber/{serialNumber}")]
+        [HttpGet("read/{serialNumber}")]
         public async Task<IActionResult> ReadBySerialNumber([FromRoute] string serialNumber)
         {
             try
             {
-                var storeAsset = await storeAssetServices.ReadBySerialNumber(serialNumber);
-                return Ok(storeAsset);
+                var storeAssets = await storeAssetServices.ReadBySerialNumber(serialNumber);
+                if (storeAssets == null || storeAssets.Any())
+                {
+                    return NotFound("There is no asset by this Serial Number.");
+                }
+                return Ok(storeAssets);
             }
             catch (ArgumentException ex)
             {
@@ -90,6 +98,10 @@ namespace Presentation.Controllers
                 var updatedStoreAsset = await storeAssetServices.Update(storeAssetsDTO, assetID, serialNumber);
                 return Ok(updatedStoreAsset);
             }
+            catch(KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
             catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
@@ -108,6 +120,10 @@ namespace Presentation.Controllers
             {
                 var result = await storeAssetServices.Delete(assetID, serialNumber);
                 return Ok(result);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (ArgumentException ex)
             {

@@ -36,26 +36,12 @@ namespace Services.Services.Classes
         public async Task<List<ReadStoreAssetsDTO>> ReadAll()
         {
             var storeAssets = await storeAssetRepository.Read();
-            if (storeAssets.Any())
-            {
-                return mapper.Map<List<ReadStoreAssetsDTO>>(storeAssets);
-            }
-            else
-            {
-                throw new AggregateException("There are no assets.");
-            }
+            return mapper.Map<List<ReadStoreAssetsDTO>>(storeAssets);
         }
-        public async Task<ReadStoreAssetsDTO> ReadBySerialNumber(string serialNumber)
+        public async Task<List<ReadStoreAssetsDTO>> ReadBySerialNumber(string serialNumber)
         {
             var storeAsset = await storeAssetRepository.ReadBySerialNumber(serialNumber);
-            if (storeAsset != null)
-            {
-                return mapper.Map<ReadStoreAssetsDTO>(storeAsset);
-            }
-            else
-            {
-                throw new AggregateException("There is no asset by this Serial Number.");
-            }
+            return mapper.Map<List<ReadStoreAssetsDTO>>(storeAsset);
         }
 
         //_______________Update store asset by ID_________________ 
@@ -64,14 +50,12 @@ namespace Services.Services.Classes
             var storeAsset = await storeAssetRepository.ReadByID(AssetID, SerialNumber);
             if (storeAsset == null)
             {
-                throw new AggregateException("There is no asset by this ID and Serial Number.");
+                throw new KeyNotFoundException("There is no asset by this ID and Serial Number.");
             }
-            else
-            {
-                mapper.Map(addOrUpdateStoreAssetsDTO, storeAsset);
-                await storeAssetRepository.Update();
-                return mapper.Map<ReadStoreAssetsDTO>(storeAsset);
-            }
+
+            mapper.Map(addOrUpdateStoreAssetsDTO, storeAsset);
+            await storeAssetRepository.Update();
+            return mapper.Map<ReadStoreAssetsDTO>(storeAsset);
         }
 
         //_______________Delete store asset by ID_________________ 
@@ -81,13 +65,11 @@ namespace Services.Services.Classes
 
             if (storeAsset == null)
             {
-                throw new AggregateException("There is no asset by this ID and Serial Number.");
+                throw new KeyNotFoundException("There is no asset by this ID and Serial Number.");
             }
-            else
-            {
-                await storeAssetRepository.Delete(storeAsset);
-                return true;
-            }
+
+            await storeAssetRepository.Delete(storeAsset);
+            return true;
         }
     }
 }

@@ -48,15 +48,11 @@ public class Program
             option.AddProfile<MapProfile>();
         });
 
-        //builder.Services.AddIdentity<IdentityUser, IdentityRole>(option =>
-        //{
-        //    option.SignIn.RequireConfirmedEmail = true;
-        //}).AddEntityFrameworkStores<AssetInventoryContext>();
-        builder.Services.AddDbContext<AssetInventoryContext>(option =>
+        builder.Services.AddDbContext<AssetInventoryContext>(options =>
         {
-            option.UseSqlServer(builder.Configuration.GetConnectionString("DataBase"),
-            sqlServerOptions => sqlServerOptions.UseNetTopologySuite());
-        });
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DataBase"),
+                sqlServerOptions => sqlServerOptions.UseNetTopologySuite());
+        }, ServiceLifetime.Scoped);
 
         // Configure CORS policy
         builder.Services.AddCors(options =>
@@ -64,7 +60,7 @@ public class Program
             options.AddPolicy("AllowReactDev",
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:3000") // Adjust with your React frontend URL
+                    builder.WithOrigins("http://localhost:3000")
                            .AllowAnyHeader()
                            .AllowAnyMethod();
                 });

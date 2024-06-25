@@ -26,28 +26,22 @@ namespace Services.Services.Classes
             {
                 throw new AggregateException("There is no data in body");
             }
-            else
+
+            var findAsset = await assetRepository.ReadByName(assetDTO.AssetName);
+            if (findAsset != null)
             {
-                var findAsset = await assetRepository.ReadByName(assetDTO.AssetName);
-                if (findAsset != null)
-                {
-                    throw new AggregateException("This Asset already exists.");
-                }
-                else
-                {
-                    var findCategory = categoryRepository.ReadByID(assetDTO.CategoryID);
-                    if (findCategory == null)
-                    {
-                        throw new AggregateException("There is no Category by this ID");
-                    }
-                    else
-                    {
-                        var newAsset = mapper.Map<Asset>(assetDTO);
-                        await assetRepository.Create(newAsset);
-                        return true;
-                    }
-                }
+                throw new AggregateException("This Asset already exists.");
             }
+
+            var findCategory = await categoryRepository.ReadByID(assetDTO.CategoryID);
+            if (findCategory == null)
+            {
+                throw new AggregateException("There is no Category by this ID");
+            }
+
+            var newAsset = mapper.Map<Asset>(assetDTO);
+            await assetRepository.Create(newAsset);
+            return true;
         }
 
         // __________________________ Read Assets ___________________________
@@ -73,14 +67,9 @@ namespace Services.Services.Classes
         }
 
         // __________________________ Search for Assets ___________________________
-        public async Task<List<ReadAssetDTO>> SearchByName(string name)
+        public async Task<List<ReadAssetDTO>> Search(string? name, int? categoryID)
         {
-            var assetsList = await assetRepository.SearchByName(name);
-            return mapper.Map<List<ReadAssetDTO>>(assetsList);
-        }
-        public async Task<List<ReadAssetDTO>> SearchByCategory(int categoryID)
-        {
-            var assetsList = await assetRepository.SearchByCategory(categoryID);
+            var assetsList = await assetRepository.Search(name, categoryID);
             return mapper.Map<List<ReadAssetDTO>>(assetsList);
         }
 
@@ -92,12 +81,10 @@ namespace Services.Services.Classes
             {
                 throw new KeyNotFoundException("There is no asset by this ID.");
             }
-            else
-            {
-                mapper.Map(assetDTO, findAsset);
-                await assetRepository.Update();
-                return mapper.Map<ReadAssetDTO>(findAsset);
-            }
+
+            mapper.Map(assetDTO, findAsset);
+            await assetRepository.Update();
+            return mapper.Map<ReadAssetDTO>(findAsset);
         }
 
         // __________________________ Delete an Asset ___________________________
@@ -108,11 +95,9 @@ namespace Services.Services.Classes
             {
                 throw new KeyNotFoundException("There is no asset by this ID.");
             }
-            else
-            {
-                await assetRepository.Delete(findasset);
-                return true;
-            }
+
+            await assetRepository.Delete(findasset);
+            return true;
         }
     }
 }

@@ -6,7 +6,6 @@ namespace Repository.Interfaces
     {
         public Task<Asset> ReadByID(int id);
         public Task<Asset> ReadByName(string name);
-        public Task<List<Asset>> SearchByName(string name);
-        public Task<List<Asset>> SearchByCategory(int categoryID);
+        public Task<List<Asset>> Search(string? name, int? categoryID);
     }
 }

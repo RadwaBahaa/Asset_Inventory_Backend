@@ -7,7 +7,7 @@ namespace Models.Models
         public int WarehouseID { get; set; }    // Primary Key
         public string WarehouseName { get; set; }
         public Point Location { get; set; }
-        public string Address { get; set; }
+        public string? Address { get; set; }
 
 
         //RELATIONS

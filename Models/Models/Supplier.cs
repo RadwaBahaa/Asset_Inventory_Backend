@@ -7,7 +7,7 @@ namespace Models.Models
         public int SupplierID { get; set; }     // Primary key
         public string SupplierName { get; set; }
         public Point Location { get; set; }
-        public string Address { get; set; }
+        public string? Address { get; set; }
 
 
         //RELATIONS

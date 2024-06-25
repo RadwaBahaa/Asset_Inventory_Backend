@@ -90,26 +90,16 @@ namespace Presentation.Controllers
 
         // __________________________ Search __________________________
         [HttpGet("search")]
-        public async Task<IActionResult> Search([FromQuery] string? name, [FromQuery] int categoryID)
+        public async Task<IActionResult> Search([FromQuery] string? name, [FromQuery] int? categoryID)
         {
             try
             {
-                List<ReadAssetDTO> assetsList;
                 if (string.IsNullOrWhiteSpace(name) && categoryID == 0)
                 {
                     return BadRequest("Either 'name' or 'categoryID' must be provided.");
                 }
-                else
-                {
-                    if (categoryID != 0)
-                    {
-                        assetsList = await assetServices.SearchByCategory(categoryID);
-                    }
-                    else
-                    {
-                        assetsList = await assetServices.SearchByName(name);
-                    }
-                }
+                
+                var assetsList = await assetServices.Search(name, categoryID);
                 if (assetsList == null || !assetsList.Any())
                 {
                     return NotFound("There are no assets.");

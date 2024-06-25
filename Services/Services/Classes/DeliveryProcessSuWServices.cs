@@ -24,22 +24,20 @@ namespace Services.Services.Classes
             {
                 throw new ArgumentException("You choose not to deliver to any warehouses!...");
             }
-            else
+
+            var newProcess = mapper.Map<DeliveryProcessSuW>(addDeliveryProcessSuWDTO);
+            newProcess.SupplierID = supplierID;
+            newProcess.DateTime = DateTime.Now;
+            newProcess.TotalAssets = 0;
+            foreach (var process in addDeliveryProcessSuWDTO.WarehouseProcesses)
             {
-                var newProcess = mapper.Map<DeliveryProcessSuW>(addDeliveryProcessSuWDTO);
-                newProcess.SupplierID = supplierID;
-                newProcess.DateTime = DateTime.Now;
-                newProcess.TotalAssets = 0;
-                foreach (var process in addDeliveryProcessSuWDTO.WarehouseProcesses)
+                foreach (var asset in process.AssetShipmentSuW)
                 {
-                    foreach (var asset in process.AssetShipmentSuW)
-                    {
-                        newProcess.TotalAssets += asset.Quantity ?? 0;
-                    }
+                    newProcess.TotalAssets += asset.Quantity ?? 0;
                 }
-                await deliveryProcessSuWRepository.Create(newProcess);
-                return true;
             }
+            await deliveryProcessSuWRepository.Create(newProcess);
+            return true;
         }
 
         // ________________ Read Processes from Supplier to Werhouses ________________
@@ -55,10 +53,8 @@ namespace Services.Services.Classes
             {
                 return mappedProcessesList;
             }
-            else
-            {
-                throw new ArgumentException("There are no prosesses to be retrieved.");
-            }
+
+            throw new ArgumentException("There are no prosesses to be retrieved.");
         }
         public async Task<ReadDeliveryProcessSuWDTO> ReadByID(int ID)
         {
@@ -67,10 +63,8 @@ namespace Services.Services.Classes
             {
                 throw new ArgumentException("There is no process by this ID.");
             }
-            else
-            {
-                return mapper.Map<ReadDeliveryProcessSuWDTO>(process);
-            }
+
+            return mapper.Map<ReadDeliveryProcessSuWDTO>(process);
         }
 
         // _________________________ Search for Processes _________________________
@@ -81,10 +75,8 @@ namespace Services.Services.Classes
             {
                 return mapper.Map<List<ReadDeliveryProcessSuWDTO>>(searchedProcesses);
             }
-            else
-            {
-                throw new ArgumentException("There are no Process from this Supplier.");
-            }
+
+            throw new ArgumentException("There are no Process from this Supplier.");
         }
         public async Task<List<ReadDeliveryProcessSuWDTO>> SearchByDate(DateTime date)
         {
@@ -93,10 +85,8 @@ namespace Services.Services.Classes
             {
                 return mapper.Map<List<ReadDeliveryProcessSuWDTO>>(searchedProcesses);
             }
-            else
-            {
-                throw new ArgumentException("There are no Process on this date.");
-            }
+
+            throw new ArgumentException("There are no Process on this date.");
         }
 
         // _________________________ Delete a Process _________________________
@@ -108,10 +98,8 @@ namespace Services.Services.Classes
                 await deliveryProcessSuWRepository.Delete(findProcess);
                 return true;
             }
-            else
-            {
-                throw new ArgumentException("There is no process by this ID.");
-            }
+
+            throw new ArgumentException("There is no process by this ID.");
         }
     }
 }

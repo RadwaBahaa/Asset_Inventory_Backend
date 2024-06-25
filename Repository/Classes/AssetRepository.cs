@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Models.Models;
 using Repository.Interfaces;
+using System.Net;
 
 namespace Repository.Classes
 {
@@ -26,21 +27,22 @@ namespace Repository.Classes
                 .FirstOrDefaultAsync(a => a.AssetName.ToLower() == name.ToLower());
             return asset;
         }
-        public async Task<List<Asset>> SearchByName(string name)
+        public async Task<List<Asset>> Search(string? name, int? categoryID)
         {
-            var assetsList = await context.Assets
-                .Include(a => a.Category)
-                .Where(a => a.AssetName.ToLower().Contains(name.ToLower()))
-                .ToListAsync();
-            return assetsList;
-        }
-        public async Task<List<Asset>> SearchByCategory(int categoryID)
-        {
-            var assetsList = await context.Assets
-                .Include(a => a.Category)
-                .Where(a => a.CategoryID == categoryID)
-                .ToListAsync();
-            return assetsList;
+            IQueryable<Asset> assetsList = context.Assets
+                .Include(a => a.Category);
+            if(!string.IsNullOrWhiteSpace(name) && categoryID > 0)
+            {
+                assetsList = assetsList.Where(a=>a.AssetName.ToLower() == name.ToLower() && a.CategoryID==categoryID);
+            }else if (!string.IsNullOrWhiteSpace(name))
+            {
+                assetsList = assetsList.Where(a => a.AssetName.ToLower() == name.ToLower());
+            }
+            else
+            {
+                assetsList = assetsList.Where(a => a.CategoryID == categoryID);
+            }
+            return await assetsList.ToListAsync();
         }
     }
 }

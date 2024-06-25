@@ -105,6 +105,10 @@ namespace Presentation.Controllers
                 var processes = await deliveryProcessSuWServices.SearchByDate(date);
                 return Ok(processes);
             }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
             catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
@@ -130,6 +134,10 @@ namespace Presentation.Controllers
                 {
                     return NotFound("Process not found.");
                 }
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (ArgumentException ex)
             {

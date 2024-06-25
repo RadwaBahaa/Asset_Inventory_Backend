@@ -172,6 +172,7 @@ namespace Presentation.Controllers
                 {
                     return BadRequest("Either 'name' or 'address' must be provided.");
                 }
+
                 var stores = await storeServices.Search(name, address);
                 if (stores == null || !stores.Any())
                 {
