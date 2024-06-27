@@ -6,15 +6,16 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Models.Models
 {
+
     public class UserRole
     {
-        [Key, Column(Order = 0)]  // Specify UserId as part of the composite key
+       
         public int UserID { get; set; }
 
-        [Key, Column(Order = 1)]  // Specify RoleId as part of the composite key
         public int RoleID { get; set; }
 
         //RELATIONS

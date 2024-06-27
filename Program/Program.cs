@@ -1,5 +1,7 @@
 using Context.Context;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Models.Models;
 using Repository.Classes;
 using Repository.Interfaces;
 using Services.Mapper;
@@ -47,6 +49,13 @@ public class Program
         {
             option.AddProfile<MapProfile>();
         });
+
+
+        builder.Services.AddIdentity<User, IdentityRole>(option =>
+        {
+            option.SignIn.RequireConfirmedEmail = true;
+        }).AddEntityFrameworkStores<AssetInventoryContext>();
+
 
         builder.Services.AddDbContext<AssetInventoryContext>(options =>
         {
