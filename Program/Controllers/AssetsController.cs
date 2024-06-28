@@ -96,7 +96,7 @@ namespace Presentation.Controllers
             {
                 if (string.IsNullOrWhiteSpace(name) && string.IsNullOrWhiteSpace(categoryName))
                 {
-                    return BadRequest("Either 'name' or 'categoryID' must be provided.");
+                    return BadRequest("Either 'name' or 'categoryName' must be provided.");
                 }
 
                 var assetsList = await assetServices.Search(name, categoryName);
