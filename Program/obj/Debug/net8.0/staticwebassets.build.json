@@ -1,13 +1,13 @@
 {
   "Version": 1,
-  "Hash": "Klk02IfFU47QzSy2xhgilYQ3b6i7pXTuoRyjxsxM1+s=",
+  "Hash": "ajxW+7bfO5M48XFVqLYI8RpDJm7v3c5llr/1UMfQz4M=",
   "Source": "Presentation",
   "BasePath": "_content/Presentation",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [
     {
-      "Identity": "E:\\ITI\\Graduation Project\\Backend\\Services\\Services.csproj",
+      "Identity": "D:\\Project\\Asset_Inventory_Backend\\Services\\Services.csproj",
       "Version": 2,
       "Source": "Services",
       "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",

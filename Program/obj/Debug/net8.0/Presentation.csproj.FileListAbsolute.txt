@@ -623,3 +623,7 @@ E:\ITI\Graduation Project\Backend\Program\bin\Debug\net8.0\Microsoft.AspNetCore.
 E:\ITI\Graduation Project\Backend\Program\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 E:\ITI\Graduation Project\Backend\Program\bin\Debug\net8.0\Newtonsoft.Json.dll
 E:\ITI\Graduation Project\Backend\Program\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
+D:\Project\Asset_Inventory_Backend\Program\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\Project\Asset_Inventory_Backend\Program\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\Project\Asset_Inventory_Backend\Program\bin\Debug\net8.0\Newtonsoft.Json.dll
+D:\Project\Asset_Inventory_Backend\Program\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
