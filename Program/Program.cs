@@ -54,11 +54,7 @@ public class Program
         });
 
 
-        builder.Services.AddIdentity<IdentityUser, IdentityRole>(option =>
-        {
-            option.SignIn.RequireConfirmedEmail = true;
-        }).AddEntityFrameworkStores<AssetInventoryContext>();
-
+        builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AssetInventoryContext>();
 
         builder.Services.AddDbContext<AssetInventoryContext>(options =>
         {
@@ -87,10 +83,10 @@ public class Program
             {
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
                 ValidateIssuerSigningKey = true,
-                ValidAudience = builder.Configuration["JWT:audience"],
                 ValidateAudience = true,
-                ValidIssuer = builder.Configuration["JWT:issuer"],
                 ValidateIssuer = true,
+                ValidIssuer = builder.Configuration["JWT:Issuer"],
+                ValidAudience = builder.Configuration["JWT:Audience"],
             };
         });
         builder.Services.AddSwaggerGen(c =>

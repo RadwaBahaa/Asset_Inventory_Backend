@@ -1,4 +1,5 @@
 ﻿using DTOs.DTOs.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -140,7 +141,7 @@ namespace Presentation.Controllers
 
                         List<Claim> claims = new List<Claim>()
                     {
-                        new Claim(ClaimTypes.DenyOnlySid,user.Id),
+                        new Claim(ClaimTypes.NameIdentifier,user.Id),
                         new Claim(ClaimTypes.Role, role)
                     };
 
@@ -149,8 +150,8 @@ namespace Presentation.Controllers
                             expires: DateTime.Now.AddHours(1),
                             claims: claims,
                             signingCredentials: new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256),
-                            issuer: configuration["JWT:issuer"],
-                            audience: configuration["JWT:audience"]);
+                    issuer: configuration["JWT:issuer"],
+                        audience: configuration["JWT:audience"]);
                         var token = new JwtSecurityTokenHandler().WriteToken(setToken);
 
                         var readLoginData = new ReadLoginDataDTO()
@@ -169,8 +170,43 @@ namespace Presentation.Controllers
             }
         }
 
+        [Authorize]
+        [HttpGet("validate-token")]
+        public async Task<IActionResult> ValidateToken()
+        {
+            try
+            {
+                var user = await userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    return Unauthorized("Invalid token.");
+                }
+
+                var userRoles = await userManager.GetRolesAsync(user);
+                var role = userRoles.FirstOrDefault();
+                int.TryParse(user.Id.Substring(3), out int id);
+
+                var userData = new ReadLoginDataDTO()
+                {
+                    Token = Request.Headers["Authorization"].ToString(),
+                    Role = role,
+                    ID = id,
+                };
+
+                return Ok(userData);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
+
+
         // _____________________________________ Read _____________________________________
         [HttpGet("readAllUsers")]
+        //[Authorize]
         public async Task<IActionResult> ReadAllUsers()
         {
             try
@@ -198,6 +234,7 @@ namespace Presentation.Controllers
             }
         }
 
+        //[Authorize]
         [HttpGet("readUser/{username}")]
         public async Task<IActionResult> ReadUser(string username)
         {

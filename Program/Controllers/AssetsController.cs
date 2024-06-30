@@ -49,6 +49,8 @@ namespace Presentation.Controllers
         // ___________________________ Read ___________________________
         [HttpGet("read")]
         //[Authorize]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> ReadAll()
         {
             try
