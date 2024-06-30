@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Services.Services.Interface;
 using DTOs.DTOs.Suppliers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class SuppliersAssetsController : ControllerBase
     {
         protected ISupplierAssetsServices supplierAssetServices;

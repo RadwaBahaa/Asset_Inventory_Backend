@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Models.Models;
-using NetTopologySuite.Geometries;
-using NetTopologySuite.IO;
-using System.Reflection.Emit;
 
 namespace Context.Context
 {
-    public class AssetInventoryContext : IdentityDbContext<User>
+    public class AssetInventoryContext : IdentityDbContext<IdentityUser>
     {
         public AssetInventoryContext(DbContextOptions<AssetInventoryContext> options) : base(options) { }
 
@@ -236,22 +234,6 @@ namespace Context.Context
                     .WithMany(a => a.StoreRequestAssests)
                     .HasForeignKey(wra => wra.RequestID);
             });
-
-
-            builder.Entity<UserRole>()
-                .HasKey(ur => new { ur.UserID, ur.RoleID });
-
-            // Optionally, define the relationships
-            builder.Entity<UserRole>()
-                .HasOne(ur => ur.User)
-                .WithMany(u => u.UserRoles)
-                .HasForeignKey(ur => ur.UserID);
-
-            builder.Entity<UserRole>()
-                .HasOne(ur => ur.Role)
-                .WithMany(r => r.UserRoles)
-                .HasForeignKey(ur => ur.RoleID);
-
             base.OnModelCreating(builder);
         }
     }

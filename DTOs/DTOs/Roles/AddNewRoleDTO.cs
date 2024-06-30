@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DTOs.DTOs.Roles
+﻿namespace DTOs.DTOs.Roles
 {
     public class AddNewRoleDTO
     {
-        public string? RoleName { get; set; }
+        [RoleNameValidation]
+        public string RoleName { get; set; }
     }
 }

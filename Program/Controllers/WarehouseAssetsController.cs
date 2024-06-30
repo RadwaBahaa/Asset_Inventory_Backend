@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Services.Services.Interface;
 using DTOs.DTOs.Warehouses;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class WarehouseAssetsController : ControllerBase
     {
         protected IWarehouseAssetsServices warehouseAssetServices;

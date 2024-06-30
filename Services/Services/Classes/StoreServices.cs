@@ -109,6 +109,11 @@ namespace Services.Services.Classes
             var store = await storeRepository.ReadByID(storeID);
             return mapper.Map<ReadStoreDTO>(store);
         }
+        public async Task<ReadStoreDTO> ReadByName(string name)
+        {
+            var store = await storeRepository.ReadByName(name);
+            return mapper.Map<ReadStoreDTO>(store);
+        }
         public async Task<ReadStoreGeoJsonDTO> ReadStoreAsGeoJson(int id)
         {
             var store = await storeRepository.ReadByID(id);

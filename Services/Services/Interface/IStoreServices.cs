@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using DTOs.DTOs.Stores;
+﻿using DTOs.DTOs.Stores;
 using Models.DTOs;
-using Repository.Classes;
 
 namespace Services.Services.Interface
 {
@@ -12,6 +10,7 @@ namespace Services.Services.Interface
         public Task<List<ReadStoreDTO>> ReadAll();
         public Task<List<ReadStoreGeoJsonDTO>> ReadAllStoresAsGeoJson();
         public Task<ReadStoreDTO> ReadByID(int storeID);
+        public Task<ReadStoreDTO> ReadByName(string name);
         public Task<ReadStoreGeoJsonDTO> ReadStoreAsGeoJson(int id);
         public Task<List<ReadStoreDTO>> Search(string name, string address);
         public Task<ReadStoreDTO> Update(AddOrUpdateStoreDTO storeDTO, int storeID);

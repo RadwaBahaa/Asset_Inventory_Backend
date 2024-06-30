@@ -3186,19 +3186,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\mosha\\.nuget\\packages\\": {}
+    "C:\\Users\\radwa\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Project\\Asset_Inventory_Backend\\Services\\Services.csproj",
+      "projectUniqueName": "E:\\ITI\\Graduation Project\\Backend\\Services\\Services.csproj",
       "projectName": "Services",
-      "projectPath": "D:\\Project\\Asset_Inventory_Backend\\Services\\Services.csproj",
-      "packagesPath": "C:\\Users\\mosha\\.nuget\\packages\\",
-      "outputPath": "D:\\Project\\Asset_Inventory_Backend\\Services\\obj\\",
+      "projectPath": "E:\\ITI\\Graduation Project\\Backend\\Services\\Services.csproj",
+      "packagesPath": "C:\\Users\\radwa\\.nuget\\packages\\",
+      "outputPath": "E:\\ITI\\Graduation Project\\Backend\\Services\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\mosha\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\radwa\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -3212,17 +3212,17 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\Project\\Asset_Inventory_Backend\\Context\\Context.csproj": {
-              "projectPath": "D:\\Project\\Asset_Inventory_Backend\\Context\\Context.csproj"
+            "E:\\ITI\\Graduation Project\\Backend\\Context\\Context.csproj": {
+              "projectPath": "E:\\ITI\\Graduation Project\\Backend\\Context\\Context.csproj"
             },
-            "D:\\Project\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj": {
-              "projectPath": "D:\\Project\\Asset_Inventory_Backend\\DTOs\\DTOs.csproj"
+            "E:\\ITI\\Graduation Project\\Backend\\DTOs\\DTOs.csproj": {
+              "projectPath": "E:\\ITI\\Graduation Project\\Backend\\DTOs\\DTOs.csproj"
             },
-            "D:\\Project\\Asset_Inventory_Backend\\Models\\Models.csproj": {
-              "projectPath": "D:\\Project\\Asset_Inventory_Backend\\Models\\Models.csproj"
+            "E:\\ITI\\Graduation Project\\Backend\\Models\\Models.csproj": {
+              "projectPath": "E:\\ITI\\Graduation Project\\Backend\\Models\\Models.csproj"
             },
-            "D:\\Project\\Asset_Inventory_Backend\\Repository\\Repository.csproj": {
-              "projectPath": "D:\\Project\\Asset_Inventory_Backend\\Repository\\Repository.csproj"
+            "E:\\ITI\\Graduation Project\\Backend\\Repository\\Repository.csproj": {
+              "projectPath": "E:\\ITI\\Graduation Project\\Backend\\Repository\\Repository.csproj"
             }
           }
         }
@@ -3231,11 +3231,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -3274,7 +3269,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

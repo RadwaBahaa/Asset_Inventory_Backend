@@ -110,6 +110,11 @@ namespace Services.Services.Classes
             var warehouse = await warehouseRepository.ReadByID(warehouseID);
             return mapper.Map<ReadWarehouseDTO>(warehouse);
         }
+        public async Task<ReadWarehouseDTO> ReadByName(string name)
+        {
+            var warehouse = await warehouseRepository.ReadByName(name);
+            return mapper.Map<ReadWarehouseDTO>(warehouse);
+        }
         public async Task<ReadWarehouseGeoJsonDTO> ReadWarehouseAsGeoJson(int id)
         {
             var warehouse = await warehouseRepository.ReadByID(id);
