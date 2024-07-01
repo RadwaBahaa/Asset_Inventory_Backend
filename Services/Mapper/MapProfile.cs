@@ -15,8 +15,9 @@ namespace Services.Mapper
         public MapProfile()
         {
             // Mapping Asset Model______________________________________________
-            CreateMap<AddOrUpdateAssetDTO, Asset>().ReverseMap();
+            CreateMap<AddAssetDTO, Asset>().ReverseMap();
             CreateMap<ReadAssetDTO, Asset>().ReverseMap();
+            CreateMap<UpdatAssetDTO, Asset>().ReverseMap();
 
             // Mapping Category Model______________________________________________
             CreateMap<AddOrUpdateCategoryDTO, Category>().ReverseMap();

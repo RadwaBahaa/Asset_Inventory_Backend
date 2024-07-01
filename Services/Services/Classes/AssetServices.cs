@@ -20,7 +20,7 @@ namespace Services.Services.Classes
         }
 
         // __________________________ Create Asset ___________________________
-        public async Task<bool> Create(AddOrUpdateAssetDTO assetDTO)
+        public async Task<bool> Create(AddAssetDTO assetDTO)
         {
             if (assetDTO == null || assetDTO.AssetName == null)
             {
@@ -74,13 +74,17 @@ namespace Services.Services.Classes
         }
 
         // __________________________ Update an Asssets ___________________________
-        public async Task<ReadAssetDTO> Update(AddOrUpdateAssetDTO assetDTO, int ID)
+        public async Task<ReadAssetDTO> Update(UpdatAssetDTO assetDTO, int ID)
         {
             var findAsset = await assetRepository.ReadByID(ID);
             if (findAsset == null)
             {
                 throw new KeyNotFoundException("There is no asset by this ID.");
             }
+            assetDTO.AssetName = assetDTO.AssetName ?? findAsset.AssetName;
+            assetDTO.Price = assetDTO.Price ?? findAsset.Price;
+            assetDTO.CategoryID = assetDTO.CategoryID ?? findAsset.CategoryID;
+            assetDTO.Description = assetDTO.Description ?? findAsset.Description;
 
             mapper.Map(assetDTO, findAsset);
             await assetRepository.Update();

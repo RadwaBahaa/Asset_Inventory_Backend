@@ -18,7 +18,7 @@ namespace Presentation.Controllers
         // ___________________________ Create ___________________________
         [HttpPost("create")]
         //[Authorize(Roles ="Admin")]
-        public async Task<IActionResult> Create([FromBody] AddOrUpdateAssetDTO assetDTO)
+        public async Task<IActionResult> Create([FromBody] AddAssetDTO assetDTO)
         {
             if (assetDTO == null)
             {
@@ -49,7 +49,7 @@ namespace Presentation.Controllers
         // ___________________________ Read ___________________________
         [HttpGet("read")]
         //[Authorize]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
 
         public async Task<IActionResult> ReadAll()
         {
@@ -127,7 +127,7 @@ namespace Presentation.Controllers
         // ___________________________ Update ___________________________
         [HttpPut("update/{id}")]
         //[Authorize(Roles ="Admin")]
-        public async Task<IActionResult> Update([FromBody] AddOrUpdateAssetDTO assetDTO, [FromRoute] int id)
+        public async Task<IActionResult> Update([FromBody] UpdatAssetDTO assetDTO, [FromRoute] int id)
         {
             if (assetDTO == null)
             {

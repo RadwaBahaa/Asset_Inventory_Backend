@@ -136,22 +136,25 @@ namespace Presentation.Controllers
                         var userRoles = await userManager.GetRolesAsync(user);
                         var role = userRoles.FirstOrDefault();
                         int id;
+                        if (role == "Admin")
+                        {
+                            int.TryParse(user.Id, out id);
+                        }
                         int.TryParse(user.Id.Substring(3), out id);
-                        //var id = user.Id.Substring(3);
 
                         List<Claim> claims = new List<Claim>()
-                    {
+                        {
                         new Claim(ClaimTypes.NameIdentifier,user.Id),
                         new Claim(ClaimTypes.Role, role)
-                    };
+                        };
 
                         var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"]));
                         var setToken = new JwtSecurityToken(
                             expires: DateTime.Now.AddHours(1),
                             claims: claims,
                             signingCredentials: new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256),
-                    issuer: configuration["JWT:issuer"],
-                        audience: configuration["JWT:audience"]);
+                            issuer: configuration["JWT:issuer"],
+                            audience: configuration["JWT:audience"]);
                         var token = new JwtSecurityTokenHandler().WriteToken(setToken);
 
                         var readLoginData = new ReadLoginDataDTO()
@@ -200,9 +203,6 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
-
-
 
         // _____________________________________ Read _____________________________________
         [HttpGet("readAllUsers")]

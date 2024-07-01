@@ -1,6 +1,6 @@
 ﻿namespace DTOs.DTOs.Assets
 {
-    public class AddOrUpdateAssetDTO
+    public class AddAssetDTO
     {
         public string AssetName { get; set; }
         public int CategoryID { get; set; }
