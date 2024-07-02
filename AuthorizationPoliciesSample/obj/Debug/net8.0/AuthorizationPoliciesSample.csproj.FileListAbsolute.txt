@@ -1,0 +1,13 @@
+E:\ITI\Graduation Project\Backend\AuthorizationPoliciesSample\bin\Debug\net8.0\AuthorizationPoliciesSample.deps.json
+E:\ITI\Graduation Project\Backend\AuthorizationPoliciesSample\bin\Debug\net8.0\AuthorizationPoliciesSample.dll
+E:\ITI\Graduation Project\Backend\AuthorizationPoliciesSample\bin\Debug\net8.0\AuthorizationPoliciesSample.pdb
+E:\ITI\Graduation Project\Backend\AuthorizationPoliciesSample\obj\Debug\net8.0\AuthorizationPoliciesSample.csproj.AssemblyReference.cache
+E:\ITI\Graduation Project\Backend\AuthorizationPoliciesSample\obj\Debug\net8.0\AuthorizationPoliciesSample.GeneratedMSBuildEditorConfig.editorconfig
+E:\ITI\Graduation Project\Backend\AuthorizationPoliciesSample\obj\Debug\net8.0\AuthorizationPoliciesSample.AssemblyInfoInputs.cache
+E:\ITI\Graduation Project\Backend\AuthorizationPoliciesSample\obj\Debug\net8.0\AuthorizationPoliciesSample.AssemblyInfo.cs
+E:\ITI\Graduation Project\Backend\AuthorizationPoliciesSample\obj\Debug\net8.0\AuthorizationPoliciesSample.csproj.CoreCompileInputs.cache
+E:\ITI\Graduation Project\Backend\AuthorizationPoliciesSample\obj\Debug\net8.0\AuthorizationPoliciesSample.sourcelink.json
+E:\ITI\Graduation Project\Backend\AuthorizationPoliciesSample\obj\Debug\net8.0\AuthorizationPoliciesSample.dll
+E:\ITI\Graduation Project\Backend\AuthorizationPoliciesSample\obj\Debug\net8.0\refint\AuthorizationPoliciesSample.dll
+E:\ITI\Graduation Project\Backend\AuthorizationPoliciesSample\obj\Debug\net8.0\AuthorizationPoliciesSample.pdb
+E:\ITI\Graduation Project\Backend\AuthorizationPoliciesSample\obj\Debug\net8.0\ref\AuthorizationPoliciesSample.dll

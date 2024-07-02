@@ -4,10 +4,11 @@ namespace Services.Services.Interface
 {
     public interface IWarehouseAssetsServices
     {
-        public Task<bool> Create(AddOrUpdateWarehouseAssetsDTO warehouseAssetsDTO);
+        public Task<bool> Create(int warehouseID, AddWarehouseAssetsDTO warehouseAssetsDTO);
         public Task<List<ReadWarehouseAssetsDTO>> ReadAll();
-        public Task<ReadWarehouseAssetsDTO> ReadBySerialNumber(string serialNumber);
-        public Task<ReadWarehouseAssetsDTO> Update(AddOrUpdateWarehouseAssetsDTO addOrUpdateWarehouseAssetsDTO, int AssetID, int SerialNumber);
-        public Task<bool> Delete(int AssetID, int SerialNumber);
+        public Task<List<ReadWarehouseAssetsDTO>> ReadByWarehouse(int warehouseID);
+        public Task<List<ReadWarehouseAssetsDTO>> Search(int warehouseID, string? name, string? serialNumber);
+        public Task<ReadWarehouseAssetsDTO> Update(UpdateWarehouseAssetsDTO warehouseAssetsDTO, int warehouseID, int assetID, string serialNumber);
+        public Task<bool> Delete(int warehouseID, int assetID, string serialNumber);
     }
 }

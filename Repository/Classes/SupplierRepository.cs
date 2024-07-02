@@ -15,18 +15,12 @@ namespace Repository.Classes
         public async Task<Supplier> ReadByID(int id)
         {
             var supplier = await context.Suppliers
-                .Include(s => s.SupplierAssets)
-                .Include(s => s.DeliveryProcessSuW)
-                .Include(s => s.WarehouseRequests)
                 .FirstOrDefaultAsync(s => s.SupplierID == id);
             return supplier;
         }
         public async Task<Supplier> ReadByName(string name)
         {
             var supplier = await context.Suppliers
-                .Include(s => s.SupplierAssets)
-                .Include(s => s.DeliveryProcessSuW)
-                .Include(s => s.WarehouseRequests)
                 .FirstOrDefaultAsync(a => a.SupplierName.ToLower() == name.ToLower());
             return supplier;
         }
@@ -38,10 +32,7 @@ namespace Repository.Classes
         }
         public async Task<List<Supplier>> Search(string name, string address)
         {
-            IQueryable<Supplier> suppliers = context.Suppliers
-                .Include(s => s.SupplierAssets)
-                .Include(s => s.DeliveryProcessSuW)
-                .Include(s => s.WarehouseRequests);
+            IQueryable<Supplier> suppliers = context.Suppliers;
 
             if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(address))
             {

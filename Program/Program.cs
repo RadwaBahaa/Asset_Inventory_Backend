@@ -1,5 +1,8 @@
+using AuthorizationPoliciesSample.Policies.Handlers;
+using AuthorizationPoliciesSample.Policies.Requirements;
 using Context.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -17,10 +20,10 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
+        // ________________________________________ Add services to the container ________________________________________
         builder.Services.AddControllers();
 
-        // Register repository interfaces and implementations
+        // _____________________________ Register repository interfaces and implementations ______________________________
         builder.Services.AddScoped<IAssetRepository, AssetRepository>();
         builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
         builder.Services.AddScoped<IDeliveryProcessSuWRepository, DeliveryProcessSuWRepository>();
@@ -34,7 +37,7 @@ public class Program
         builder.Services.AddScoped<IWarehouseProcessRepository, WarehouseProcessRepository>();
         builder.Services.AddScoped<IWarehouseRepository, WarehouseRepository>();
 
-        // Register service interfaces and implementations
+        // _____________________________ Register service interfaces and implementations _______________________________
         builder.Services.AddScoped<IAssetServices, AssetServices>();
         builder.Services.AddScoped<ICategoryServices, CategoryServices>();
         builder.Services.AddScoped<IDeliveryProcessSuWServices, DeliveryProcessSuWServices>();
@@ -53,7 +56,6 @@ public class Program
             option.AddProfile<MapProfile>();
         });
 
-
         builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AssetInventoryContext>();
 
         builder.Services.AddDbContext<AssetInventoryContext>(options =>
@@ -62,7 +64,7 @@ public class Program
                 sqlServerOptions => sqlServerOptions.UseNetTopologySuite());
         }, ServiceLifetime.Scoped);
 
-        // Configure CORS policy
+        // __________________________________________ Configure CORS policy ___________________________________________
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("AllowReactDev",
@@ -73,10 +75,13 @@ public class Program
                            .AllowAnyMethod();
                 });
         });
+
+        // ______________________________________________ Authentication ______________________________________________
         builder.Services.AddAuthentication(op =>
         {
             op.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             op.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
         }).AddJwtBearer(op =>
         {
             op.TokenValidationParameters = new TokenValidationParameters
@@ -88,7 +93,8 @@ public class Program
                 ValidIssuer = builder.Configuration["JWT:Issuer"],
                 ValidAudience = builder.Configuration["JWT:Audience"],
             };
-        });
+        }); 
+
         builder.Services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
@@ -122,6 +128,29 @@ public class Program
             });
         });
 
+        // _______________________________________________ Authorization _______________________________________________
+        builder.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy("StorePolicy", policy =>
+            {
+                policy.Requirements.Add(new StoreRequirement());
+                policy.RequireAssertion(context => context.Resource is int?);
+            });
+            options.AddPolicy("WarehousePolicy", policy =>
+            {
+                policy.Requirements.Add(new WarehouseRequirement());
+                policy.RequireAssertion(context => context.Resource is int?);
+            });
+            options.AddPolicy("SupplierPolicy", policy =>
+            {
+                policy.Requirements.Add(new SupplierRequirement());
+                policy.RequireAssertion(context => context.Resource is int?);
+            });
+        });
+        builder.Services.AddSingleton<IAuthorizationHandler, StoreHandler>();
+        builder.Services.AddSingleton<IAuthorizationHandler, WarehouseHandler>();
+        builder.Services.AddSingleton<IAuthorizationHandler, SupplierHandler>();
+
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
@@ -134,6 +163,7 @@ public class Program
             app.UseSwaggerUI();
         }
 
+        app.UseRouting();
         // Enable CORS middleware
         app.UseCors("AllowReactDev");
         app.UseAuthentication();

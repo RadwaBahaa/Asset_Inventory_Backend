@@ -15,18 +15,12 @@ namespace Repository.Classes
         public async Task<Store> ReadByID(int id)
         {
             var store = await context.Stores
-                .Include(s => s.StoreAssets)
-                .Include(s => s.StoreProcesses)
-                .Include(s => s.StoreRequests)
                 .FirstOrDefaultAsync(s => s.StoreID == id);
             return store;
         }
         public async Task<Store> ReadByName(string name)
         {
             var store = await context.Stores
-                .Include(s => s.StoreAssets)
-                .Include(s => s.StoreProcesses)
-                .Include(s => s.StoreRequests)
                 .FirstOrDefaultAsync(a => a.StoreName.ToLower() == name.ToLower());
             return store;
         }
@@ -38,10 +32,7 @@ namespace Repository.Classes
         }
         public async Task<List<Store>> Search(string name, string address)
         {
-            IQueryable<Store> stores = context.Stores
-                .Include(s => s.StoreAssets)
-                .Include(s => s.StoreProcesses)
-                .Include(s => s.StoreRequests);
+            IQueryable<Store> stores = context.Stores.Select(s => s);
 
             if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(address))
             {

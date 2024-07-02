@@ -8,6 +8,5 @@
         public double Latitude { get; set; }
         public int SRID { get; set; }
         public string Address { get; set; }
-        public List<ReadStoreAssetsDTO> StoreAssets { get; set; }
     }
 }

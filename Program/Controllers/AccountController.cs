@@ -33,6 +33,7 @@ namespace Presentation.Controllers
 
         // _____________________________________ Registeration _____________________________________
         [HttpPost("register")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register(RegisterUserDTO registerDTO)
         {
             if (registerDTO == null)
@@ -144,8 +145,8 @@ namespace Presentation.Controllers
 
                         List<Claim> claims = new List<Claim>()
                         {
-                        new Claim(ClaimTypes.NameIdentifier,user.Id),
-                        new Claim(ClaimTypes.Role, role)
+                            new Claim(ClaimTypes.NameIdentifier,user.Id),
+                            new Claim(ClaimTypes.Role, role)
                         };
 
                         var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"]));
@@ -173,8 +174,8 @@ namespace Presentation.Controllers
             }
         }
 
-        [Authorize]
         [HttpGet("validate-token")]
+        [Authorize]
         public async Task<IActionResult> ValidateToken()
         {
             try
@@ -206,7 +207,7 @@ namespace Presentation.Controllers
 
         // _____________________________________ Read _____________________________________
         [HttpGet("readAllUsers")]
-        //[Authorize]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> ReadAllUsers()
         {
             try
@@ -220,7 +221,6 @@ namespace Presentation.Controllers
                     var userDTO = new ReadUserDTO
                     {
                         Id = user.Id,
-                        UserName = user.UserName,
                         Roles = roles
                     };
                     userDTOs.Add(userDTO);
@@ -234,8 +234,8 @@ namespace Presentation.Controllers
             }
         }
 
-        //[Authorize]
         [HttpGet("readUser/{username}")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> ReadUser(string username)
         {
             if (string.IsNullOrWhiteSpace(username))
@@ -255,7 +255,6 @@ namespace Presentation.Controllers
                 var userDTO = new ReadUserDTO
                 {
                     Id = user.Id,
-                    UserName = user.UserName,
                     Roles = roles
                 };
 

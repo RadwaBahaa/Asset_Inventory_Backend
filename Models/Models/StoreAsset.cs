@@ -6,8 +6,6 @@
         public int AssetID { get; set; }    // Forign key from Asset Entity 
         public int StoreID { get; set; }    // Forign key from Store Entity 
         public string SerialNumber { get; set; }
-        public string AssetName { get; set; }
-        public DateOnly ProductionDate { get; set; }
         public int Count { get; set; }
 
 

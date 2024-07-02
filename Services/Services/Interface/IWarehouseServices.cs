@@ -5,7 +5,7 @@ namespace Services.Services.Interface
 {
     public interface IWarehouseServices
     {
-        public Task<bool> CreateByData(AddOrUpdateWarehouseDTO warehouseDTO);
+        public Task<bool> CreateByData(AddWarehouseDTO warehouseDTO);
         public Task<bool> CreateByGeoJSON(AddWarehouseGeoJsonDTO warehouseDTO);
         public Task<List<ReadWarehouseDTO>> ReadAll();
         public Task<List<ReadWarehouseGeoJsonDTO>> ReadAllWarehousesAsGeoJson();
@@ -13,7 +13,7 @@ namespace Services.Services.Interface
         public Task<ReadWarehouseDTO> ReadByName(string name);
         public Task<ReadWarehouseGeoJsonDTO> ReadWarehouseAsGeoJson(int id);
         public Task<List<ReadWarehouseDTO>> Search(string name, string address);
-        public Task<ReadWarehouseDTO> Update(AddOrUpdateWarehouseDTO warehouseDTO, int warehouseID);
+        public Task<ReadWarehouseDTO> Update(UpdateWarehouseDTO warehouseDTO, int warehouseID);
         public Task<bool> Delete(int warehouseID);
     }
 }

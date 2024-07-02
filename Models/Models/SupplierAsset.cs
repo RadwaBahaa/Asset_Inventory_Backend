@@ -5,9 +5,7 @@
         // AssetID, SupplierID and SerialNo are Composite key
         public int AssetID { get; set; }    // Forign key from Asset Entity
         public int SupplierID { get; set; }     // Forign key from Supplier Entity
-        public string AssetName { get; set; }
         public string SerialNumber { get; set; }
-        public DateOnly ProductionDate { get; set; }
         public int Count { get; set; }
 
 

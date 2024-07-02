@@ -2,6 +2,6 @@
 {
     public class ReadRolesDTO
     {
-        public string RoleName { get; set; }
+        public string Role { get; set; }
     }
 }

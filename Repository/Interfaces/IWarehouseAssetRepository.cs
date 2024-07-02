@@ -4,9 +4,9 @@ namespace Repository.Interfaces
 {
     public interface IWarehouseAssetRepository : IGenericRepository<WarehouseAsset>
     {
-        public Task<WarehouseAsset> ReadByID(int assetID, int warehouseID);
-        public Task<WarehouseAsset> ReadBySerialNumber(string serialNumber);
-        public Task<List<WarehouseAsset>> SearchByName(string assetName);
-        public Task<int> GetCount(int assetID, int warehouseID);
+        public Task<WarehouseAsset> ReadOne(int warehouseID, int assetID, string serialNumber);
+        public Task<List<WarehouseAsset>> ReadByWarehouse(int warehouseID);
+        public Task<List<WarehouseAsset>> Search(int warehouseID, string? name, string? serialNumber);
+
     }
 }

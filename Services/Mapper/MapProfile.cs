@@ -71,11 +71,13 @@ namespace Services.Mapper
                 .ForMember(dest => dest.Latitude, opt => opt.MapFrom(src => src.Location.Y))
                 .ForMember(dest => dest.SRID, opt => opt.MapFrom(src => src.Location.SRID))
                 .ReverseMap();
-            CreateMap<AddOrUpdateStoreDTO, Store>().ReverseMap();
+            CreateMap<AddStoreDTO, Store>().ReverseMap();
+            CreateMap<UpdateStoreDTO, Store>().ReverseMap();
 
             // Mapping StoreAssets Model______________________________________________
             CreateMap<ReadStoreAssetsDTO, StoreAsset>().ReverseMap();
-            CreateMap<AddOrUpdateStoreAssetsDTO, StoreAsset>().ReverseMap();
+            CreateMap<AddStoreAssetsDTO, StoreAsset>().ReverseMap();
+            CreateMap<UpdateStoreAssetsDTO, StoreAsset>().ReverseMap();
 
             // Mapping Supplier Model______________________________________________
             CreateMap<Supplier, ReadSupplierDTO>()
@@ -83,11 +85,13 @@ namespace Services.Mapper
                 .ForMember(dest => dest.Latitude, opt => opt.MapFrom(src => src.Location.Y))
                 .ForMember(dest => dest.SRID, opt => opt.MapFrom(src => src.Location.SRID))
                 .ReverseMap();
-            CreateMap<AddOrUpdateSupplierDTO, Supplier>().ReverseMap();
+            CreateMap<AddSupplierDTO, Supplier>().ReverseMap();
+            CreateMap<UpdateSupplierDTO, Supplier>().ReverseMap();
 
             // Mapping SupplierAssets Model______________________________________________
             CreateMap<ReadSupplierAssetsDTO, SupplierAsset>().ReverseMap();
-            CreateMap<AddOrUpdateSupplierAssetsDTO, SupplierAsset>().ReverseMap();
+            CreateMap<AddSupplierAssetsDTO, SupplierAsset>().ReverseMap();
+            CreateMap<UpdateSupplierAssetsDTO, SupplierAsset>().ReverseMap();
 
             // Mapping Warehouse Model______________________________________________
             CreateMap<Warehouse, ReadWarehouseDTO>()
@@ -95,11 +99,13 @@ namespace Services.Mapper
                 .ForMember(dest => dest.Latitude, opt => opt.MapFrom(src => src.Location.Y))
                 .ForMember(dest => dest.SRID, opt => opt.MapFrom(src => src.Location.SRID))
                 .ReverseMap();
-            CreateMap<AddOrUpdateWarehouseDTO, Warehouse>().ReverseMap();
+            CreateMap<AddWarehouseDTO, Warehouse>().ReverseMap();
+            CreateMap<UpdateWarehouseDTO, Warehouse>().ReverseMap();
 
             // Mapping WarehouseAssets Model______________________________________________
             CreateMap<ReadWarehouseAssetsDTO, WarehouseAsset>().ReverseMap();
-            CreateMap<AddOrUpdateWarehouseAssetsDTO, WarehouseAsset>().ReverseMap();
+            CreateMap<AddWarehouseAssetsDTO, WarehouseAsset>().ReverseMap();
+            CreateMap<UpdateWarehouseAssetsDTO, WarehouseAsset>() .ReverseMap();
         }
     }
 }

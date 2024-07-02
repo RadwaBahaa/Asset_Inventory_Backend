@@ -20,11 +20,6 @@ namespace Models.DTOs
                 warehouseID = warehouse.WarehouseID,
                 warehouseName = warehouse.WarehouseName,
                 address = warehouse.Address,
-                WarehouseAssets = warehouse.WarehouseAssets,
-                WarehouseProcesses = warehouse.WarehouseProcesses,
-                DeliveryProcessWSt = warehouse.DeliveryProcessWSt,
-                WarehouseRequests = warehouse.WarehouseRequests,
-                StoreRequests = warehouse.StoreRequests,
             };
         }
     }
@@ -34,10 +29,5 @@ namespace Models.DTOs
         public int warehouseID { get; set; }
         public string warehouseName { get; set; }
         public string address { get; set; }
-        public List<WarehouseAsset> WarehouseAssets { get; set; }
-        public List<WarehouseProcess> WarehouseProcesses { get; set; }
-        public List<DeliveryProcessWSt> DeliveryProcessWSt { get; set; }
-        public List<WarehouseRequest> WarehouseRequests { get; set; }
-        public List<StoreRequest> StoreRequests { get; set; }
     }
 }

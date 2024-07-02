@@ -3,22 +3,27 @@ using DTOs.DTOs.Suppliers;
 using Services.Services.Interface;
 using Models.Models;
 using Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Services.Services.Classes
 {
     public class SupplierAssetsServices : ISupplierAssetsServices
     {
         protected ISupplierAssetRepository supplierAssetRepository { get; set; }
+        protected IAssetRepository assetRepository { get; set; }
+        protected ISupplierRepository supplierRepository { get; set; }
         protected IMapper mapper { get; set; }
 
-        public SupplierAssetsServices(ISupplierAssetRepository supplierAssetRepository, IMapper mapper)
+        public SupplierAssetsServices(ISupplierAssetRepository supplierAssetRepository, IAssetRepository assetRepository, ISupplierRepository supplierRepository, IMapper mapper)
         {
             this.supplierAssetRepository = supplierAssetRepository;
+            this.assetRepository = assetRepository;
+            this.supplierRepository = supplierRepository;
             this.mapper = mapper;
         }
 
         //________________ Create a new supplier Asset ______________
-        public async Task<bool> Create(AddOrUpdateSupplierAssetsDTO supplierAssetsDTO)
+        public async Task<bool> Create(int supplierID, AddSupplierAssetsDTO supplierAssetsDTO)
         {
             if (supplierAssetsDTO == null)
             {
@@ -26,7 +31,23 @@ namespace Services.Services.Classes
             }
             else
             {
+                var findSupplier = await supplierRepository.ReadByID(supplierID);
+                if (findSupplier == null)
+                {
+                    throw new AggregateException("There is no supplier by this name.");
+                }
+                var findAsset = await assetRepository.ReadByID(supplierAssetsDTO.AssetID);
+                if (findAsset == null)
+                {
+                    throw new AggregateException("There is no asset by this name.");
+                }
+                var findSupplierAsset = await supplierAssetRepository.ReadOne(supplierID, supplierAssetsDTO.AssetID, supplierAssetsDTO.SerialNumber);
+                if (findSupplierAsset != null)
+                {
+                    throw new AggregateException("There is an asset by the same data.");
+                }
                 var supplierAsset = mapper.Map<SupplierAsset>(supplierAssetsDTO);
+                supplierAsset.SupplierID = supplierID;
                 await supplierAssetRepository.Create(supplierAsset);
                 return true;
             }
@@ -36,58 +57,52 @@ namespace Services.Services.Classes
         public async Task<List<ReadSupplierAssetsDTO>> ReadAll()
         {
             var supplierAssets = await supplierAssetRepository.Read();
-            if (supplierAssets.Any())
-            {
-                return mapper.Map<List<ReadSupplierAssetsDTO>>(supplierAssets);
-            }
-            else
-            {
-                throw new AggregateException("There are no assets.");
-            }
+            var supplierAssetsList = await supplierAssets
+                .Include(sa => sa.Asset)
+                    .ThenInclude(a => a.Category)
+                .ToListAsync();
+            return mapper.Map<List<ReadSupplierAssetsDTO>>(supplierAssetsList);
         }
-        public async Task<ReadSupplierAssetsDTO> ReadBySerialNumber(string serialNumber)
+        public async Task<List<ReadSupplierAssetsDTO>> ReadBySupplier(int supplierID)
         {
-            var supplierAsset = await supplierAssetRepository.ReadBySerialNumber(serialNumber);
-            if (supplierAsset != null)
-            {
-                return mapper.Map<ReadSupplierAssetsDTO>(supplierAsset);
-            }
-            else
-            {
-                throw new AggregateException("There is no asset by this Serial Number.");
-            }
+            var supplierAssets = await supplierAssetRepository.ReadBySupplier(supplierID);
+            return mapper.Map<List<ReadSupplierAssetsDTO>>(supplierAssets);
+        }
+        //_______________Search supplier assets_________________ 
+        public async Task<List<ReadSupplierAssetsDTO>> Search(int supplierID, string? name, string? serialNumber)
+        {
+            var supplierAsset = await supplierAssetRepository.Search(supplierID, name, serialNumber);
+            return mapper.Map<List<ReadSupplierAssetsDTO>>(supplierAsset);
         }
 
         //_______________Update supplier asset by ID_________________ 
-        public async Task<ReadSupplierAssetsDTO> Update(AddOrUpdateSupplierAssetsDTO addOrUpdateSupplierAssetsDTO, int AssetID, int SerialNumber)
+        public async Task<ReadSupplierAssetsDTO> Update(UpdateSupplierAssetsDTO supplierAssetsDTO, int supplierID, int assetID, string serialNumber)
         {
-            var supplierAsset = await supplierAssetRepository.ReadByID(AssetID, SerialNumber);
+            var supplierAsset = await supplierAssetRepository.ReadOne(supplierID, assetID, serialNumber);
             if (supplierAsset == null)
             {
-                throw new AggregateException("There is no asset by this ID and Serial Number.");
+                throw new KeyNotFoundException("There is no asset by this ID and Serial Number.");
             }
-            else
-            {
-                mapper.Map(addOrUpdateSupplierAssetsDTO, supplierAsset);
-                await supplierAssetRepository.Update();
-                return mapper.Map<ReadSupplierAssetsDTO>(supplierAsset);
-            }
+            supplierAssetsDTO.SerialNumber = supplierAssetsDTO.SerialNumber ?? supplierAsset.SerialNumber;
+            supplierAssetsDTO.Count = supplierAssetsDTO.Count ?? supplierAsset.Count;
+
+            mapper.Map(supplierAssetsDTO, supplierAsset);
+            await supplierAssetRepository.Update();
+            return mapper.Map<ReadSupplierAssetsDTO>(supplierAsset);
         }
 
         //_______________Delete supplier asset by ID_________________ 
-        public async Task<bool> Delete(int AssetID, int SerialNumber)
+        public async Task<bool> Delete(int supplierID, int assetID, string serialNumber)
         {
-            var supplierAsset = await supplierAssetRepository.ReadByID(AssetID, SerialNumber);
+            var supplierAsset = await supplierAssetRepository.ReadOne(supplierID, assetID, serialNumber);
 
             if (supplierAsset == null)
             {
-                throw new AggregateException("There is no asset by this ID and Serial Number.");
+                throw new KeyNotFoundException("There is no asset by this ID and Serial Number.");
             }
-            else
-            {
-                await supplierAssetRepository.Delete(supplierAsset);
-                return true;
-            }
+
+            await supplierAssetRepository.Delete(supplierAsset);
+            return true;
         }
     }
 }

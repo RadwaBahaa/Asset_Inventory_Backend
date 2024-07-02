@@ -315,10 +315,12 @@ namespace Context.Migrations
 
                     b.Property<string>("CategoryName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.HasKey("CategoryID");
 
@@ -390,7 +392,8 @@ namespace Context.Migrations
 
                     b.Property<string>("StoreName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("StoreID");
 
@@ -408,15 +411,8 @@ namespace Context.Migrations
                     b.Property<string>("SerialNumber")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("AssetName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Count")
                         .HasColumnType("int");
-
-                    b.Property<DateOnly>("ProductionDate")
-                        .HasColumnType("date");
 
                     b.HasKey("AssetID", "StoreID", "SerialNumber");
 
@@ -524,7 +520,8 @@ namespace Context.Migrations
 
                     b.Property<string>("SupplierName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("SupplierID");
 
@@ -542,15 +539,8 @@ namespace Context.Migrations
                     b.Property<string>("SerialNumber")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("AssetName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Count")
                         .HasColumnType("int");
-
-                    b.Property<DateOnly>("ProductionDate")
-                        .HasColumnType("date");
 
                     b.HasKey("AssetID", "SupplierID", "SerialNumber");
 
@@ -576,7 +566,8 @@ namespace Context.Migrations
 
                     b.Property<string>("WarehouseName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("WarehouseID");
 
@@ -594,15 +585,8 @@ namespace Context.Migrations
                     b.Property<string>("SerialNumber")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("AssetName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Count")
                         .HasColumnType("int");
-
-                    b.Property<DateOnly>("ProductionDate")
-                        .HasColumnType("date");
 
                     b.HasKey("AssetID", "WarehouseID", "SerialNumber");
 

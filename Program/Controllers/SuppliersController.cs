@@ -2,10 +2,11 @@
 using Services.Services.Interface;
 using DTOs.DTOs.Suppliers;
 using Models.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Presentation.Controllers
 {
-    [Route("api/suppliers")]
+    [Route("api/supplier")]
     [ApiController]
     public class SuppliersController : ControllerBase
     {
@@ -17,14 +18,15 @@ namespace Presentation.Controllers
 
         // __________________________ Create __________________________
         [HttpPost("create/data")]
-        public async Task<IActionResult> Create([FromBody] AddOrUpdateSupplierDTO supplierDTO)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Create([FromBody] AddSupplierDTO supplierDTO)
         {
-            if (supplierDTO == null)
-            {
-                return BadRequest("Invalid input data.");
-            }
             try
             {
+                if (supplierDTO == null)
+                {
+                    return BadRequest("Invalid input data.");
+                }
                 var createSupplier = await supplierServices.CreateByData(supplierDTO);
                 if (createSupplier)
                 {
@@ -45,14 +47,15 @@ namespace Presentation.Controllers
             }
         }
         [HttpPost("create/geojson")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromBody] AddSupplierGeoJsonDTO supplierDTO)
         {
-            if (supplierDTO == null)
-            {
-                return BadRequest("Invalid input data.");
-            }
             try
             {
+                if (supplierDTO == null)
+                {
+                    return BadRequest("Invalid input data.");
+                }
                 var createSupplier = await supplierServices.CreateByGeoJSON(supplierDTO);
                 if (createSupplier)
                 {
@@ -75,6 +78,7 @@ namespace Presentation.Controllers
 
         // __________________________ Read __________________________
         [HttpGet("read/json")]
+        [Authorize]
         public async Task<IActionResult> ReadAll()
         {
             try
@@ -96,6 +100,7 @@ namespace Presentation.Controllers
             }
         }
         [HttpGet("read/geojson")]
+        [Authorize]
         public async Task<IActionResult> ReadAllSuppliersAsGeoJson()
         {
             try
@@ -117,6 +122,7 @@ namespace Presentation.Controllers
             }
         }
         [HttpGet("read/json/{id}")]
+        [Authorize]
         public async Task<IActionResult> ReadByID([FromRoute] int id)
         {
             try
@@ -138,6 +144,7 @@ namespace Presentation.Controllers
             }
         }
         [HttpGet("read/geojson/{id}")]
+        [Authorize]
         public async Task<IActionResult> ReadSupplierAsGeoJson(int id)
         {
             try
@@ -164,6 +171,7 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("search")]
+        [Authorize]
         public async Task<IActionResult> Search([FromQuery] string? name, [FromQuery] string? address)
         {
             try
@@ -172,6 +180,7 @@ namespace Presentation.Controllers
                 {
                     return BadRequest("Either 'name' or 'address' must be provided.");
                 }
+
                 var suppliers = await supplierServices.Search(name, address);
                 if (suppliers == null || !suppliers.Any())
                 {
@@ -192,7 +201,8 @@ namespace Presentation.Controllers
 
         // __________________________ Update __________________________
         [HttpPut("update/{id}")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] AddOrUpdateSupplierDTO updateSupplierDTO)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateSupplierDTO updateSupplierDTO)
         {
             try
             {
@@ -215,6 +225,7 @@ namespace Presentation.Controllers
 
         // __________________________ Delete __________________________
         [HttpDelete("delete/{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             try

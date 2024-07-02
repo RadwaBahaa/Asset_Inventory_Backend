@@ -20,7 +20,7 @@ namespace Services.Services.Classes
         }
 
         //________________ Create store ______________
-        public async Task<bool> CreateByData(AddOrUpdateStoreDTO storeDTO)
+        public async Task<bool> CreateByData(AddStoreDTO storeDTO)
         {
 
             if (storeDTO == null)
@@ -89,7 +89,6 @@ namespace Services.Services.Classes
         {
             var stores = await storeRepository.Read();
             var allStores = await stores
-                .Include(s => s.StoreAssets)
                 .ToListAsync();
             return mapper.Map<List<ReadStoreDTO>>(allStores);
         }
@@ -97,9 +96,6 @@ namespace Services.Services.Classes
         {
             var stores = await storeRepository.Read();
             var allStores = await stores
-                .Include(s => s.StoreAssets)
-                .Include(s => s.StoreProcesses)
-                .Include(s => s.StoreRequests)
                 .Select(store => new ReadStoreGeoJsonDTO(store))
                 .ToListAsync();
             return allStores;
@@ -128,7 +124,7 @@ namespace Services.Services.Classes
         }
 
         //_______________Update store by ID_________________ 
-        public async Task<ReadStoreDTO> Update(AddOrUpdateStoreDTO storeDTO, int storeID)
+        public async Task<ReadStoreDTO> Update(UpdateStoreDTO storeDTO, int storeID)
         {
             var store = await storeRepository.ReadByID(storeID);
             if (store == null)
@@ -137,9 +133,10 @@ namespace Services.Services.Classes
             }
             else
             {
-                store.StoreName = storeDTO.StoreName;
-                store.Location = new Point(storeDTO.Longitude, storeDTO.Latitude) { SRID = 4326 };
-                store.Address = storeDTO.Address;
+                store.StoreName = storeDTO.StoreName ?? store.StoreName;
+                store.Location = new Point(storeDTO.Longitude ?? store.Location.X, storeDTO.Latitude ?? store.Location.Y) { SRID = 4326 };
+                store.Address = storeDTO.Address ?? store.Address;
+
                 await storeRepository.Update();
                 return mapper.Map<ReadStoreDTO>(store);
             }

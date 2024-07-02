@@ -3,6 +3,6 @@
     public class AddNewRoleDTO
     {
         [RoleNameValidation]
-        public string RoleName { get; set; }
+        public string Role { get; set; }
     }
 }

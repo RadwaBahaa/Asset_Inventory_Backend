@@ -17,7 +17,7 @@ namespace Presentation.Controllers
 
         // ___________________________ Create ___________________________
         [HttpPost("create")]
-        //[Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromBody] AddAssetDTO assetDTO)
         {
             if (assetDTO == null)
@@ -48,9 +48,7 @@ namespace Presentation.Controllers
 
         // ___________________________ Read ___________________________
         [HttpGet("read")]
-        //[Authorize]
-        //[Authorize(Roles = "Admin")]
-
+        [Authorize]
         public async Task<IActionResult> ReadAll()
         {
             try
@@ -72,7 +70,7 @@ namespace Presentation.Controllers
             }
         }
         [HttpGet("read/{id}")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> ReadByID([FromRoute] int id)
         {
             try
@@ -96,7 +94,7 @@ namespace Presentation.Controllers
 
         // __________________________ Search __________________________
         [HttpGet("search")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> Search([FromQuery] string? name, [FromQuery] string? categoryName)
         {
             try
@@ -126,7 +124,7 @@ namespace Presentation.Controllers
 
         // ___________________________ Update ___________________________
         [HttpPut("update/{id}")]
-        //[Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update([FromBody] UpdatAssetDTO assetDTO, [FromRoute] int id)
         {
             if (assetDTO == null)
@@ -154,7 +152,7 @@ namespace Presentation.Controllers
 
         // ___________________________ Delete ___________________________
         [HttpDelete("delete/{id}")]
-        //[Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             try

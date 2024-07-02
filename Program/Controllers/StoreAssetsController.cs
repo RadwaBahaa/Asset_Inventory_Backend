@@ -5,28 +5,35 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Presentation.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/store/assets")]
     [ApiController]
-    [Authorize]
     public class StoreAssetsController : ControllerBase
     {
         protected IStoreAssetsServices storeAssetServices;
-        public StoreAssetsController(IStoreAssetsServices storeAssetServices)
+        private readonly IAuthorizationService authorizationService;
+
+        public StoreAssetsController(IStoreAssetsServices storeAssetServices, IAuthorizationService authorizationService)
         {
             this.storeAssetServices = storeAssetServices;
+            this.authorizationService = authorizationService;
         }
 
         // __________________________ Create __________________________
-        [HttpPost("create")]
-        public async Task<IActionResult> CreateStoreAsset([FromBody] AddOrUpdateStoreAssetsDTO storeAssetsDTO)
+        [HttpPost("create/{storeID}")]
+        public async Task<IActionResult> CreateStoreAsset([FromRoute] int storeID, [FromBody] AddStoreAssetsDTO storeAssetsDTO)
         {
-            if (storeAssetsDTO == null)
-            {
-                return BadRequest("Invalid input data.");
-            }
             try
             {
-                var storeAsset = await storeAssetServices.Create(storeAssetsDTO);
+                var authorizationResult = await authorizationService.AuthorizeAsync(User, storeID, "StorePolicy");
+                if (!authorizationResult.Succeeded)
+                {
+                    return Forbid();
+                }
+                if (storeAssetsDTO == null)
+                {
+                    return BadRequest("Invalid input data.");
+                }
+                var storeAsset = await storeAssetServices.Create(storeID, storeAssetsDTO);
                 if (storeAsset)
                 {
                     return Ok("The asset was created successfully.");
@@ -46,14 +53,49 @@ namespace Presentation.Controllers
             }
         }
 
-        // __________________________ Read __________________________
-        [HttpGet("read")]
-        public async Task<IActionResult> ReadAll()
+        [HttpGet("read/{storeID}")]
+        public async Task<IActionResult> ReadByStore([FromRoute] int storeID)
         {
             try
             {
-                var storeAssets = await storeAssetServices.ReadAll();
-                if (storeAssets == null || storeAssets.Any())
+                var authorizationResult = await authorizationService.AuthorizeAsync(User, storeID, "StorePolicy");
+                if (!authorizationResult.Succeeded)
+                {
+                    return Forbid();
+                }
+                var storeAssets = await storeAssetServices.ReadByStore(storeID);
+                if (storeAssets == null || !storeAssets.Any())
+                {
+                    return NotFound("There are no assets.");
+                }
+                return Ok(storeAssets);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+        // __________________________ Search __________________________
+        [HttpGet("search/{storeID}")]
+        public async Task<IActionResult> Search([FromRoute] int storeID, [FromQuery] string? storeName, [FromQuery] string? serialNumber)
+        {
+            try
+            {
+                var authorizationResult = await authorizationService.AuthorizeAsync(User, storeID, "StorePolicy");
+                if (!authorizationResult.Succeeded)
+                {
+                    return Forbid();
+                }
+                if (string.IsNullOrWhiteSpace(storeName) && string.IsNullOrWhiteSpace(serialNumber))
+                {
+                    return BadRequest("Either 'name' or 'SerialNum' must be provided.");
+                }
+                var storeAssets = await storeAssetServices.Search(storeID, storeName, serialNumber);
+                if (storeAssets == null || !storeAssets.Any())
                 {
                     return NotFound("There are no assets.");
                 }
@@ -69,38 +111,21 @@ namespace Presentation.Controllers
             }
         }
 
-        [HttpGet("read/{serialNumber}")]
-        public async Task<IActionResult> ReadBySerialNumber([FromRoute] string serialNumber)
-        {
-            try
-            {
-                var storeAssets = await storeAssetServices.ReadBySerialNumber(serialNumber);
-                if (storeAssets == null || storeAssets.Any())
-                {
-                    return NotFound("There is no asset by this Serial Number.");
-                }
-                return Ok(storeAssets);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-
         // __________________________ Update __________________________
-        [HttpPut("update/{assetID}/{serialNumber}")]
-        public async Task<IActionResult> Update([FromRoute] int assetID, [FromRoute] int serialNumber, [FromBody] AddOrUpdateStoreAssetsDTO storeAssetsDTO)
+        [HttpPut("update/{storeID}")]
+        public async Task<IActionResult> Update([FromRoute] int storeID, [FromQuery] int assetID, [FromQuery] string serialNumber, [FromBody] UpdateStoreAssetsDTO storeAssetsDTO)
         {
             try
             {
-                var updatedStoreAsset = await storeAssetServices.Update(storeAssetsDTO, assetID, serialNumber);
+                var authorizationResult = await authorizationService.AuthorizeAsync(User, storeID, "StorePolicy");
+                if (!authorizationResult.Succeeded)
+                {
+                    return Forbid();
+                }
+                var updatedStoreAsset = await storeAssetServices.Update(storeAssetsDTO, storeID, assetID, serialNumber);
                 return Ok(updatedStoreAsset);
             }
-            catch(KeyNotFoundException ex)
+            catch (KeyNotFoundException ex)
             {
                 return NotFound(ex.Message);
             }
@@ -115,12 +140,17 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Delete __________________________
-        [HttpDelete("delete/{assetID}/{serialNumber}")]
-        public async Task<IActionResult> Delete([FromRoute] int assetID, [FromRoute] int serialNumber)
+        [HttpDelete("delete/{storeID}")]
+        public async Task<IActionResult> Delete([FromRoute] int storeID, [FromQuery] int assetID, [FromQuery] string serialNumber)
         {
             try
             {
-                var result = await storeAssetServices.Delete(assetID, serialNumber);
+                var authorizationResult = await authorizationService.AuthorizeAsync(User, storeID, "StorePolicy");
+                if (!authorizationResult.Succeeded)
+                {
+                    return Forbid();
+                }
+                var result = await storeAssetServices.Delete(storeID, assetID, serialNumber);
                 return Ok(result);
             }
             catch (KeyNotFoundException ex)

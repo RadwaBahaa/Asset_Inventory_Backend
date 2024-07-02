@@ -20,9 +20,6 @@ namespace Models.DTOs
                 supplierID = supplier.SupplierID,
                 supplierName = supplier.SupplierName,
                 address = supplier.Address,
-                SupplierAssets = supplier.SupplierAssets,
-                DeliveryProcessSuW = supplier.DeliveryProcessSuW,
-                WarehouseRequests = supplier.WarehouseRequests
             };
         }
     }
@@ -32,8 +29,5 @@ namespace Models.DTOs
         public int supplierID { get; set; }
         public string supplierName { get; set; }
         public string address { get; set; }
-        public List<SupplierAsset> SupplierAssets { get; set; }
-        public List<DeliveryProcessSuW> DeliveryProcessSuW { get; set; }
-        public List<WarehouseRequest> WarehouseRequests { get; set; }
     }
 }

@@ -2,10 +2,11 @@
 using Services.Services.Interface;
 using DTOs.DTOs.Stores;
 using Models.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Presentation.Controllers
 {
-    [Route("api/stores")]
+    [Route("api/store")]
     [ApiController]
     public class StoresController : ControllerBase
     {
@@ -17,14 +18,15 @@ namespace Presentation.Controllers
 
         // __________________________ Create __________________________
         [HttpPost("create/data")]
-        public async Task<IActionResult> Create([FromBody] AddOrUpdateStoreDTO storeDTO)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Create([FromBody] AddStoreDTO storeDTO)
         {
-            if (storeDTO == null)
-            {
-                return BadRequest("Invalid input data.");
-            }
             try
             {
+                if (storeDTO == null)
+                {
+                    return BadRequest("Invalid input data.");
+                }
                 var createStore = await storeServices.CreateByData(storeDTO);
                 if (createStore)
                 {
@@ -45,14 +47,15 @@ namespace Presentation.Controllers
             }
         }
         [HttpPost("create/geojson")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromBody] AddStoreGeoJsonDTO storeDTO)
         {
-            if (storeDTO == null)
-            {
-                return BadRequest("Invalid input data.");
-            }
             try
             {
+                if (storeDTO == null)
+                {
+                    return BadRequest("Invalid input data.");
+                }
                 var createStore = await storeServices.CreateByGeoJSON(storeDTO);
                 if (createStore)
                 {
@@ -75,6 +78,7 @@ namespace Presentation.Controllers
 
         // __________________________ Read __________________________
         [HttpGet("read/json")]
+        [Authorize]
         public async Task<IActionResult> ReadAll()
         {
             try
@@ -96,6 +100,7 @@ namespace Presentation.Controllers
             }
         }
         [HttpGet("read/geojson")]
+        [Authorize]
         public async Task<IActionResult> ReadAllStoresAsGeoJson()
         {
             try
@@ -117,6 +122,7 @@ namespace Presentation.Controllers
             }
         }
         [HttpGet("read/json/{id}")]
+        [Authorize]
         public async Task<IActionResult> ReadByID([FromRoute] int id)
         {
             try
@@ -138,6 +144,7 @@ namespace Presentation.Controllers
             }
         }
         [HttpGet("read/geojson/{id}")]
+        [Authorize]
         public async Task<IActionResult> ReadStoreAsGeoJson(int id)
         {
             try
@@ -164,6 +171,7 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("search")]
+        [Authorize]
         public async Task<IActionResult> Search([FromQuery] string? name, [FromQuery] string? address)
         {
             try
@@ -193,7 +201,8 @@ namespace Presentation.Controllers
 
         // __________________________ Update __________________________
         [HttpPut("update/{id}")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] AddOrUpdateStoreDTO updateStoreDTO)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateStoreDTO updateStoreDTO)
         {
             try
             {
@@ -216,7 +225,8 @@ namespace Presentation.Controllers
 
         // __________________________ Delete __________________________
         [HttpDelete("delete/{id}")]
-        public async Task<IActionResult> Delete([FromRoute]int id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
             try
             {

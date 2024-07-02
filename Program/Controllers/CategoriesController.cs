@@ -19,6 +19,7 @@ namespace Presentation.Controllers
 
         // ___________________________ Create ___________________________
         [HttpPost("create")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> Create([FromBody] AddOrUpdateCategoryDTO categoryDTO)
         {
             if (categoryDTO == null)
@@ -49,6 +50,7 @@ namespace Presentation.Controllers
 
         // ___________________________ Read ___________________________
         [HttpGet("read")]
+        [Authorize]
         public async Task<IActionResult> ReadAll()
         {
             try
@@ -70,6 +72,7 @@ namespace Presentation.Controllers
             }
         }
         [HttpGet("read/{id}")]
+        [Authorize]
         public async Task<IActionResult> ReadByID([FromRoute] int id)
         {
             try
@@ -93,6 +96,7 @@ namespace Presentation.Controllers
 
         // __________________________ Search __________________________
         [HttpGet("search")]
+        [Authorize]
         public async Task<IActionResult> SearchByName([FromQuery] string name)
         {
             try
@@ -116,6 +120,7 @@ namespace Presentation.Controllers
 
         // ___________________________  Update ___________________________
         [HttpPut("update/{id}")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> Update([FromBody] AddOrUpdateCategoryDTO categoryDTO, [FromRoute] int id)
         {
             if (categoryDTO == null)
@@ -143,6 +148,7 @@ namespace Presentation.Controllers
 
         // ___________________________  Delete ___________________________
         [HttpDelete("delete/{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             try

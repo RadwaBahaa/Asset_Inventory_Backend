@@ -1,4 +1,5 @@
 ﻿using DTOs.DTOs.Roles;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,7 @@ namespace Presentation.Controllers
 
         // _____________________________________ Get All Roles _____________________________________
         [HttpGet("readAll")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> ReadAll()
         {
             var roles = await roleManager.Roles.ToListAsync();
@@ -27,45 +29,22 @@ namespace Presentation.Controllers
 
         // _____________________________________ Add a new Role _____________________________________
         [HttpPost("create")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(AddNewRoleDTO roleDTO)
         {
-            roleDTO.RoleName = char.ToUpper(roleDTO.RoleName[0]) + roleDTO.RoleName.Substring(1).ToLower();
-            var getRole = await roleManager.FindByNameAsync(roleDTO.RoleName);
+            roleDTO.Role = char.ToUpper(roleDTO.Role[0]) + roleDTO.Role.Substring(1).ToLower();
+            var getRole = await roleManager.FindByNameAsync(roleDTO.Role);
             if (getRole == null)
             {
                 IdentityRole newRole = new IdentityRole()
                 {
-                    Name = roleDTO.RoleName
+                    Name = roleDTO.Role
                 };
                 await roleManager.CreateAsync(newRole);
                 return Ok(newRole);
             }
             else
                 return BadRequest("This role already exists!");
-        }
-
-        // _____________________________________ Add Role to a user _____________________________________
-        [HttpPost("addRoleToUser")]
-        public async Task<IActionResult> AddRoleToUser(AddRoleToUser roleDTO)
-        {
-            roleDTO.RoleName = char.ToUpper(roleDTO.RoleName[0]) + roleDTO.RoleName.Substring(1).ToLower();
-            var findRole = await roleManager.FindByNameAsync(roleDTO.RoleName);
-            if (findRole == null)
-                return NotFound("There is no role with this name!");
-            var user = await userManager.FindByNameAsync(roleDTO.UserName);
-            if (user == null)
-                return NotFound("There is no user with this name!");
-            else
-            {
-                var userRoles = await userManager.GetRolesAsync(user);
-                foreach (var role in userRoles)
-                {
-                    if (role.ToLower() == roleDTO.RoleName.ToLower())
-                        return BadRequest($"The user '{user.UserName}' already has this role!");
-                }
-                await userManager.AddToRoleAsync(user, roleDTO.RoleName);
-                return Ok($"The role '{roleDTO.RoleName}' was added to the user '{user.UserName}' successfully.");
-            }
         }
     }
 }

@@ -20,9 +20,6 @@ namespace Models.DTOs
                 storeID = store.StoreID,
                 storeName = store.StoreName,
                 address = store.Address,
-                StoreAssets = store.StoreAssets,
-                StoreProcesses = store.StoreProcesses,
-                StoreRequests = store.StoreRequests
             };
         }
     }
@@ -32,8 +29,5 @@ namespace Models.DTOs
         public int storeID { get; set; }
         public string storeName { get; set; }
         public string address { get; set; }
-        public List<StoreAsset> StoreAssets { get; set; }
-        public List<StoreProcess> StoreProcesses { get; set; }
-        public List<StoreRequest> StoreRequests { get; set; }
     }
 }

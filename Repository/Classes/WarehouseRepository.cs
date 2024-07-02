@@ -15,24 +15,12 @@ namespace Repository.Classes
         public async Task<Warehouse> ReadByID(int id)
         {
             var warehouse = await context.Warehouses
-                .Include(s => s.WarehouseAssets)
-                .Include(s => s.WarehouseProcesses)
-                .Include(s => s.WarehouseRequests)
-                .Include(s=>s.DeliveryProcessWSt)
-                .Include(s=>s.WarehouseProcesses)
-                .Include(s => s.StoreRequests)
                 .FirstOrDefaultAsync(s => s.WarehouseID == id);
             return warehouse;
         }
         public async Task<Warehouse> ReadByName(string name)
         {
             var warehouse = await context.Warehouses
-                .Include(s => s.WarehouseAssets)
-                .Include(s => s.WarehouseProcesses)
-                .Include(s => s.WarehouseRequests)
-                .Include(s => s.DeliveryProcessWSt)
-                .Include(s => s.WarehouseProcesses)
-                .Include(s => s.StoreRequests)
                 .FirstOrDefaultAsync(a => a.WarehouseName.ToLower() == name.ToLower());
             return warehouse;
         }
@@ -44,13 +32,7 @@ namespace Repository.Classes
         }
         public async Task<List<Warehouse>> Search(string name, string address)
         {
-            IQueryable<Warehouse> warehouses = context.Warehouses
-                .Include(s => s.WarehouseAssets)
-                .Include(s => s.WarehouseProcesses)
-                .Include(s => s.WarehouseRequests)
-                .Include(s => s.DeliveryProcessWSt)
-                .Include(s => s.WarehouseProcesses)
-                .Include(s => s.StoreRequests);
+            IQueryable<Warehouse> warehouses = context.Warehouses;
 
             if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(address))
             {

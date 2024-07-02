@@ -57,13 +57,21 @@ namespace Context.Context
                     .HasForeignKey(wa => wa.AssetID)
                     .OnDelete(DeleteBehavior.Cascade);
             });
+            builder.Entity<Category>(category =>
+            {
+                //Primary Key
+                category.HasKey(a => a.CategoryID);
+                //Properties
+                category.Property(c => c.CategoryName).IsRequired().HasMaxLength(50);
+                category.Property(c => c.Description).HasMaxLength(500);
+            });
             builder.Entity<Store>(store =>
             {
                 // Primary Key
                 store.HasKey(s => s.StoreID);
                 // Properties
+                store.Property(s=>s.StoreName).IsRequired().HasMaxLength(50);
                 store.Property(s => s.Location).HasColumnType("geometry");
-
                 // Relations
                 store.HasMany(s => s.StoreAssets)
                     .WithOne(sa => sa.Store)
@@ -79,6 +87,7 @@ namespace Context.Context
                 // Primary Key
                 warehouse.HasKey(w => w.WarehouseID);
                 // Properties
+                warehouse.Property(w=>w.WarehouseName).IsRequired().HasMaxLength(50);
                 warehouse.Property(w => w.Location).HasColumnType("geometry");
                 // Relations
                 warehouse.HasMany(w => w.WarehouseAssets)
@@ -99,6 +108,7 @@ namespace Context.Context
                 // Primary Key
                 supplier.HasKey(s => s.SupplierID);
                 // Properties
+                supplier.Property(s => s.SupplierName).IsRequired().HasMaxLength(50);
                 supplier.Property(s => s.Location).HasColumnType("geometry");
                 // Relations
                 supplier.HasMany(s => s.SupplierAssets)
@@ -134,6 +144,8 @@ namespace Context.Context
             {
                 // Primary Key
                 supplierAsset.HasKey(sa => new { sa.AssetID, sa.SupplierID, sa.SerialNumber });
+                //Properties
+                supplierAsset.Property(sa => sa.Count).IsRequired();
                 // Relations
                 supplierAsset.HasMany(sa => sa.AssetShipmentSuW)
                     .WithOne(ash => ash.SupplierAsset)
@@ -144,6 +156,8 @@ namespace Context.Context
             {
                 // Primary Key
                 warehouseAsset.HasKey(wa => new { wa.AssetID, wa.WarehouseID, wa.SerialNumber });
+                //Properties
+                warehouseAsset.Property(wa => wa.Count).IsRequired();
                 // Relations
                 warehouseAsset.HasMany(wa => wa.AssetShipmentWSts)
                     .WithOne(ash => ash.WarehouseAsset)
@@ -154,6 +168,8 @@ namespace Context.Context
             {
                 //Primary Key
                 storeAsset.HasKey(sa => new { sa.AssetID, sa.StoreID, sa.SerialNumber });
+                //Properties
+                storeAsset.Property(sa=>sa.Count).IsRequired();
             });
             builder.Entity<AssetShipmentSuW>(assetShipment =>
             {

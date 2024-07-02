@@ -5,28 +5,35 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Presentation.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/warehouse/assets")]
     [ApiController]
-    [Authorize]
     public class WarehouseAssetsController : ControllerBase
     {
         protected IWarehouseAssetsServices warehouseAssetServices;
-        public WarehouseAssetsController(IWarehouseAssetsServices warehouseAssetServices)
+        private readonly IAuthorizationService authorizationService;
+
+        public WarehouseAssetsController(IWarehouseAssetsServices warehouseAssetServices, IAuthorizationService authorizationService)
         {
             this.warehouseAssetServices = warehouseAssetServices;
+            this.authorizationService = authorizationService;
         }
 
         // __________________________ Create __________________________
-        [HttpPost("create")]
-        public async Task<IActionResult> Create([FromBody] AddOrUpdateWarehouseAssetsDTO warehouseAssetsDTO)
+        [HttpPost("create/{warehouseID}")]
+        public async Task<IActionResult> CreateWarehouseAsset([FromRoute] int warehouseID, [FromBody] AddWarehouseAssetsDTO warehouseAssetsDTO)
         {
-            if (warehouseAssetsDTO == null)
-            {
-                return BadRequest("Invalid input data.");
-            }
             try
             {
-                var warehouseAsset = await warehouseAssetServices.Create(warehouseAssetsDTO);
+                var authorizationResult = await authorizationService.AuthorizeAsync(User, warehouseID, "WarehousePolicy");
+                if (!authorizationResult.Succeeded)
+                {
+                    return Forbid();
+                }
+                if (warehouseAssetsDTO == null)
+                {
+                    return BadRequest("Invalid input data.");
+                }
+                var warehouseAsset = await warehouseAssetServices.Create(warehouseID, warehouseAssetsDTO);
                 if (warehouseAsset)
                 {
                     return Ok("The asset was created successfully.");
@@ -46,13 +53,52 @@ namespace Presentation.Controllers
             }
         }
 
-        // __________________________ Read __________________________
-        [HttpGet("readAll")]
-        public async Task<IActionResult> ReadAll()
+        [HttpGet("read/{warehouseID}")]
+        public async Task<IActionResult> ReadByWarehouse([FromRoute] int warehouseID)
         {
             try
             {
-                var warehouseAssets = await warehouseAssetServices.ReadAll();
+                var authorizationResult = await authorizationService.AuthorizeAsync(User, warehouseID, "WarehousePolicy");
+                if (!authorizationResult.Succeeded)
+                {
+                    return Forbid();
+                }
+                var warehouseAssets = await warehouseAssetServices.ReadByWarehouse(warehouseID);
+                if (warehouseAssets == null || !warehouseAssets.Any())
+                {
+                    return NotFound("There are no assets.");
+                }
+                return Ok(warehouseAssets);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+        // __________________________ Search __________________________
+        [HttpGet("search/{warehouseID}")]
+        public async Task<IActionResult> Search([FromRoute] int warehouseID, [FromQuery] string? warehouseName, [FromQuery] string? serialNumber)
+        {
+            try
+            {
+                var authorizationResult = await authorizationService.AuthorizeAsync(User, warehouseID, "WarehousePolicy");
+                if (!authorizationResult.Succeeded)
+                {
+                    return Forbid();
+                }
+                if (string.IsNullOrWhiteSpace(warehouseName) && string.IsNullOrWhiteSpace(serialNumber))
+                {
+                    return BadRequest("Either 'name' or 'SerialNum' must be provided.");
+                }
+                var warehouseAssets = await warehouseAssetServices.Search(warehouseID, warehouseName, serialNumber);
+                if (warehouseAssets == null || !warehouseAssets.Any())
+                {
+                    return NotFound("There are no assets.");
+                }
                 return Ok(warehouseAssets);
             }
             catch (ArgumentException ex)
@@ -65,32 +111,23 @@ namespace Presentation.Controllers
             }
         }
 
-        [HttpGet("readBySerialNumber/{serialNumber}")]
-        public async Task<IActionResult> ReadBySerialNumber([FromRoute] string serialNumber)
-        {
-            try
-            {
-                var warehouseAsset = await warehouseAssetServices.ReadBySerialNumber(serialNumber);
-                return Ok(warehouseAsset);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-
         // __________________________ Update __________________________
-        [HttpPut("update/{assetID}/{serialNumber}")]
-        public async Task<IActionResult> Update([FromRoute] int assetID, [FromRoute] int serialNumber, [FromBody] AddOrUpdateWarehouseAssetsDTO warehouseAssetsDTO)
+        [HttpPut("update/{warehouseID}")]
+        public async Task<IActionResult> Update([FromRoute] int warehouseID, [FromQuery] int assetID, [FromQuery] string serialNumber, [FromBody] UpdateWarehouseAssetsDTO warehouseAssetsDTO)
         {
             try
             {
-                var updatedWarehouseAsset = await warehouseAssetServices.Update(warehouseAssetsDTO, assetID, serialNumber);
+                var authorizationResult = await authorizationService.AuthorizeAsync(User, warehouseID, "WarehousePolicy");
+                if (!authorizationResult.Succeeded)
+                {
+                    return Forbid();
+                }
+                var updatedWarehouseAsset = await warehouseAssetServices.Update(warehouseAssetsDTO, warehouseID, assetID, serialNumber);
                 return Ok(updatedWarehouseAsset);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (ArgumentException ex)
             {
@@ -103,13 +140,22 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Delete __________________________
-        [HttpDelete("delete/{assetID}/{serialNumber}")]
-        public async Task<IActionResult> Delete([FromRoute] int assetID, [FromRoute] int serialNumber)
+        [HttpDelete("delete/{warehouseID}")]
+        public async Task<IActionResult> Delete([FromRoute] int warehouseID, [FromQuery] int assetID, [FromQuery] string serialNumber)
         {
             try
             {
-                var result = await warehouseAssetServices.Delete(assetID, serialNumber);
+                var authorizationResult = await authorizationService.AuthorizeAsync(User, warehouseID, "WarehousePolicy");
+                if (!authorizationResult.Succeeded)
+                {
+                    return Forbid();
+                }
+                var result = await warehouseAssetServices.Delete(warehouseID, assetID, serialNumber);
                 return Ok(result);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (ArgumentException ex)
             {

@@ -20,7 +20,7 @@ namespace Services.Services.Classes
         }
 
         //________________ Create supplier ______________
-        public async Task<bool> CreateByData(AddOrUpdateSupplierDTO supplierDTO)
+        public async Task<bool> CreateByData(AddSupplierDTO supplierDTO)
         {
 
             if (supplierDTO == null)
@@ -89,7 +89,6 @@ namespace Services.Services.Classes
         {
             var suppliers = await supplierRepository.Read();
             var allSuppliers = await suppliers
-                .Include(s => s.SupplierAssets)
                 .ToListAsync();
             return mapper.Map<List<ReadSupplierDTO>>(allSuppliers);
         }
@@ -97,9 +96,6 @@ namespace Services.Services.Classes
         {
             var suppliers = await supplierRepository.Read();
             var allSuppliers = await suppliers
-                .Include(s => s.SupplierAssets)
-                .Include(s => s.DeliveryProcessSuW)
-                .Include(s => s.WarehouseRequests)
                 .Select(supplier => new ReadSupplierGeoJsonDTO(supplier))
                 .ToListAsync();
             return allSuppliers;
@@ -128,7 +124,7 @@ namespace Services.Services.Classes
         }
 
         //_______________Update supplier by ID_________________ 
-        public async Task<ReadSupplierDTO> Update(AddOrUpdateSupplierDTO supplierDTO, int supplierID)
+        public async Task<ReadSupplierDTO> Update(UpdateSupplierDTO supplierDTO, int supplierID)
         {
             var supplier = await supplierRepository.ReadByID(supplierID);
             if (supplier == null)
@@ -137,9 +133,10 @@ namespace Services.Services.Classes
             }
             else
             {
-                supplier.SupplierName = supplierDTO.SupplierName;
-                supplier.Location = new Point(supplierDTO.Longitude, supplierDTO.Latitude) { SRID = 4326 };
-                supplier.Address = supplierDTO.Address;
+                supplier.SupplierName = supplierDTO.SupplierName ?? supplier.SupplierName;
+                supplier.Location = new Point(supplierDTO.Longitude ?? supplier.Location.X, supplierDTO.Latitude ?? supplier.Location.Y) { SRID = 4326 };
+                supplier.Address = supplierDTO.Address ?? supplier.Address;
+
                 await supplierRepository.Update();
                 return mapper.Map<ReadSupplierDTO>(supplier);
             }
