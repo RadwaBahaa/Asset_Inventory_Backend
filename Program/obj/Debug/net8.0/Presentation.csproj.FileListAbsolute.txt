@@ -628,10 +628,3 @@ D:\Project\Asset_Inventory_Backend\Program\bin\Debug\net8.0\Microsoft.AspNetCore
 D:\Project\Asset_Inventory_Backend\Program\bin\Debug\net8.0\Newtonsoft.Json.dll
 D:\Project\Asset_Inventory_Backend\Program\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
 E:\ITI\Graduation Project\Backend\Program\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-E:\ITI\Graduation Project\Backend\Program\bin\Debug\net8.0\Microsoft.AspNetCore.Authorization.dll
-E:\ITI\Graduation Project\Backend\Program\bin\Debug\net8.0\Microsoft.AspNetCore.Metadata.dll
-E:\ITI\Graduation Project\Backend\Program\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-E:\ITI\Graduation Project\Backend\Program\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
-E:\ITI\Graduation Project\Backend\Program\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
-E:\ITI\Graduation Project\Backend\Program\bin\Debug\net8.0\AuthorizationPoliciesSample.dll
-E:\ITI\Graduation Project\Backend\Program\bin\Debug\net8.0\AuthorizationPoliciesSample.pdb

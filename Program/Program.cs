@@ -1,5 +1,5 @@
-using AuthorizationPoliciesSample.Policies.Handlers;
-using AuthorizationPoliciesSample.Policies.Requirements;
+using Presentation.Policies.Handlers;
+using Presentation.Policies.Requirements;
 using Context.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -93,7 +93,29 @@ public class Program
                 ValidIssuer = builder.Configuration["JWT:Issuer"],
                 ValidAudience = builder.Configuration["JWT:Audience"],
             };
-        }); 
+        });
+        // _______________________________________________ Authorization _______________________________________________
+        builder.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy("StorePolicy", policy =>
+            {
+                policy.Requirements.Add(new StoreRequirement());
+                policy.RequireAssertion(context => context.Resource is int?);
+            });
+            options.AddPolicy("WarehousePolicy", policy =>
+            {
+                policy.Requirements.Add(new WarehouseRequirement());
+                policy.RequireAssertion(context => context.Resource is int?);
+            });
+            options.AddPolicy("SupplierPolicy", policy =>
+            {
+                policy.Requirements.Add(new SupplierRequirement());
+                policy.RequireAssertion(context => context.Resource is int?);
+            });
+        });
+        builder.Services.AddSingleton<IAuthorizationHandler, StoreHandler>();
+        builder.Services.AddSingleton<IAuthorizationHandler, WarehouseHandler>();
+        builder.Services.AddSingleton<IAuthorizationHandler, SupplierHandler>();
 
         builder.Services.AddSwaggerGen(c =>
         {
@@ -128,28 +150,7 @@ public class Program
             });
         });
 
-        // _______________________________________________ Authorization _______________________________________________
-        builder.Services.AddAuthorization(options =>
-        {
-            options.AddPolicy("StorePolicy", policy =>
-            {
-                policy.Requirements.Add(new StoreRequirement());
-                policy.RequireAssertion(context => context.Resource is int?);
-            });
-            options.AddPolicy("WarehousePolicy", policy =>
-            {
-                policy.Requirements.Add(new WarehouseRequirement());
-                policy.RequireAssertion(context => context.Resource is int?);
-            });
-            options.AddPolicy("SupplierPolicy", policy =>
-            {
-                policy.Requirements.Add(new SupplierRequirement());
-                policy.RequireAssertion(context => context.Resource is int?);
-            });
-        });
-        builder.Services.AddSingleton<IAuthorizationHandler, StoreHandler>();
-        builder.Services.AddSingleton<IAuthorizationHandler, WarehouseHandler>();
-        builder.Services.AddSingleton<IAuthorizationHandler, SupplierHandler>();
+        
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
