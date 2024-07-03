@@ -12,6 +12,6 @@ namespace Models.DTOs
     public class AddSupplierPropertiesDTO
     {
         public string supplierName { get; set; }
-        public string address { get; set; }
+        public string? address { get; set; }
     }
 }

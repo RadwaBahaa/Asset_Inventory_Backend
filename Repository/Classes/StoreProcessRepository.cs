@@ -15,14 +15,14 @@ namespace Repository.Classes
         public async Task<StoreProcess> ReadByID(int processID, int storeID)
         {
             var process = await context.StoreProcesses
-                .Include(p => p.AssetShipmentWSt)
+                .Include(p => p.AssetShipmentWSts)
                 .FirstOrDefaultAsync(p => p.ProcessID == processID && p.StoreID == storeID);
             return process;
         }
         public async Task<List<StoreProcess>> SearchByStore(int storeID)
         {
             var processesList = await context.StoreProcesses
-                .Include(p => p.AssetShipmentWSt)
+                .Include(p => p.AssetShipmentWSts)
                 .Where(p => p.StoreID == storeID)
                 .ToListAsync();
             return processesList;

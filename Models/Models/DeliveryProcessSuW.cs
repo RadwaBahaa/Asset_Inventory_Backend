@@ -3,7 +3,7 @@
     public class DeliveryProcessSuW
     {
         public int ProcessID { get; set; }      // Primary key
-        public int SupplierID { get; set; }     // Forign Key from Supplier Entity
+        public int? SupplierID { get; set; }     // Forign Key from Supplier Entity
         public int TotalAssets { get; set; }
         public DateTime DateTime { get; set; }
 

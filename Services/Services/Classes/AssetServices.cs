@@ -36,7 +36,7 @@ namespace Services.Services.Classes
             var findCategory = await categoryRepository.ReadByID(assetDTO.CategoryID);
             if (findCategory == null)
             {
-                throw new AggregateException("There is no Category by this ID");
+                throw new KeyNotFoundException("There is no Category by this ID");
             }
 
             var newAsset = mapper.Map<Asset>(assetDTO);

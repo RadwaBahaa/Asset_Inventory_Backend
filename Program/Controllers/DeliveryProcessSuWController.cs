@@ -4,7 +4,7 @@ using Services.Services.Interface;
 
 namespace Presentation.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/delivery-process/supplier-warehouse")]
     [ApiController]
     public class DeliveryProcessSuWController : ControllerBase
     {
@@ -16,15 +16,16 @@ namespace Presentation.Controllers
 
         // __________________________ Create __________________________
         [HttpPost("create/{supplierID}")]
-        public async Task<IActionResult> Create(AddDeliveryProcessSuWDTO addDeliveryProcessSuWDTO, int supplierID)
+        public async Task<IActionResult> Create(AddDeliveryProcessSuWDTO deliveryProcessSuWDTO, int supplierID)
         {
-            if (addDeliveryProcessSuWDTO == null || supplierID <= 0)
+            if (deliveryProcessSuWDTO == null || supplierID == 0)
             {
                 return BadRequest("Invalid input data.");
             }
             try
             {
-                var result = await deliveryProcessSuWServices.Create(addDeliveryProcessSuWDTO, supplierID); if (result)
+                var result = await deliveryProcessSuWServices.Create(deliveryProcessSuWDTO, supplierID);
+                if (result)
                 {
                     return Ok("Delivery process created successfully.");
                 }

@@ -4,7 +4,7 @@ using Services.Services.Interface;
 
 namespace Presentation.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/delivery-process/warehouse-store")]
     [ApiController]
     public class DeliveryProcessWStController : ControllerBase
     {
@@ -18,7 +18,7 @@ namespace Presentation.Controllers
         [HttpPost("create/{warehouseID}")]
         public async Task<IActionResult> Create(AddDeliveryProcessWStDTO addDeliveryProcessWStDTO, int warehouseID)
         {
-            if (addDeliveryProcessWStDTO == null || warehouseID <= 0)
+            if (addDeliveryProcessWStDTO == null || warehouseID ==0)
             {
                 return BadRequest("Invalid input data.");
             }

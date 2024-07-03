@@ -7,6 +7,7 @@ namespace Presentation.Controllers
 {
     [Route("api/warehouse/assets")]
     [ApiController]
+    [Authorize]
     public class WarehouseAssetsController : ControllerBase
     {
         protected IWarehouseAssetsServices warehouseAssetServices;

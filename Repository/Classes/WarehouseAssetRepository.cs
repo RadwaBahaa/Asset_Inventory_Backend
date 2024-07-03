@@ -13,48 +13,48 @@ namespace Repository.Classes
         {
             this.context = context;
         }
-        public async Task<WarehouseAsset> ReadOne(int warehouseID, int assetID, string serialNumber)
+        public async Task<WarehouseAsset> ReadOne(int warehouseID, int? assetID, string? serialNumber)
         {
             var warehouseAsset = await context.WarehouseAssets
-                .Include(sa => sa.Asset)
+                .Include(wa => wa.Asset)
                     .ThenInclude(a => a.Category)
-                .FirstOrDefaultAsync(sa => sa.WarehouseID == warehouseID && sa.AssetID == assetID && sa.SerialNumber == serialNumber);
+                .FirstOrDefaultAsync(wa => wa.WarehouseID == warehouseID && wa.AssetID == assetID && wa.SerialNumber == serialNumber && wa.Count != 0);
             return warehouseAsset;
         }
         public async Task<List<WarehouseAsset>> ReadByWarehouse(int warehouseID)
         {
             var warehouseAsset = await context.WarehouseAssets
-                .Include(sa => sa.Asset)
-                .ThenInclude(a => a.Category)
-                .Where(sa => sa.WarehouseID == warehouseID)
+                .Include(wa => wa.Asset)
+                    .ThenInclude(a => a.Category)
+                .Where(wa => wa.WarehouseID == warehouseID && wa.Count != 0)
                 .ToListAsync();
             return warehouseAsset;
         }
         public async Task<List<WarehouseAsset>> SearchByName(string assetName)
         {
             var warehouseAsset = await context.WarehouseAssets
-                .Include(sa => sa.Asset)
+                .Include(wa => wa.Asset)
                     .ThenInclude(a => a.Category)
-                .Where(a => a.Asset.AssetName.ToLower().Contains(assetName.ToLower()))
+                .Where(wa => wa.Asset.AssetName.ToLower().Contains(assetName.ToLower()) && wa.Count != 0)
                 .ToListAsync();
             return warehouseAsset;
         }
         public async Task<List<WarehouseAsset>> Search(int warehouseID, string? name, string? serialNumber)
         {
             IQueryable<WarehouseAsset> warehouseAsset = context.WarehouseAssets
-                .Include(sa => sa.Asset)
+                .Include(wa => wa.Asset)
                     .ThenInclude(a => a.Category);
             if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(serialNumber))
             {
-                warehouseAsset = warehouseAsset.Where(sa => sa.WarehouseID == warehouseID && sa.Asset.AssetName.ToLower().Contains(name.ToLower()) && sa.SerialNumber.ToLower().Contains(serialNumber.ToLower()));
+                warehouseAsset = warehouseAsset.Where(wa => wa.WarehouseID == warehouseID && wa.Asset.AssetName.ToLower().Contains(name.ToLower()) && wa.SerialNumber.ToLower().Contains(serialNumber.ToLower()) && wa.Count != 0);
             }
             else if (!string.IsNullOrWhiteSpace(name))
             {
-                warehouseAsset = warehouseAsset.Where(sa => sa.WarehouseID == warehouseID && sa.Asset.AssetName.ToLower().Contains(name.ToLower()));
+                warehouseAsset = warehouseAsset.Where(wa => wa.WarehouseID == warehouseID && wa.Asset.AssetName.ToLower().Contains(name.ToLower()) && wa.Count != 0);
             }
             else
             {
-                warehouseAsset = warehouseAsset.Where(sa => sa.WarehouseID == warehouseID && sa.SerialNumber.ToLower().Contains(serialNumber.ToLower()));
+                warehouseAsset = warehouseAsset.Where(wa => wa.WarehouseID == warehouseID && wa.SerialNumber.ToLower().Contains(serialNumber.ToLower()) && wa.Count != 0);
             }
             return await warehouseAsset.ToListAsync();
         }

@@ -4,6 +4,7 @@ using Context.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 
@@ -12,9 +13,11 @@ using NetTopologySuite.Geometries;
 namespace Context.Migrations
 {
     [DbContext(typeof(AssetInventoryContext))]
-    partial class AssetInventoryContextModelSnapshot : ModelSnapshot
+    [Migration("20240703071235_edit01")]
+    partial class edit01
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -741,7 +744,7 @@ namespace Context.Migrations
             modelBuilder.Entity("Models.Models.AssetShipmentSuW", b =>
                 {
                     b.HasOne("Models.Models.WarehouseProcess", "WarehouseProcess")
-                        .WithMany("AssetShipmentSuWs")
+                        .WithMany("AssetShipmentSuW")
                         .HasForeignKey("ProcessID", "WarehouseID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -749,7 +752,7 @@ namespace Context.Migrations
                     b.HasOne("Models.Models.SupplierAsset", "SupplierAsset")
                         .WithMany("AssetShipmentSuWs")
                         .HasForeignKey("AssetID", "WarehouseID", "SerialNumber")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("SupplierAsset");
@@ -760,7 +763,7 @@ namespace Context.Migrations
             modelBuilder.Entity("Models.Models.AssetShipmentWSt", b =>
                 {
                     b.HasOne("Models.Models.StoreProcess", "StoreProcess")
-                        .WithMany("AssetShipmentWSts")
+                        .WithMany("AssetShipmentWSt")
                         .HasForeignKey("ProcessID", "StoreID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -768,7 +771,7 @@ namespace Context.Migrations
                     b.HasOne("Models.Models.WarehouseAsset", "WarehouseAsset")
                         .WithMany("AssetShipmentWSts")
                         .HasForeignKey("AssetID", "WarehouseID", "SerialNumber")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("StoreProcess");
@@ -998,7 +1001,7 @@ namespace Context.Migrations
 
             modelBuilder.Entity("Models.Models.StoreProcess", b =>
                 {
-                    b.Navigation("AssetShipmentWSts");
+                    b.Navigation("AssetShipmentWSt");
                 });
 
             modelBuilder.Entity("Models.Models.StoreRequest", b =>
@@ -1040,7 +1043,7 @@ namespace Context.Migrations
 
             modelBuilder.Entity("Models.Models.WarehouseProcess", b =>
                 {
-                    b.Navigation("AssetShipmentSuWs");
+                    b.Navigation("AssetShipmentSuW");
                 });
 
             modelBuilder.Entity("Models.Models.WarehouseRequest", b =>

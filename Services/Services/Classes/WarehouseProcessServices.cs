@@ -20,7 +20,7 @@ namespace Services.Services.Classes
         {
             var processes = await warehouseProcessReopsitory.Read();
             var processesList = await processes
-                .Include(p => p.AssetShipmentSuW)
+                .Include(p => p.AssetShipmentSuWs)
                 .Select(p => mapper.Map<ReadWarehouseProcessDTO>(p))
                 .ToListAsync();
             if (processesList.Any())

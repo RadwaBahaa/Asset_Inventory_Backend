@@ -223,7 +223,7 @@ namespace Context.Migrations
                     AssetID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AssetName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    CategoryID = table.Column<int>(type: "int", nullable: false),
+                    CategoryID = table.Column<int>(type: "int", nullable: true),
                     Price = table.Column<float>(type: "real", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true)
                 },
@@ -244,7 +244,7 @@ namespace Context.Migrations
                 {
                     ProcessID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SupplierID = table.Column<int>(type: "int", nullable: false),
+                    SupplierID = table.Column<int>(type: "int", nullable: true),
                     TotalAssets = table.Column<int>(type: "int", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -265,7 +265,7 @@ namespace Context.Migrations
                 {
                     ProcessID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    WarehouseID = table.Column<int>(type: "int", nullable: false),
+                    WarehouseID = table.Column<int>(type: "int", nullable: true),
                     TotalAssets = table.Column<int>(type: "int", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -286,8 +286,8 @@ namespace Context.Migrations
                 {
                     RequestID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StoreID = table.Column<int>(type: "int", nullable: false),
-                    WarehouseID = table.Column<int>(type: "int", nullable: false),
+                    StoreID = table.Column<int>(type: "int", nullable: true),
+                    WarehouseID = table.Column<int>(type: "int", nullable: true),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -299,14 +299,12 @@ namespace Context.Migrations
                         name: "FK_StoreRequests_Stores_StoreID",
                         column: x => x.StoreID,
                         principalTable: "Stores",
-                        principalColumn: "StoreID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "StoreID");
                     table.ForeignKey(
                         name: "FK_StoreRequests_Warehouses_WarehouseID",
                         column: x => x.WarehouseID,
                         principalTable: "Warehouses",
-                        principalColumn: "WarehouseID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "WarehouseID");
                 });
 
             migrationBuilder.CreateTable(
@@ -315,8 +313,8 @@ namespace Context.Migrations
                 {
                     RequestID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    WarehouseID = table.Column<int>(type: "int", nullable: false),
-                    SupplierID = table.Column<int>(type: "int", nullable: false),
+                    WarehouseID = table.Column<int>(type: "int", nullable: true),
+                    SupplierID = table.Column<int>(type: "int", nullable: true),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -328,14 +326,12 @@ namespace Context.Migrations
                         name: "FK_WarehouseRequests_Suppliers_SupplierID",
                         column: x => x.SupplierID,
                         principalTable: "Suppliers",
-                        principalColumn: "SupplierID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "SupplierID");
                     table.ForeignKey(
                         name: "FK_WarehouseRequests_Warehouses_WarehouseID",
                         column: x => x.WarehouseID,
                         principalTable: "Warehouses",
-                        principalColumn: "WarehouseID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "WarehouseID");
                 });
 
             migrationBuilder.CreateTable(
@@ -424,7 +420,7 @@ namespace Context.Migrations
                     WarehouseID = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -451,7 +447,7 @@ namespace Context.Migrations
                     StoreID = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -540,8 +536,7 @@ namespace Context.Migrations
                         name: "FK_AssetShipmentSuW_SupplierAssets_AssetID_SupplierID_SerialNumber",
                         columns: x => new { x.AssetID, x.SupplierID, x.SerialNumber },
                         principalTable: "SupplierAssets",
-                        principalColumns: new[] { "AssetID", "SupplierID", "SerialNumber" },
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumns: new[] { "AssetID", "SupplierID", "SerialNumber" });
                     table.ForeignKey(
                         name: "FK_AssetShipmentSuW_WarehouseProcesses_ProcessID_WarehouseID",
                         columns: x => new { x.ProcessID, x.WarehouseID },
@@ -574,8 +569,7 @@ namespace Context.Migrations
                         name: "FK_AssetShipmentWSt_WarehouseAssets_AssetID_WarehouseID_SerialNumber",
                         columns: x => new { x.AssetID, x.WarehouseID, x.SerialNumber },
                         principalTable: "WarehouseAssets",
-                        principalColumns: new[] { "AssetID", "WarehouseID", "SerialNumber" },
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumns: new[] { "AssetID", "WarehouseID", "SerialNumber" });
                 });
 
             migrationBuilder.CreateIndex(

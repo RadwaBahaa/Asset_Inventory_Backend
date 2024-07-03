@@ -12,6 +12,6 @@ namespace Models.DTOs
     public class AddWarehousePropertiesDTO
     {
         public string warehouseName { get; set; }
-        public string address { get; set; }
+        public string? address { get; set; }
     }
 }

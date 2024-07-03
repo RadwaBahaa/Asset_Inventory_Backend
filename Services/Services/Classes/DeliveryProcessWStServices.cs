@@ -2,6 +2,7 @@
 using DTOs.DTOs.DeliveryProcesses;
 using Microsoft.EntityFrameworkCore;
 using Models.Models;
+using Repository.Classes;
 using Repository.Interfaces;
 using Services.Services.Interface;
 
@@ -10,10 +11,12 @@ namespace Services.Services.Classes
     public class DeliveryProcessWStServices : IDeliveryProcessWStServices
     {
         protected IDeliveryProcessWStRepository deliveryProcessWStRepository { get; set; }
+        protected IWarehouseAssetRepository warehouseAssetRepository;
         protected IMapper mapper { get; set; }
-        public DeliveryProcessWStServices(IDeliveryProcessWStRepository deliveryProcessWStRepository, IMapper mapper)
+        public DeliveryProcessWStServices(IDeliveryProcessWStRepository deliveryProcessWStRepository, IWarehouseAssetRepository warehouseAssetRepository, IMapper mapper)
         {
             this.deliveryProcessWStRepository = deliveryProcessWStRepository;
+            this.warehouseAssetRepository = warehouseAssetRepository;
             this.mapper = mapper;
         }
 
@@ -24,23 +27,40 @@ namespace Services.Services.Classes
             {
                 throw new ArgumentException("You choose not to deliver to any store!...");
             }
-            else
+
+            var deliveryProcess = mapper.Map<DeliveryProcessWSt>(deliveryProcessWStDTO);
+
+            deliveryProcess.WarehouseID = warehouseID;
+            deliveryProcess.DateTime = DateTime.Now;
+            deliveryProcess.TotalAssets = 0;
+
+            foreach (var storeProcess in deliveryProcess.StoreProcesses)
             {
-                var newProcess = mapper.Map<DeliveryProcessWSt>(deliveryProcessWStDTO);
-                newProcess.WarehouseID = warehouseID;
-                newProcess.DateTime = DateTime.Now;
-                newProcess.TotalAssets = 0;
-                foreach (var process in deliveryProcessWStDTO.StoreProcesses)
+                storeProcess.Status = "Start Process Confirmed";
+                storeProcess.Quantity = 0;
+
+                foreach (var assetShipment in storeProcess.AssetShipmentWSts)
                 {
-                    foreach (var asset in process.AssetShipmentWSt)
-                    {
-                        newProcess.TotalAssets += asset.Quantity ?? 0;
-                    }
+                    var asset = await warehouseAssetRepository.ReadOne(warehouseID, assetShipment.AssetID, assetShipment.SerialNumber);
+                    if (asset == null)
+                        throw new KeyNotFoundException("There is no asset by this ID");
+                    if (assetShipment.Quantity > asset.Count)
+                        throw new KeyNotFoundException($"This quantity of the asset {asset.Asset.AssetName} in not avilable");
+
+                    assetShipment.WarehouseID = warehouseID;
+                    storeProcess.Quantity += assetShipment.Quantity;
+
+                    asset.Count -= assetShipment.Quantity;
+
                 }
-                await deliveryProcessWStRepository.Create(newProcess);
-                return true;
+                deliveryProcess.TotalAssets += storeProcess.Quantity;
             }
+
+            await deliveryProcessWStRepository.Create(deliveryProcess);
+            await warehouseAssetRepository.Update();
+            return true;
         }
+
 
         // ________________ Read Processes from Supplier to Werhouses ________________
         public async Task<List<ReadDeliveryProcessWStDTO>> ReadAll()
@@ -48,17 +68,15 @@ namespace Services.Services.Classes
             var processesList = await deliveryProcessWStRepository.Read();
             var mappedProcessesList = await processesList
                 .Include(p => p.StoreProcesses)
-                    .ThenInclude(wp => wp.AssetShipmentWSt)
+                    .ThenInclude(sp => sp.AssetShipmentWSts)
                 .Select(p => mapper.Map<ReadDeliveryProcessWStDTO>(p))
                 .ToListAsync();
             if (mappedProcessesList.Any())
             {
                 return mappedProcessesList;
             }
-            else
-            {
-                throw new ArgumentException("There are no prosesses to be retrieved.");
-            }
+
+            throw new ArgumentException("There are no prosesses to be retrieved.");
         }
         public async Task<ReadDeliveryProcessWStDTO> ReadByID(int ID)
         {
@@ -67,10 +85,8 @@ namespace Services.Services.Classes
             {
                 throw new ArgumentException("There is no process by this ID.");
             }
-            else
-            {
-                return mapper.Map<ReadDeliveryProcessWStDTO>(process);
-            }
+
+            return mapper.Map<ReadDeliveryProcessWStDTO>(process);
         }
 
         // _________________________ Search for Processes _________________________
@@ -78,9 +94,11 @@ namespace Services.Services.Classes
         {
             var searchedProcesses = await deliveryProcessWStRepository.SearchByWarehouse(warehouseID);
             if (searchedProcesses.Any())
+            {
                 return mapper.Map<List<ReadDeliveryProcessWStDTO>>(searchedProcesses);
-            else
-                throw new ArgumentException("There are no Process from this Warehouse.");
+            }
+
+            throw new ArgumentException("There are no Process from this Warehouse.");
         }
         public async Task<List<ReadDeliveryProcessWStDTO>> SearchByDate(DateTime date)
         {
@@ -89,10 +107,8 @@ namespace Services.Services.Classes
             {
                 return mapper.Map<List<ReadDeliveryProcessWStDTO>>(searchedProcesses);
             }
-            else
-            {
-                throw new ArgumentException("There are no Process on this date.");
-            }
+
+            throw new ArgumentException("There are no Process on this date.");
         }
 
         // _________________________ Delete a Process _________________________
@@ -104,10 +120,8 @@ namespace Services.Services.Classes
                 await deliveryProcessWStRepository.Delete(findProcess);
                 return true;
             }
-            else
-            {
-                throw new ArgumentException("There is no process by this ID.");
-            }
+
+            throw new ArgumentException("There is no process by this ID.");
         }
     }
 }

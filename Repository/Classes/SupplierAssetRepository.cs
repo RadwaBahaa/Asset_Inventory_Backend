@@ -13,12 +13,12 @@ namespace Repository.Classes
         {
             this.context = context;
         }
-        public async Task<SupplierAsset> ReadOne(int supplierID, int assetID, string serialNumber)
+        public async Task<SupplierAsset> ReadOne(int supplierID, int? assetID, string? serialNumber)
         {
             var supplierAsset = await context.SupplierAssets
                 .Include(sa => sa.Asset)
                     .ThenInclude(a => a.Category)
-                .FirstOrDefaultAsync(sa => sa.SupplierID == supplierID && sa.AssetID == assetID && sa.SerialNumber == serialNumber);
+                .FirstOrDefaultAsync(sa => sa.SupplierID == supplierID && sa.AssetID == assetID && sa.SerialNumber == serialNumber && sa.Count != 0);
             return supplierAsset;
         }
         public async Task<List<SupplierAsset>> ReadBySupplier(int supplierID)
@@ -26,7 +26,7 @@ namespace Repository.Classes
             var supplierAsset = await context.SupplierAssets
                 .Include(sa => sa.Asset)
                     .ThenInclude(a => a.Category)
-                .Where(sa => sa.SupplierID == supplierID)
+                .Where(sa => sa.SupplierID == supplierID && sa.Count != 0)
                 .ToListAsync();
             return supplierAsset;
         }
@@ -35,7 +35,7 @@ namespace Repository.Classes
             var supplierAsset = await context.SupplierAssets
                 .Include(sa => sa.Asset)
                     .ThenInclude(a => a.Category)
-                .Where(a => a.Asset.AssetName.ToLower().Contains(assetName.ToLower()))
+                .Where(sa => sa.Asset.AssetName.ToLower().Contains(assetName.ToLower()) && sa.Count != 0)
                 .ToListAsync();
             return supplierAsset;
         }
@@ -46,15 +46,15 @@ namespace Repository.Classes
                     .ThenInclude(a => a.Category);
             if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(serialNumber))
             {
-                supplierAsset = supplierAsset.Where(sa => sa.SupplierID == supplierID && sa.Asset.AssetName.ToLower().Contains(name.ToLower()) && sa.SerialNumber.ToLower().Contains(serialNumber.ToLower()));
+                supplierAsset = supplierAsset.Where(sa => sa.SupplierID == supplierID && sa.Asset.AssetName.ToLower().Contains(name.ToLower()) && sa.SerialNumber.ToLower().Contains(serialNumber.ToLower()) && sa.Count != 0);
             }
             else if (!string.IsNullOrWhiteSpace(name))
             {
-                supplierAsset = supplierAsset.Where(sa => sa.SupplierID == supplierID && sa.Asset.AssetName.ToLower().Contains(name.ToLower()));
+                supplierAsset = supplierAsset.Where(sa => sa.SupplierID == supplierID && sa.Asset.AssetName.ToLower().Contains(name.ToLower()) && sa.Count != 0);
             }
             else
             {
-                supplierAsset = supplierAsset.Where(sa => sa.SupplierID == supplierID && sa.SerialNumber.ToLower().Contains(serialNumber.ToLower()));
+                supplierAsset = supplierAsset.Where(sa => sa.SupplierID == supplierID && sa.SerialNumber.ToLower().Contains(serialNumber.ToLower()) && sa.Count != 0);
             }
             return await supplierAsset.ToListAsync();
         }

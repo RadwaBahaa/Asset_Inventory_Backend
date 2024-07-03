@@ -46,7 +46,10 @@ namespace Presentation.Controllers
                 var role = char.ToUpper(registerDTO.Role[0]) + registerDTO.Role.Substring(1);
                 var findUser = await userManager.FindByNameAsync(registerDTO.UserName);
                 if (findUser != null)
-                    return NotFound("This User already exists!");
+                    return BadRequest("This User already exists!");
+                var findRole = await roleManager.FindByNameAsync(registerDTO.Role);
+                if (findRole == null)
+                    return NotFound($"The role {registerDTO.Role} in not found");
                 switch (role)
                 {
                     case ("Admin"):
@@ -207,7 +210,7 @@ namespace Presentation.Controllers
 
         // _____________________________________ Read _____________________________________
         [HttpGet("readAllUsers")]
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ReadAllUsers()
         {
             try
@@ -235,7 +238,7 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("readUser/{username}")]
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ReadUser(string username)
         {
             if (string.IsNullOrWhiteSpace(username))

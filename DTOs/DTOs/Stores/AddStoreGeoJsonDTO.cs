@@ -12,6 +12,6 @@ namespace Models.DTOs
     public class AddStorePropertiesDTO
     {
         public string storeName { get; set; }
-        public string address { get; set; }
+        public string? address { get; set; }
     }
 }

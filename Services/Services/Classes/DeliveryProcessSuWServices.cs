@@ -2,6 +2,7 @@
 using DTOs.DTOs.DeliveryProcesses;
 using Microsoft.EntityFrameworkCore;
 using Models.Models;
+using Repository.Classes;
 using Repository.Interfaces;
 using Services.Services.Interface;
 
@@ -10,33 +11,53 @@ namespace Services.Services.Classes
     public class DeliveryProcessSuWServices : IDeliveryProcessSuWServices
     {
         protected IDeliveryProcessSuWRepository deliveryProcessSuWRepository { get; set; }
+        protected ISupplierAssetRepository supplierAssetRepository { get; set; }
         protected IMapper mapper { get; set; }
-        public DeliveryProcessSuWServices(IDeliveryProcessSuWRepository deliveryProcessSuWRepository, IMapper mapper)
+        public DeliveryProcessSuWServices(IDeliveryProcessSuWRepository deliveryProcessSuWRepository, ISupplierAssetRepository supplierAssetRepository, IMapper mapper)
         {
             this.deliveryProcessSuWRepository = deliveryProcessSuWRepository;
+            this.supplierAssetRepository = supplierAssetRepository;
             this.mapper = mapper;
         }
 
         // ________________ Create a new Process from Supplier to Werhouses ________________
-        public async Task<bool> Create(AddDeliveryProcessSuWDTO addDeliveryProcessSuWDTO, int supplierID)
+        public async Task<bool> Create(AddDeliveryProcessSuWDTO deliveryProcessSuWDTO, int supplierID)
         {
-            if (addDeliveryProcessSuWDTO.WarehouseProcesses == null)
+            if (deliveryProcessSuWDTO.WarehouseProcesses == null)
             {
-                throw new ArgumentException("You choose not to deliver to any warehouses!...");
+                throw new ArgumentException("You choose not to deliver to any store!...");
             }
 
-            var newProcess = mapper.Map<DeliveryProcessSuW>(addDeliveryProcessSuWDTO);
-            newProcess.SupplierID = supplierID;
-            newProcess.DateTime = DateTime.Now;
-            newProcess.TotalAssets = 0;
-            foreach (var process in addDeliveryProcessSuWDTO.WarehouseProcesses)
+            var deliveryProcess = mapper.Map<DeliveryProcessSuW>(deliveryProcessSuWDTO);
+
+            deliveryProcess.SupplierID = supplierID;
+            deliveryProcess.DateTime = DateTime.Now;
+            deliveryProcess.TotalAssets = 0;
+
+            foreach (var warehouseProcess in deliveryProcess.WarehouseProcesses)
             {
-                foreach (var asset in process.AssetShipmentSuW)
+                warehouseProcess.Status = "Start Process Confirmed";
+                warehouseProcess.Quantity = 0;
+
+                foreach (var assetShipment in warehouseProcess.AssetShipmentSuWs)
                 {
-                    newProcess.TotalAssets += asset.Quantity ?? 0;
+                    var asset = await supplierAssetRepository.ReadOne(supplierID, assetShipment.AssetID, assetShipment.SerialNumber);
+                    if (asset == null)
+                        throw new KeyNotFoundException("There is no asset by this ID");
+                    if (assetShipment.Quantity > asset.Count)
+                        throw new KeyNotFoundException($"This quantity of the asset {asset.Asset.AssetName} in not avilable");
+
+                    assetShipment.SupplierID = supplierID;
+                    warehouseProcess.Quantity += assetShipment.Quantity;
+
+                    asset.Count -= assetShipment.Quantity;
+
                 }
+                deliveryProcess.TotalAssets += warehouseProcess.Quantity;
             }
-            await deliveryProcessSuWRepository.Create(newProcess);
+
+            await deliveryProcessSuWRepository.Create(deliveryProcess);
+            await supplierAssetRepository.Update();
             return true;
         }
 
@@ -46,7 +67,7 @@ namespace Services.Services.Classes
             var processesList = await deliveryProcessSuWRepository.Read();
             var mappedProcessesList = await processesList
                 .Include(p => p.WarehouseProcesses)
-                    .ThenInclude(wp => wp.AssetShipmentSuW)
+                    .ThenInclude(wp => wp.AssetShipmentSuWs)
                 .Select(p => mapper.Map<ReadDeliveryProcessSuWDTO>(p))
                 .ToListAsync();
             if (mappedProcessesList.Any())

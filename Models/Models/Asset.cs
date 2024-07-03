@@ -4,7 +4,7 @@
     {
         public int AssetID { get; set; }    // Primary key
         public string AssetName { get; set; }
-        public int CategoryID { get; set; }     // Forign key from Category Entity
+        public int? CategoryID { get; set; }     // Forign key from Category Entity
         public float Price { get; set; }
         public string? Description { get; set; }
         //public byte[] Picture { get; set; }   // Property to store photo as binary data in the database

@@ -18,15 +18,15 @@ namespace Repository.Classes
             var storeAsset = await context.StoreAssets
                 .Include(sa => sa.Asset)
                     .ThenInclude(a => a.Category)
-                .FirstOrDefaultAsync(sa => sa.StoreID == storeID && sa.AssetID == assetID && sa.SerialNumber == serialNumber);
+                .FirstOrDefaultAsync(sa => sa.StoreID == storeID && sa.AssetID == assetID && sa.SerialNumber == serialNumber && sa.Count != 0);
             return storeAsset;
         }
         public async Task<List<StoreAsset>> ReadByStore(int storeID)
         {
             var storeAsset = await context.StoreAssets
                 .Include(sa => sa.Asset)
-                .ThenInclude(a => a.Category)
-                .Where(sa => sa.StoreID == storeID)
+                    .ThenInclude(a => a.Category)
+                .Where(sa => sa.StoreID == storeID && sa.Count != 0)
                 .ToListAsync();
             return storeAsset;
         }
@@ -35,7 +35,7 @@ namespace Repository.Classes
             var storeAsset = await context.StoreAssets
                 .Include(sa => sa.Asset)
                     .ThenInclude(a => a.Category)
-                .Where(a => a.Asset.AssetName.ToLower().Contains(assetName.ToLower()))
+                .Where(sa => sa.Asset.AssetName.ToLower().Contains(assetName.ToLower()) && sa.Count != 0)
                 .ToListAsync();
             return storeAsset;
         }
@@ -46,15 +46,15 @@ namespace Repository.Classes
                     .ThenInclude(a => a.Category);
             if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(serialNumber))
             {
-                storeAsset = storeAsset.Where(sa => sa.StoreID == storeID && sa.Asset.AssetName.ToLower().Contains(name.ToLower()) && sa.SerialNumber.ToLower().Contains(serialNumber.ToLower()));
+                storeAsset = storeAsset.Where(sa => sa.StoreID == storeID && sa.Asset.AssetName.ToLower().Contains(name.ToLower()) && sa.SerialNumber.ToLower().Contains(serialNumber.ToLower()) && sa.Count != 0);
             }
             else if (!string.IsNullOrWhiteSpace(name))
             {
-                storeAsset = storeAsset.Where(sa => sa.StoreID == storeID && sa.Asset.AssetName.ToLower().Contains(name.ToLower()));
+                storeAsset = storeAsset.Where(sa => sa.StoreID == storeID && sa.Asset.AssetName.ToLower().Contains(name.ToLower()) && sa.Count != 0);
             }
             else
             {
-                storeAsset = storeAsset.Where(sa => sa.StoreID == storeID && sa.SerialNumber.ToLower().Contains(serialNumber.ToLower()));
+                storeAsset = storeAsset.Where(sa => sa.StoreID == storeID && sa.SerialNumber.ToLower().Contains(serialNumber.ToLower()) && sa.Count != 0);
             }
             return await storeAsset.ToListAsync();
         }
