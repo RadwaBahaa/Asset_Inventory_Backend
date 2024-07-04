@@ -6,6 +6,6 @@
         public int WarehouseID { get; set; }   
         public int TotalAssets { get; set; }
         public DateTime DateTime { get; set; }
-        public List<ReadStoreProcessDTO> WarehouseProcess { get; set; }
+        public List<ReadStoreProcessDTO> StoreProcesses { get; set; }
     }
 }

@@ -2,7 +2,6 @@
 using DTOs.DTOs.DeliveryProcesses;
 using Microsoft.EntityFrameworkCore;
 using Models.Models;
-using Repository.Classes;
 using Repository.Interfaces;
 using Services.Services.Interface;
 
@@ -68,6 +67,8 @@ namespace Services.Services.Classes
             var mappedProcessesList = await processesList
                 .Include(p => p.WarehouseProcesses)
                     .ThenInclude(wp => wp.AssetShipmentSuWs)
+                        .ThenInclude(ash => ash.SupplierAsset)
+                            .ThenInclude(wa => wa.Asset)
                 .Select(p => mapper.Map<ReadDeliveryProcessSuWDTO>(p))
                 .ToListAsync();
             if (mappedProcessesList.Any())
@@ -89,25 +90,15 @@ namespace Services.Services.Classes
         }
 
         // _________________________ Search for Processes _________________________
-        public async Task<List<ReadDeliveryProcessSuWDTO>> SearchBySupplier(int supplierID)
+        public async Task<List<ReadDeliveryProcessSuWDTO>> Search(int? supplierID, DateTime? date)
         {
-            var searchedProcesses = await deliveryProcessSuWRepository.SearchBySupplier(supplierID);
+            var searchedProcesses = await deliveryProcessSuWRepository.Search(supplierID, date);
             if (searchedProcesses.Any())
             {
                 return mapper.Map<List<ReadDeliveryProcessSuWDTO>>(searchedProcesses);
             }
 
             throw new ArgumentException("There are no Process from this Supplier.");
-        }
-        public async Task<List<ReadDeliveryProcessSuWDTO>> SearchByDate(DateTime date)
-        {
-            var searchedProcesses = await deliveryProcessSuWRepository.SearchByDate(date);
-            if (searchedProcesses.Any())
-            {
-                return mapper.Map<List<ReadDeliveryProcessSuWDTO>>(searchedProcesses);
-            }
-
-            throw new ArgumentException("There are no Process on this date.");
         }
 
         // _________________________ Delete a Process _________________________

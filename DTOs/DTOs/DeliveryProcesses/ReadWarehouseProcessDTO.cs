@@ -6,6 +6,6 @@
         public int Quantity { get; set; }
         public string Status { get; set; }
         public string Note { get; set; }
-        public List<ReadAssetShipmentSuWDTO> AssetShipmentSuW { get; set; }
+        public List<ReadAssetShipmentSuWDTO> AssetShipmentSuWs { get; set; }
     }
 }

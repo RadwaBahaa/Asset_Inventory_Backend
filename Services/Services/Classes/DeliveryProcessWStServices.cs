@@ -2,7 +2,6 @@
 using DTOs.DTOs.DeliveryProcesses;
 using Microsoft.EntityFrameworkCore;
 using Models.Models;
-using Repository.Classes;
 using Repository.Interfaces;
 using Services.Services.Interface;
 
@@ -46,12 +45,12 @@ namespace Services.Services.Classes
                         throw new KeyNotFoundException("There is no asset by this ID");
                     if (assetShipment.Quantity > asset.Count)
                         throw new KeyNotFoundException($"This quantity of the asset {asset.Asset.AssetName} in not avilable");
-
+                    
+                    
                     assetShipment.WarehouseID = warehouseID;
                     storeProcess.Quantity += assetShipment.Quantity;
 
                     asset.Count -= assetShipment.Quantity;
-
                 }
                 deliveryProcess.TotalAssets += storeProcess.Quantity;
             }
@@ -69,6 +68,8 @@ namespace Services.Services.Classes
             var mappedProcessesList = await processesList
                 .Include(p => p.StoreProcesses)
                     .ThenInclude(sp => sp.AssetShipmentWSts)
+                        .ThenInclude(ash => ash.WarehouseAsset)
+                            .ThenInclude(wa => wa.Asset)
                 .Select(p => mapper.Map<ReadDeliveryProcessWStDTO>(p))
                 .ToListAsync();
             if (mappedProcessesList.Any())
@@ -90,25 +91,15 @@ namespace Services.Services.Classes
         }
 
         // _________________________ Search for Processes _________________________
-        public async Task<List<ReadDeliveryProcessWStDTO>> SearchByWarehouse(int warehouseID)
+        public async Task<List<ReadDeliveryProcessWStDTO>> Search(int? warehouseID, DateTime? date)
         {
-            var searchedProcesses = await deliveryProcessWStRepository.SearchByWarehouse(warehouseID);
+            var searchedProcesses = await deliveryProcessWStRepository.Search(warehouseID, date);
             if (searchedProcesses.Any())
             {
                 return mapper.Map<List<ReadDeliveryProcessWStDTO>>(searchedProcesses);
             }
 
             throw new ArgumentException("There are no Process from this Warehouse.");
-        }
-        public async Task<List<ReadDeliveryProcessWStDTO>> SearchByDate(DateTime date)
-        {
-            var searchedProcesses = await deliveryProcessWStRepository.SearchByDate(date);
-            if (searchedProcesses.Any())
-            {
-                return mapper.Map<List<ReadDeliveryProcessWStDTO>>(searchedProcesses);
-            }
-
-            throw new ArgumentException("There are no Process on this date.");
         }
 
         // _________________________ Delete a Process _________________________

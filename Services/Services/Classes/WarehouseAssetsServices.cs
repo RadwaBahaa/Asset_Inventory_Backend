@@ -29,28 +29,30 @@ namespace Services.Services.Classes
             {
                 throw new AggregateException("There is no data in body");
             }
-            else
+
+            var findWarehouse = await warehouseRepository.ReadByID(warehouseID);
+            if (findWarehouse == null)
             {
-                var findWarehouse = await warehouseRepository.ReadByID(warehouseID);
-                if (findWarehouse == null)
-                {
-                    throw new AggregateException("There is no warehouse by this name.");
-                }
-                var findAsset = await assetRepository.ReadByID(warehouseAssetsDTO.AssetID);
-                if (findAsset == null)
-                {
-                    throw new AggregateException("There is no asset by this name.");
-                }
-                var findWarehouseAsset = await warehouseAssetRepository.ReadOne(warehouseID, warehouseAssetsDTO.AssetID, warehouseAssetsDTO.SerialNumber);
-                if (findWarehouseAsset != null)
-                {
-                    throw new AggregateException("There is an asset by the same data.");
-                }
-                var warehouseAsset = mapper.Map<WarehouseAsset>(warehouseAssetsDTO);
-                warehouseAsset.WarehouseID = warehouseID;
-                await warehouseAssetRepository.Create(warehouseAsset);
-                return true;
+                throw new AggregateException("There is no warehouse by this name.");
             }
+
+            var findAsset = await assetRepository.ReadByID(warehouseAssetsDTO.AssetID);
+            if (findAsset == null)
+            {
+                throw new AggregateException("There is no asset by this name.");
+            }
+
+            var findWarehouseAsset = await warehouseAssetRepository.ReadOne(warehouseID, warehouseAssetsDTO.AssetID, warehouseAssetsDTO.SerialNumber);
+            if (findWarehouseAsset != null)
+            {
+                throw new AggregateException("This asset is already exect.");
+
+            }
+
+            var warehouseAsset = mapper.Map<WarehouseAsset>(warehouseAssetsDTO);
+            warehouseAsset.WarehouseID = warehouseID;
+            await warehouseAssetRepository.Create(warehouseAsset);
+            return true;
         }
 
         //_______________Read warehouse assets_________________ 
@@ -83,7 +85,7 @@ namespace Services.Services.Classes
             {
                 throw new KeyNotFoundException("There is no asset by this ID and Serial Number.");
             }
-            warehouseAssetsDTO.SerialNumber = warehouseAssetsDTO.SerialNumber ?? warehouseAsset.SerialNumber;
+            //warehouseAsset.SerialNumber = serialNumber;
             warehouseAssetsDTO.Count = warehouseAssetsDTO.Count ?? warehouseAsset.Count;
 
             mapper.Map(warehouseAssetsDTO, warehouseAsset);

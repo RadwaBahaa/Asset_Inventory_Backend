@@ -16,6 +16,8 @@ namespace Repository.Classes
         {
             var process = await context.WarehouseProcesses
                 .Include(p => p.AssetShipmentSuWs)
+                    .ThenInclude(ash=>ash.SupplierAsset)
+                        .ThenInclude(sa=>sa.Asset)
                 .FirstOrDefaultAsync(p => p.ProcessID == processID && p.WarehouseID == warehouseID);
             return process;
         }
@@ -23,6 +25,8 @@ namespace Repository.Classes
         {
             var processesList = await context.WarehouseProcesses
                 .Include(p => p.AssetShipmentSuWs)
+                    .ThenInclude(ash => ash.SupplierAsset)
+                        .ThenInclude(sa => sa.Asset)
                 .Where(p => p.WarehouseID == warehouseID)
                 .ToListAsync();
             return processesList;

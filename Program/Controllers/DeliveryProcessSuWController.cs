@@ -82,33 +82,12 @@ namespace Presentation.Controllers
 
         // __________________________ Search __________________________
         [HttpGet("searchBySupplier/{supplierID}")]
-        public async Task<IActionResult> SearchBySupplier(int supplierID)
+        public async Task<IActionResult> Search(int? supplierID, DateTime? date)
         {
             try
             {
-                var processes = await deliveryProcessSuWServices.SearchBySupplier(supplierID);
+                var processes = await deliveryProcessSuWServices.Search(supplierID, date);
                 return Ok(processes);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-        [HttpGet("searchByDate/{date}")]
-        public async Task<IActionResult> SearchByDate(DateTime date)
-        {
-            try
-            {
-                var processes = await deliveryProcessSuWServices.SearchByDate(date);
-                return Ok(processes);
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(ex.Message);
             }
             catch (ArgumentException ex)
             {

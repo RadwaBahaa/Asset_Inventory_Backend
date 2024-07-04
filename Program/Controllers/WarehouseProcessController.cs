@@ -4,7 +4,7 @@ using Services.Services.Interface;
 
 namespace Presentation.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/warehouse/process")]
     [ApiController]
     public class WarehouseProcessController : ControllerBase
     {
@@ -15,7 +15,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Read __________________________
-        [HttpGet("readAll")]
+        [HttpGet("read")]
         public async Task<IActionResult> ReadAll()
         {
             try
@@ -23,16 +23,20 @@ namespace Presentation.Controllers
                 var processes = await warehouseProcessServices.ReadAll();
                 return Ok(processes);
             }
-            catch (ArgumentException ex)
+            catch (KeyNotFoundException ex)
             {
                 return NotFound(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("readByID/{processID}/{warehouseID}")]
+        [HttpGet("read/{processID}/{warehouseID}")]
         public async Task<IActionResult> ReadOne([FromRoute] int processID, [FromRoute] int warehouseID)
         {
             try
@@ -40,9 +44,13 @@ namespace Presentation.Controllers
                 var process = await warehouseProcessServices.ReadByID(processID, warehouseID);
                 return Ok(process);
             }
-            catch (ArgumentException ex)
+            catch (KeyNotFoundException ex)
             {
                 return NotFound(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -51,7 +59,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Search __________________________
-        [HttpGet("searchBywarehouse/{warehouseID}")]
+        [HttpGet("search/{warehouseID}")]
         public async Task<IActionResult> SearchBywarehouse([FromRoute] int warehouseID)
         {
             try
@@ -59,9 +67,13 @@ namespace Presentation.Controllers
                 var processes = await warehouseProcessServices.SearchByWarehouse(warehouseID);
                 return Ok(processes);
             }
-            catch (ArgumentException ex)
+            catch (KeyNotFoundException ex)
             {
                 return NotFound(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -77,6 +89,10 @@ namespace Presentation.Controllers
             {
                 var updatedProcess = await warehouseProcessServices.Update(processID, warehouseID, warehouseProcessDTO);
                 return Ok(updatedProcess);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (ArgumentException ex)
             {

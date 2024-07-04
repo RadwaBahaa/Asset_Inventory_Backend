@@ -29,28 +29,29 @@ namespace Services.Services.Classes
             {
                 throw new AggregateException("There is no data in body");
             }
-            else
+
+            var findSupplier = await supplierRepository.ReadByID(supplierID);
+            if (findSupplier == null)
             {
-                var findSupplier = await supplierRepository.ReadByID(supplierID);
-                if (findSupplier == null)
-                {
-                    throw new AggregateException("There is no supplier by this name.");
-                }
-                var findAsset = await assetRepository.ReadByID(supplierAssetsDTO.AssetID);
-                if (findAsset == null)
-                {
-                    throw new AggregateException("There is no asset by this name.");
-                }
-                var findSupplierAsset = await supplierAssetRepository.ReadOne(supplierID, supplierAssetsDTO.AssetID, supplierAssetsDTO.SerialNumber);
-                if (findSupplierAsset != null)
-                {
-                    throw new AggregateException("There is an asset by the same data.");
-                }
-                var supplierAsset = mapper.Map<SupplierAsset>(supplierAssetsDTO);
-                supplierAsset.SupplierID = supplierID;
-                await supplierAssetRepository.Create(supplierAsset);
-                return true;
+                throw new AggregateException("There is no supplier by this name.");
             }
+
+            var findAsset = await assetRepository.ReadByID(supplierAssetsDTO.AssetID);
+            if (findAsset == null)
+            {
+                throw new AggregateException("There is no asset by this name.");
+            }
+
+            var findSupplierAsset = await supplierAssetRepository.ReadOne(supplierID, supplierAssetsDTO.AssetID, supplierAssetsDTO.SerialNumber);
+            if (findSupplierAsset != null)
+            {
+                throw new AggregateException("This asset is already exect.");
+            }
+
+            var supplierAsset = mapper.Map<SupplierAsset>(supplierAssetsDTO);
+            supplierAsset.SupplierID = supplierID;
+            await supplierAssetRepository.Create(supplierAsset);
+            return true;
         }
 
         //_______________Read supplier assets_________________ 
@@ -83,7 +84,6 @@ namespace Services.Services.Classes
             {
                 throw new KeyNotFoundException("There is no asset by this ID and Serial Number.");
             }
-            supplierAssetsDTO.SerialNumber = supplierAssetsDTO.SerialNumber ?? supplierAsset.SerialNumber;
             supplierAssetsDTO.Count = supplierAssetsDTO.Count ?? supplierAsset.Count;
 
             mapper.Map(supplierAssetsDTO, supplierAsset);

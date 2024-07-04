@@ -83,7 +83,6 @@ namespace Services.Services.Classes
             {
                 throw new KeyNotFoundException("There is no asset by this ID and Serial Number.");
             }
-            storeAssetsDTO.SerialNumber = storeAssetsDTO.SerialNumber ?? storeAsset.SerialNumber;
             storeAssetsDTO.Count = storeAssetsDTO.Count ?? storeAsset.Count;
 
             mapper.Map(storeAssetsDTO, storeAsset);

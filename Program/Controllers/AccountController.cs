@@ -154,7 +154,7 @@ namespace Presentation.Controllers
 
                         var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"]));
                         var setToken = new JwtSecurityToken(
-                            expires: DateTime.Now.AddHours(1),
+                            expires: DateTime.Now.AddHours(6),
                             claims: claims,
                             signingCredentials: new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256),
                             issuer: configuration["JWT:issuer"],
@@ -178,7 +178,7 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("validate-token")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> ValidateToken()
         {
             try
@@ -210,7 +210,7 @@ namespace Presentation.Controllers
 
         // _____________________________________ Read _____________________________________
         [HttpGet("readAllUsers")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> ReadAllUsers()
         {
             try
@@ -238,7 +238,7 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("readUser/{username}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> ReadUser(string username)
         {
             if (string.IsNullOrWhiteSpace(username))

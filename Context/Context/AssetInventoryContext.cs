@@ -169,7 +169,7 @@ namespace Context.Context
                 assetShipment.HasOne(ash=>ash.SupplierAsset)
                     .WithMany(sa => sa.AssetShipmentSuWs)
                     .HasForeignKey(ash => new { ash.AssetID, ash.WarehouseID, ash.SerialNumber })
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Cascade);
             });
             builder.Entity<AssetShipmentWSt>(assetShipment =>
             {
@@ -179,7 +179,7 @@ namespace Context.Context
                 assetShipment.HasOne(ash => ash.WarehouseAsset)
                         .WithMany(sa => sa.AssetShipmentWSts)
                         .HasForeignKey(ash => new { ash.AssetID, ash.WarehouseID, ash.SerialNumber })
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
             });
             builder.Entity<WarehouseProcess>(warehouseProcess =>
             {

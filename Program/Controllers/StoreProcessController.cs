@@ -4,7 +4,7 @@ using Services.Services.Interface;
 
 namespace Presentation.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/store/process")]
     [ApiController]
     public class StoreProcessController : ControllerBase
     {
@@ -15,7 +15,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Read __________________________
-        [HttpGet("readAll")]
+        [HttpGet("read")]
         public async Task<IActionResult> ReadAll()
         {
             try
@@ -23,16 +23,20 @@ namespace Presentation.Controllers
                 var processes = await storeProcessServices.ReadAll();
                 return Ok(processes);
             }
-            catch (ArgumentException ex)
+            catch (KeyNotFoundException ex)
             {
                 return NotFound(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("readByID/{processID}/{storeID}")]
+        [HttpGet("read/{processID}/{storeID}")]
         public async Task<IActionResult> ReadOne([FromRoute] int processID, [FromRoute] int storeID)
         {
             try
@@ -40,9 +44,13 @@ namespace Presentation.Controllers
                 var process = await storeProcessServices.ReadByID(processID, storeID);
                 return Ok(process);
             }
-            catch (ArgumentException ex)
+            catch (KeyNotFoundException ex)
             {
                 return NotFound(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -51,7 +59,7 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Search __________________________
-        [HttpGet("searchByStore/{storeID}")]
+        [HttpGet("search/{storeID}")]
         public async Task<IActionResult> SearchByStore([FromRoute] int storeID)
         {
             try
@@ -59,9 +67,13 @@ namespace Presentation.Controllers
                 var processes = await storeProcessServices.SearchByStore(storeID);
                 return Ok(processes);
             }
-            catch (ArgumentException ex)
+            catch (KeyNotFoundException ex)
             {
                 return NotFound(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -77,6 +89,10 @@ namespace Presentation.Controllers
             {
                 var updatedProcess = await storeProcessServices.Update(processID, storeID, storeProcessDTO);
                 return Ok(updatedProcess);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (ArgumentException ex)
             {

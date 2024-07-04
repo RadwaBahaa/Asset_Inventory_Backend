@@ -248,7 +248,7 @@ namespace Context.Migrations
 
                     b.HasIndex("CategoryID");
 
-                    b.ToTable("Assets");
+                    b.ToTable("Assets", (string)null);
                 });
 
             modelBuilder.Entity("Models.Models.AssetShipmentSuW", b =>
@@ -277,7 +277,7 @@ namespace Context.Migrations
 
                     b.HasIndex("AssetID", "WarehouseID", "SerialNumber");
 
-                    b.ToTable("AssetShipmentSuW");
+                    b.ToTable("AssetShipmentSuW", (string)null);
                 });
 
             modelBuilder.Entity("Models.Models.AssetShipmentWSt", b =>
@@ -304,7 +304,7 @@ namespace Context.Migrations
 
                     b.HasIndex("ProcessID", "StoreID");
 
-                    b.ToTable("AssetShipmentWSt");
+                    b.ToTable("AssetShipmentWSt", (string)null);
                 });
 
             modelBuilder.Entity("Models.Models.Category", b =>
@@ -326,7 +326,7 @@ namespace Context.Migrations
 
                     b.HasKey("CategoryID");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Models.Models.DeliveryProcessSuW", b =>
@@ -350,7 +350,7 @@ namespace Context.Migrations
 
                     b.HasIndex("SupplierID");
 
-                    b.ToTable("DeliveryProcessSuW");
+                    b.ToTable("DeliveryProcessSuW", (string)null);
                 });
 
             modelBuilder.Entity("Models.Models.DeliveryProcessWSt", b =>
@@ -374,7 +374,7 @@ namespace Context.Migrations
 
                     b.HasIndex("WarehouseID");
 
-                    b.ToTable("DeliveryProcessWSt");
+                    b.ToTable("DeliveryProcessWSt", (string)null);
                 });
 
             modelBuilder.Entity("Models.Models.Store", b =>
@@ -399,7 +399,7 @@ namespace Context.Migrations
 
                     b.HasKey("StoreID");
 
-                    b.ToTable("Stores");
+                    b.ToTable("Stores", (string)null);
                 });
 
             modelBuilder.Entity("Models.Models.StoreAsset", b =>
@@ -420,7 +420,7 @@ namespace Context.Migrations
 
                     b.HasIndex("StoreID");
 
-                    b.ToTable("StoreAssets");
+                    b.ToTable("StoreAssets", (string)null);
                 });
 
             modelBuilder.Entity("Models.Models.StoreProcess", b =>
@@ -445,7 +445,7 @@ namespace Context.Migrations
 
                     b.HasIndex("StoreID");
 
-                    b.ToTable("StoreProcesses");
+                    b.ToTable("StoreProcesses", (string)null);
                 });
 
             modelBuilder.Entity("Models.Models.StoreRequest", b =>
@@ -479,7 +479,7 @@ namespace Context.Migrations
 
                     b.HasIndex("WarehouseID");
 
-                    b.ToTable("StoreRequests");
+                    b.ToTable("StoreRequests", (string)null);
                 });
 
             modelBuilder.Entity("Models.Models.StoreRequestAsset", b =>
@@ -501,7 +501,7 @@ namespace Context.Migrations
 
                     b.HasIndex("AsesetID");
 
-                    b.ToTable("StoreRequestAssets");
+                    b.ToTable("StoreRequestAssets", (string)null);
                 });
 
             modelBuilder.Entity("Models.Models.Supplier", b =>
@@ -526,7 +526,7 @@ namespace Context.Migrations
 
                     b.HasKey("SupplierID");
 
-                    b.ToTable("Suppliers");
+                    b.ToTable("Suppliers", (string)null);
                 });
 
             modelBuilder.Entity("Models.Models.SupplierAsset", b =>
@@ -547,7 +547,7 @@ namespace Context.Migrations
 
                     b.HasIndex("SupplierID");
 
-                    b.ToTable("SupplierAssets");
+                    b.ToTable("SupplierAssets", (string)null);
                 });
 
             modelBuilder.Entity("Models.Models.Warehouse", b =>
@@ -572,7 +572,7 @@ namespace Context.Migrations
 
                     b.HasKey("WarehouseID");
 
-                    b.ToTable("Warehouses");
+                    b.ToTable("Warehouses", (string)null);
                 });
 
             modelBuilder.Entity("Models.Models.WarehouseAsset", b =>
@@ -593,7 +593,7 @@ namespace Context.Migrations
 
                     b.HasIndex("WarehouseID");
 
-                    b.ToTable("WarehouseAssets");
+                    b.ToTable("WarehouseAssets", (string)null);
                 });
 
             modelBuilder.Entity("Models.Models.WarehouseProcess", b =>
@@ -618,7 +618,7 @@ namespace Context.Migrations
 
                     b.HasIndex("WarehouseID");
 
-                    b.ToTable("WarehouseProcesses");
+                    b.ToTable("WarehouseProcesses", (string)null);
                 });
 
             modelBuilder.Entity("Models.Models.WarehouseRequest", b =>
@@ -652,7 +652,7 @@ namespace Context.Migrations
 
                     b.HasIndex("WarehouseID");
 
-                    b.ToTable("WarehouseRequests");
+                    b.ToTable("WarehouseRequests", (string)null);
                 });
 
             modelBuilder.Entity("Models.Models.WarehouseRequestAsset", b =>
@@ -674,7 +674,7 @@ namespace Context.Migrations
 
                     b.HasIndex("AsesetID");
 
-                    b.ToTable("WarehouseRequestAssets");
+                    b.ToTable("WarehouseRequestAssets", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

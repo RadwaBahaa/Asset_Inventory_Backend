@@ -17,26 +17,33 @@ namespace Repository.Classes
             var process = await context.DeliveryProcessSuW
                 .Include(p => p.WarehouseProcesses)
                     .ThenInclude(wp => wp.AssetShipmentSuWs)
+                        .ThenInclude(ash => ash.SupplierAsset)
+                            .ThenInclude(wa => wa.Asset)
                 .FirstOrDefaultAsync(p => p.ProcessID == ID);
             return process;
         }
-        public async Task<List<DeliveryProcessSuW>> SearchBySupplier(int supplierID)
+        public async Task<List<DeliveryProcessSuW>> Search(int? supplierID, DateTime? dateTime)
         {
-            var processesList = await context.DeliveryProcessSuW
+            IQueryable<DeliveryProcessSuW> deliveryProcesses = context.DeliveryProcessSuW
                 .Include(p => p.WarehouseProcesses)
-                    .ThenInclude(wp => wp.AssetShipmentSuWs)
-                .Where(p => p.SupplierID == supplierID)
-                .ToListAsync();
-            return processesList;
-        }
-        public async Task<List<DeliveryProcessSuW>> SearchByDate(DateTime date)
-        {
-            var processesList = await context.DeliveryProcessSuW
-                .Include(p => p.WarehouseProcesses)
-                    .ThenInclude(wp => wp.AssetShipmentSuWs)
-                .Where(p => p.DateTime == date)
-                .ToListAsync();
-            return processesList;
+                    .ThenInclude(sp => sp.AssetShipmentSuWs)
+                        .ThenInclude(ash => ash.SupplierAsset)
+                            .ThenInclude(wa => wa.Asset);
+
+            if (supplierID != null && dateTime != null)
+            {
+                deliveryProcesses = deliveryProcesses.Where(dp => dp.SupplierID == supplierID && dp.DateTime.Date == dateTime.Value.Date);
+            }
+            else if (supplierID != null)
+            {
+                deliveryProcesses = deliveryProcesses.Where(dp => dp.SupplierID == supplierID);
+            }
+            else if (dateTime != null)
+            {
+                deliveryProcesses = deliveryProcesses.Where(dp => dp.DateTime.Date == dateTime.Value.Date);
+            }
+
+            return await deliveryProcesses.ToListAsync();
         }
     }
 }

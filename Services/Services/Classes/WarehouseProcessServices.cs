@@ -21,10 +21,12 @@ namespace Services.Services.Classes
             var processes = await warehouseProcessReopsitory.Read();
             var processesList = await processes
                 .Include(p => p.AssetShipmentSuWs)
+                    .ThenInclude(ash => ash.SupplierAsset)
+                        .ThenInclude(sa => sa.Asset)
                 .Select(p => mapper.Map<ReadWarehouseProcessDTO>(p))
                 .ToListAsync();
-            if (processesList.Any())
-                throw new ArgumentException("There are no process.");
+            if (!processesList.Any())
+                throw new KeyNotFoundException("There are no process.");
             else
                 return processesList;
         }
@@ -33,7 +35,7 @@ namespace Services.Services.Classes
             var process = await warehouseProcessReopsitory.ReadByID(processID, warehouseID);
             if (process == null)
             {
-                throw new ArgumentException("There is no process with this ID.");
+                throw new KeyNotFoundException("There is no process with this ID.");
             }
             else
             {
@@ -43,9 +45,9 @@ namespace Services.Services.Classes
         public async Task<List<ReadWarehouseProcessDTO>> SearchByWarehouse(int warehouseID)
         {
             var processes = await warehouseProcessReopsitory.SearchByWarehouse(warehouseID);
-            if (processes.Any())
+            if (!processes.Any())
             {
-                throw new ArgumentException("There are no process to this warehouse.");
+                throw new KeyNotFoundException("There are no process to this warehouse.");
             }
             else
             {
