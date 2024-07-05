@@ -58,13 +58,12 @@ namespace Presentation.Controllers
             }
         }
 
-        // __________________________ Search __________________________
-        [HttpGet("search/{storeID}")]
-        public async Task<IActionResult> SearchByStore([FromRoute] int storeID)
+        [HttpGet("read/{storeID}")]
+        public async Task<IActionResult> ReadByStore([FromRoute] int storeID)
         {
             try
             {
-                var processes = await storeProcessServices.SearchByStore(storeID);
+                var processes = await storeProcessServices.ReadByStore(storeID);
                 return Ok(processes);
             }
             catch (KeyNotFoundException ex)

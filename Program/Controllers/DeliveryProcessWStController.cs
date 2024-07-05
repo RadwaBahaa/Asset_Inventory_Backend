@@ -62,7 +62,7 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("read/{processID:int}")]
+        [HttpGet("read-by-processID/{processID:int}")]
         public async Task<IActionResult> ReadByID(int processID)
         {
             try
@@ -79,14 +79,31 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
-        // __________________________ Search __________________________
-        [HttpGet("search/{warehouseID}")]
-        public async Task<IActionResult> Search(int? warehouseID, DateTime? date)
+        [HttpGet("read-by-warehouse/{warehouseID:int}")]
+        public async Task<IActionResult> ReadByWarehouse(int warehouseID)
         {
             try
             {
-                var processes = await deliveryProcessWStServices.Search(warehouseID, date);
+                var process = await deliveryProcessWStServices.ReadByID(warehouseID);
+                return Ok(process);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        // __________________________ Search __________________________
+        [HttpGet("search")]
+        public async Task<IActionResult> Search( DateTime? date)
+        {
+            try
+            {
+                var processes = await deliveryProcessWStServices.Search(date);
                 return Ok(processes);
             }
             catch (ArgumentException ex)

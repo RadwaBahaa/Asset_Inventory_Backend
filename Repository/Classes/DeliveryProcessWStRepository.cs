@@ -22,28 +22,27 @@ namespace Repository.Classes
                 .FirstOrDefaultAsync(p => p.ProcessID == ID);
             return process;
         }
-        public async Task<List<DeliveryProcessWSt>> Search(int? warehouseID, DateTime? dateTime)
+        public async Task<DeliveryProcessWSt> ReadByWarehouse(int warehouseID)
         {
-            IQueryable<DeliveryProcessWSt> deliveryProcesses = context.DeliveryProcessWSt
+            var process = await context.DeliveryProcessWSt
                 .Include(p => p.StoreProcesses)
                     .ThenInclude(sp => sp.AssetShipmentWSts)
                         .ThenInclude(ash => ash.WarehouseAsset)
-                            .ThenInclude(wa => wa.Asset);
+                            .ThenInclude(wa => wa.Asset)
+                .FirstOrDefaultAsync(p => p.WarehouseID == warehouseID);
+            return process;
+        }
+        public async Task<List<DeliveryProcessWSt>> Search(DateTime? dateTime)
+        {
+            var deliveryProcesses = await context.DeliveryProcessWSt
+                .Include(p => p.StoreProcesses)
+                    .ThenInclude(sp => sp.AssetShipmentWSts)
+                        .ThenInclude(ash => ash.WarehouseAsset)
+                            .ThenInclude(wa => wa.Asset)
+                .Where(dp=> dp.DateTime.Date == dateTime.Value.Date)
+                .ToListAsync();
 
-            if (warehouseID != null && dateTime != null)
-            {
-                deliveryProcesses = deliveryProcesses.Where(dp => dp.WarehouseID == warehouseID && dp.DateTime.Date == dateTime.Value.Date);
-            }
-            else if (warehouseID != null)
-            {
-                deliveryProcesses = deliveryProcesses.Where(dp => dp.WarehouseID == warehouseID);
-            }
-            else if (dateTime != null)
-            {
-                deliveryProcesses = deliveryProcesses.Where(dp => dp.DateTime.Date == dateTime.Value.Date);
-            }
-
-            return await deliveryProcesses.ToListAsync();
+            return deliveryProcesses;
         }
     }
 }

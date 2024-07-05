@@ -89,11 +89,21 @@ namespace Services.Services.Classes
 
             return mapper.Map<ReadDeliveryProcessWStDTO>(process);
         }
+        public async Task<ReadDeliveryProcessWStDTO> ReadByWarehouse(int warehouseID)
+        {
+            var process = await deliveryProcessWStRepository.ReadByWarehouse(warehouseID);
+            if (process == null)
+            {
+                throw new ArgumentException("There is no process by this ID.");
+            }
+
+            return mapper.Map<ReadDeliveryProcessWStDTO>(process);
+        }
 
         // _________________________ Search for Processes _________________________
-        public async Task<List<ReadDeliveryProcessWStDTO>> Search(int? warehouseID, DateTime? date)
+        public async Task<List<ReadDeliveryProcessWStDTO>> Search(DateTime? date)
         {
-            var searchedProcesses = await deliveryProcessWStRepository.Search(warehouseID, date);
+            var searchedProcesses = await deliveryProcessWStRepository.Search(, date);
             if (searchedProcesses.Any())
             {
                 return mapper.Map<List<ReadDeliveryProcessWStDTO>>(searchedProcesses);

@@ -100,7 +100,7 @@ namespace Presentation.Controllers
             }
         }
         [HttpGet("read/geojson")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> ReadAllStoresAsGeoJson()
         {
             try

@@ -58,9 +58,8 @@ namespace Presentation.Controllers
             }
         }
 
-        // __________________________ Search __________________________
-        [HttpGet("search/{warehouseID}")]
-        public async Task<IActionResult> SearchBywarehouse([FromRoute] int warehouseID)
+        [HttpGet("read/{warehouseID}")]
+        public async Task<IActionResult> ReadBywarehouse([FromRoute] int warehouseID)
         {
             try
             {

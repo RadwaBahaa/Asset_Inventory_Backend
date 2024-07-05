@@ -42,9 +42,9 @@ namespace Services.Services.Classes
                 return mapper.Map<ReadStoreProcessDTO>(process);
             }
         }
-        public async Task<List<ReadStoreProcessDTO>> SearchByStore(int storeID)
+        public async Task<List<ReadStoreProcessDTO>> ReadByStore(int storeID)
         {
-            var processes = await storeProcessReopsitory.SearchByStore(storeID);
+            var processes = await storeProcessReopsitory.ReadByStore(storeID);
             if (!processes.Any())
             {
                 throw new KeyNotFoundException("There are no process to this warehouse.");
