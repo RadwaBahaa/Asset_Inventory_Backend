@@ -77,39 +77,39 @@ namespace Services.Services.Classes
                 return mappedProcessesList;
             }
 
-            throw new ArgumentException("There are no prosesses to be retrieved.");
+            throw new KeyNotFoundException("There are no prosesses to be retrieved.");
         }
         public async Task<ReadDeliveryProcessWStDTO> ReadByID(int ID)
         {
             var process = await deliveryProcessWStRepository.ReadByID(ID);
             if (process == null)
             {
-                throw new ArgumentException("There is no process by this ID.");
+                throw new KeyNotFoundException("There is no process by this ID.");
             }
 
             return mapper.Map<ReadDeliveryProcessWStDTO>(process);
         }
-        public async Task<ReadDeliveryProcessWStDTO> ReadByWarehouse(int warehouseID)
+        public async Task<List<ReadDeliveryProcessWStDTO>> ReadByWarehouse(int warehouseID)
         {
             var process = await deliveryProcessWStRepository.ReadByWarehouse(warehouseID);
             if (process == null)
             {
-                throw new ArgumentException("There is no process by this ID.");
+                throw new KeyNotFoundException("There are no Process from this Warehouse.");
             }
 
-            return mapper.Map<ReadDeliveryProcessWStDTO>(process);
+            return mapper.Map<List<ReadDeliveryProcessWStDTO>>(process);
         }
 
         // _________________________ Search for Processes _________________________
         public async Task<List<ReadDeliveryProcessWStDTO>> Search(DateTime? date)
         {
-            var searchedProcesses = await deliveryProcessWStRepository.Search(, date);
+            var searchedProcesses = await deliveryProcessWStRepository.Search( date);
             if (searchedProcesses.Any())
             {
                 return mapper.Map<List<ReadDeliveryProcessWStDTO>>(searchedProcesses);
             }
 
-            throw new ArgumentException("There are no Process from this Warehouse.");
+            throw new KeyNotFoundException("There are no Process in this date.");
         }
 
         // _________________________ Delete a Process _________________________
@@ -122,7 +122,7 @@ namespace Services.Services.Classes
                 return true;
             }
 
-            throw new ArgumentException("There is no process by this ID.");
+            throw new KeyNotFoundException("There is no process by this ID.");
         }
     }
 }

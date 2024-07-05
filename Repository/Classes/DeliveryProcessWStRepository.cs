@@ -22,14 +22,15 @@ namespace Repository.Classes
                 .FirstOrDefaultAsync(p => p.ProcessID == ID);
             return process;
         }
-        public async Task<DeliveryProcessWSt> ReadByWarehouse(int warehouseID)
+        public async Task<List<DeliveryProcessWSt>> ReadByWarehouse(int warehouseID)
         {
             var process = await context.DeliveryProcessWSt
                 .Include(p => p.StoreProcesses)
                     .ThenInclude(sp => sp.AssetShipmentWSts)
                         .ThenInclude(ash => ash.WarehouseAsset)
                             .ThenInclude(wa => wa.Asset)
-                .FirstOrDefaultAsync(p => p.WarehouseID == warehouseID);
+                .Where(p => p.WarehouseID == warehouseID)
+                .ToListAsync();
             return process;
         }
         public async Task<List<DeliveryProcessWSt>> Search(DateTime? dateTime)

@@ -34,6 +34,10 @@ namespace Presentation.Controllers
                     return NotFound("Process not found.");
                 }
             }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
             catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
@@ -53,6 +57,10 @@ namespace Presentation.Controllers
                 var processes = await deliveryProcessWStServices.ReadAll();
                 return Ok(processes);
             }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
             catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
@@ -70,6 +78,10 @@ namespace Presentation.Controllers
                 var process = await deliveryProcessWStServices.ReadByID(processID);
                 return Ok(process);
             }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
             catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
@@ -84,8 +96,12 @@ namespace Presentation.Controllers
         {
             try
             {
-                var process = await deliveryProcessWStServices.ReadByID(warehouseID);
+                var process = await deliveryProcessWStServices.ReadByWarehouse(warehouseID);
                 return Ok(process);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (ArgumentException ex)
             {
@@ -105,6 +121,10 @@ namespace Presentation.Controllers
             {
                 var processes = await deliveryProcessWStServices.Search(date);
                 return Ok(processes);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (ArgumentException ex)
             {
@@ -131,6 +151,10 @@ namespace Presentation.Controllers
                 {
                     return NotFound("Process not found.");
                 }
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (ArgumentException ex)
             {

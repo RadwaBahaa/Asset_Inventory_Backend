@@ -7,7 +7,7 @@ namespace Services.Services.Interface
         public Task<bool> Create(AddDeliveryProcessWStDTO deliveryProcess, int warehouseID);
         public Task<List<ReadDeliveryProcessWStDTO>> ReadAll();
         public Task<ReadDeliveryProcessWStDTO> ReadByID(int ID);
-        public Task<ReadDeliveryProcessWStDTO> ReadByWarehouse(int warehouseID);
+        public Task<List<ReadDeliveryProcessWStDTO>> ReadByWarehouse(int warehouseID);
         public Task<List<ReadDeliveryProcessWStDTO>> Search(DateTime? date);
         public Task<bool> DeleteProcess(int processID);
     }
