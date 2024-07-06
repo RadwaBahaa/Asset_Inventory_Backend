@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DTOs.DTOs.DeliveryProcesses;
 using Microsoft.EntityFrameworkCore;
+using Models.Models;
 using Repository.Interfaces;
 using Services.Services.Interface;
 
@@ -9,10 +10,12 @@ namespace Services.Services.Classes
     public class StoreProcessServices : IStoreProcessServices
     {
         protected IStoreProcessRepository storeProcessReopsitory { get; set; }
+            protected IStoreAssetRepository storeAssetRepository { get; set; }
         protected IMapper mapper;
-        public StoreProcessServices(IStoreProcessRepository storeProcessReopsitory, IMapper mapper)
+        public StoreProcessServices(IStoreProcessRepository storeProcessReopsitory,IStoreAssetRepository storeAssetRepository, IMapper mapper)
         {
             this.storeProcessReopsitory = storeProcessReopsitory;
+            this.storeAssetRepository = storeAssetRepository;
             this.mapper = mapper;
         }
         // ___________________________ Read Processes  ___________________________
@@ -20,9 +23,9 @@ namespace Services.Services.Classes
         {
             var processes = await storeProcessReopsitory.Read();
             var processesList = await processes
-                    .Include(p => p.AssetShipmentWSts)
-                        .ThenInclude(ash=>ash.WarehouseAsset)
-                            .ThenInclude(wa=>wa.Asset)
+                    .Include(p => p.AssetShipment)
+                        .ThenInclude(ash => ash.WarehouseAsset)
+                            .ThenInclude(wa => wa.Asset)
                 .Select(p => mapper.Map<ReadStoreProcessDTO>(p))
                 .ToListAsync();
             if (!processesList.Any())
@@ -56,22 +59,52 @@ namespace Services.Services.Classes
         }
 
         // _________________________ Update a Process  _________________________
-        public async Task<ReadStoreProcessDTO> Update(int processId, int storeID, UpdateStoreProcessDTO storeProcessDTO)
+        public async Task<bool> Update(int processId, int storeID, string userRole)
         {
             var process = await storeProcessReopsitory.ReadByID(processId, storeID);
             if (process == null)
                 throw new ArgumentException("There is no process with this ID.");
-            else
+
+            if (userRole == "Warehouse" && process.Status == "Supplying")
             {
-                if (storeProcessDTO.Status == null)
-                    throw new ArgumentException("Status is required.");
-                else
+                process.Status = "Delivering";
+            }
+            else if (userRole == "Store" && process.Status == "Delivering")
+            {
+                process.Status = "Inventory";
+
+                // Update or create store assets
+                foreach (var assetShipment in process.AssetShipment)
                 {
-                    process.Status = storeProcessDTO.Status;
-                    await storeProcessReopsitory.Update();
-                    return mapper.Map<ReadStoreProcessDTO>(process);
+                    var storeAsset = await storeAssetRepository.ReadOne(storeID, assetShipment.AssetID.Value, assetShipment.SerialNumber);
+
+                    if (storeAsset != null)
+                    {
+                        // Update the quantity of existing store asset
+                        storeAsset.Count += assetShipment.Quantity;
+                        await storeAssetRepository.Update();
+                    }
+                    else
+                    {
+                        // Create a new store asset
+                        var newStoreAsset = new StoreAsset
+                        {
+                            StoreID = storeID,
+                            AssetID = assetShipment.AssetID.Value,
+                            SerialNumber = assetShipment.SerialNumber,
+                            Count = assetShipment.Quantity
+                        };
+                        await storeAssetRepository.Create(newStoreAsset);
+                    }
                 }
             }
+            else
+            {
+                throw new ArgumentException("Invalid status transition or role.");
+            }
+
+            await storeProcessReopsitory.Update();
+            return true;
         }
     }
 }

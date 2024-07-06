@@ -1,4 +1,6 @@
-﻿namespace DTOs.DTOs.DeliveryProcesses
+﻿using DTOs.DTOs.Stores;
+
+namespace DTOs.DTOs.DeliveryProcesses
 {
     public class ReadDeliveryProcessWStDTO
     {
@@ -6,6 +8,8 @@
         public int WarehouseID { get; set; }   
         public int TotalAssets { get; set; }
         public DateTime DateTime { get; set; }
+        public string FormattedDate => DateTime.ToString("yyyy-MM-dd HH:mm:ss");
         public List<ReadStoreProcessDTO> StoreProcesses { get; set; }
+        public StageCompletionStep StageCompletionStep { get; set; }
     }
 }

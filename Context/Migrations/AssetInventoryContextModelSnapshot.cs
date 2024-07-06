@@ -248,7 +248,7 @@ namespace Context.Migrations
 
                     b.HasIndex("CategoryID");
 
-                    b.ToTable("Assets", (string)null);
+                    b.ToTable("Assets");
                 });
 
             modelBuilder.Entity("Models.Models.AssetShipmentSuW", b =>
@@ -277,7 +277,7 @@ namespace Context.Migrations
 
                     b.HasIndex("AssetID", "WarehouseID", "SerialNumber");
 
-                    b.ToTable("AssetShipmentSuW", (string)null);
+                    b.ToTable("AssetShipmentSuW");
                 });
 
             modelBuilder.Entity("Models.Models.AssetShipmentWSt", b =>
@@ -304,7 +304,7 @@ namespace Context.Migrations
 
                     b.HasIndex("ProcessID", "StoreID");
 
-                    b.ToTable("AssetShipmentWSt", (string)null);
+                    b.ToTable("AssetShipmentWSt");
                 });
 
             modelBuilder.Entity("Models.Models.Category", b =>
@@ -326,7 +326,7 @@ namespace Context.Migrations
 
                     b.HasKey("CategoryID");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Models.Models.DeliveryProcessSuW", b =>
@@ -350,7 +350,7 @@ namespace Context.Migrations
 
                     b.HasIndex("SupplierID");
 
-                    b.ToTable("DeliveryProcessSuW", (string)null);
+                    b.ToTable("DeliveryProcessSuW");
                 });
 
             modelBuilder.Entity("Models.Models.DeliveryProcessWSt", b =>
@@ -374,7 +374,7 @@ namespace Context.Migrations
 
                     b.HasIndex("WarehouseID");
 
-                    b.ToTable("DeliveryProcessWSt", (string)null);
+                    b.ToTable("DeliveryProcessWSt");
                 });
 
             modelBuilder.Entity("Models.Models.Store", b =>
@@ -399,7 +399,7 @@ namespace Context.Migrations
 
                     b.HasKey("StoreID");
 
-                    b.ToTable("Stores", (string)null);
+                    b.ToTable("Stores");
                 });
 
             modelBuilder.Entity("Models.Models.StoreAsset", b =>
@@ -420,7 +420,7 @@ namespace Context.Migrations
 
                     b.HasIndex("StoreID");
 
-                    b.ToTable("StoreAssets", (string)null);
+                    b.ToTable("StoreAssets");
                 });
 
             modelBuilder.Entity("Models.Models.StoreProcess", b =>
@@ -445,7 +445,7 @@ namespace Context.Migrations
 
                     b.HasIndex("StoreID");
 
-                    b.ToTable("StoreProcesses", (string)null);
+                    b.ToTable("StoreProcesses");
                 });
 
             modelBuilder.Entity("Models.Models.StoreRequest", b =>
@@ -479,7 +479,7 @@ namespace Context.Migrations
 
                     b.HasIndex("WarehouseID");
 
-                    b.ToTable("StoreRequests", (string)null);
+                    b.ToTable("StoreRequests");
                 });
 
             modelBuilder.Entity("Models.Models.StoreRequestAsset", b =>
@@ -501,7 +501,7 @@ namespace Context.Migrations
 
                     b.HasIndex("AsesetID");
 
-                    b.ToTable("StoreRequestAssets", (string)null);
+                    b.ToTable("StoreRequestAssets");
                 });
 
             modelBuilder.Entity("Models.Models.Supplier", b =>
@@ -526,7 +526,7 @@ namespace Context.Migrations
 
                     b.HasKey("SupplierID");
 
-                    b.ToTable("Suppliers", (string)null);
+                    b.ToTable("Suppliers");
                 });
 
             modelBuilder.Entity("Models.Models.SupplierAsset", b =>
@@ -547,7 +547,7 @@ namespace Context.Migrations
 
                     b.HasIndex("SupplierID");
 
-                    b.ToTable("SupplierAssets", (string)null);
+                    b.ToTable("SupplierAssets");
                 });
 
             modelBuilder.Entity("Models.Models.Warehouse", b =>
@@ -572,7 +572,7 @@ namespace Context.Migrations
 
                     b.HasKey("WarehouseID");
 
-                    b.ToTable("Warehouses", (string)null);
+                    b.ToTable("Warehouses");
                 });
 
             modelBuilder.Entity("Models.Models.WarehouseAsset", b =>
@@ -593,7 +593,7 @@ namespace Context.Migrations
 
                     b.HasIndex("WarehouseID");
 
-                    b.ToTable("WarehouseAssets", (string)null);
+                    b.ToTable("WarehouseAssets");
                 });
 
             modelBuilder.Entity("Models.Models.WarehouseProcess", b =>
@@ -618,7 +618,7 @@ namespace Context.Migrations
 
                     b.HasIndex("WarehouseID");
 
-                    b.ToTable("WarehouseProcesses", (string)null);
+                    b.ToTable("WarehouseProcesses");
                 });
 
             modelBuilder.Entity("Models.Models.WarehouseRequest", b =>
@@ -652,7 +652,7 @@ namespace Context.Migrations
 
                     b.HasIndex("WarehouseID");
 
-                    b.ToTable("WarehouseRequests", (string)null);
+                    b.ToTable("WarehouseRequests");
                 });
 
             modelBuilder.Entity("Models.Models.WarehouseRequestAsset", b =>
@@ -674,7 +674,7 @@ namespace Context.Migrations
 
                     b.HasIndex("AsesetID");
 
-                    b.ToTable("WarehouseRequestAssets", (string)null);
+                    b.ToTable("WarehouseRequestAssets");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -741,13 +741,13 @@ namespace Context.Migrations
             modelBuilder.Entity("Models.Models.AssetShipmentSuW", b =>
                 {
                     b.HasOne("Models.Models.WarehouseProcess", "WarehouseProcess")
-                        .WithMany("AssetShipmentSuWs")
+                        .WithMany("AssetShipment")
                         .HasForeignKey("ProcessID", "WarehouseID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Models.Models.SupplierAsset", "SupplierAsset")
-                        .WithMany("AssetShipmentSuWs")
+                        .WithMany("AssetShipment")
                         .HasForeignKey("AssetID", "WarehouseID", "SerialNumber")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -760,13 +760,13 @@ namespace Context.Migrations
             modelBuilder.Entity("Models.Models.AssetShipmentWSt", b =>
                 {
                     b.HasOne("Models.Models.StoreProcess", "StoreProcess")
-                        .WithMany("AssetShipmentWSts")
+                        .WithMany("AssetShipment")
                         .HasForeignKey("ProcessID", "StoreID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Models.Models.WarehouseAsset", "WarehouseAsset")
-                        .WithMany("AssetShipmentWSts")
+                        .WithMany("AssetShipment")
                         .HasForeignKey("AssetID", "WarehouseID", "SerialNumber")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -998,7 +998,7 @@ namespace Context.Migrations
 
             modelBuilder.Entity("Models.Models.StoreProcess", b =>
                 {
-                    b.Navigation("AssetShipmentWSts");
+                    b.Navigation("AssetShipment");
                 });
 
             modelBuilder.Entity("Models.Models.StoreRequest", b =>
@@ -1017,7 +1017,7 @@ namespace Context.Migrations
 
             modelBuilder.Entity("Models.Models.SupplierAsset", b =>
                 {
-                    b.Navigation("AssetShipmentSuWs");
+                    b.Navigation("AssetShipment");
                 });
 
             modelBuilder.Entity("Models.Models.Warehouse", b =>
@@ -1035,12 +1035,12 @@ namespace Context.Migrations
 
             modelBuilder.Entity("Models.Models.WarehouseAsset", b =>
                 {
-                    b.Navigation("AssetShipmentWSts");
+                    b.Navigation("AssetShipment");
                 });
 
             modelBuilder.Entity("Models.Models.WarehouseProcess", b =>
                 {
-                    b.Navigation("AssetShipmentSuWs");
+                    b.Navigation("AssetShipment");
                 });
 
             modelBuilder.Entity("Models.Models.WarehouseRequest", b =>

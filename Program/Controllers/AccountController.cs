@@ -149,7 +149,8 @@ namespace Presentation.Controllers
                         List<Claim> claims = new List<Claim>()
                         {
                             new Claim(ClaimTypes.NameIdentifier,user.Id),
-                            new Claim(ClaimTypes.Role, role)
+                            new Claim(ClaimTypes.Role, role),
+                            new Claim(ClaimTypes.Name, user.UserName)
                         };
 
                         var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"]));
@@ -164,6 +165,7 @@ namespace Presentation.Controllers
                         var readLoginData = new ReadLoginDataDTO()
                         {
                             Token = "Bearer " + token,
+                            UserName = user.UserName,
                             Role = role,
                             ID = id,
                         };
@@ -196,6 +198,7 @@ namespace Presentation.Controllers
                 var userData = new ReadLoginDataDTO()
                 {
                     Token = Request.Headers["Authorization"].ToString(),
+                    UserName = user.UserName,
                     Role = role,
                     ID = id,
                 };
@@ -209,7 +212,7 @@ namespace Presentation.Controllers
         }
 
         // _____________________________________ Read _____________________________________
-        [HttpGet("readAllUsers")]
+        [HttpGet("read-all-users")]
         //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> ReadAllUsers()
         {
@@ -224,7 +227,8 @@ namespace Presentation.Controllers
                     var userDTO = new ReadUserDTO
                     {
                         Id = user.Id,
-                        Roles = roles
+                        Roles = roles,
+                        UserName = user.UserName,
                     };
                     userDTOs.Add(userDTO);
                 }
@@ -237,7 +241,7 @@ namespace Presentation.Controllers
             }
         }
 
-        [HttpGet("readUser/{username}")]
+        [HttpGet("read-user/{username}")]
         //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> ReadUser(string username)
         {
@@ -258,7 +262,9 @@ namespace Presentation.Controllers
                 var userDTO = new ReadUserDTO
                 {
                     Id = user.Id,
-                    Roles = roles
+                    Roles = roles,
+                    UserName = username,
+
                 };
 
                 return Ok(userDTO);

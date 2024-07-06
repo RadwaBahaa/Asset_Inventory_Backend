@@ -1,4 +1,6 @@
-﻿namespace DTOs.DTOs.DeliveryProcesses
+﻿using DTOs.DTOs.Stores;
+
+namespace DTOs.DTOs.DeliveryProcesses
 {
     public class ReadStoreProcessDTO
     {
@@ -6,6 +8,7 @@
         public int Quantity { get; set; }
         public string Status { get; set; }
         public string Note { get; set; }
-        public List<ReadAssetShipmentWStDTO> AssetShipmentWSts { get; set; }
+        public ReadStoreDTO Store { get; set; }
+        public List<ReadAssetShipmentWStDTO> AssetShipment { get; set; }
     }
 }

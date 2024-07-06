@@ -1,6 +1,7 @@
 ﻿using DTOs.DTOs.DeliveryProcesses;
 using Microsoft.AspNetCore.Mvc;
 using Services.Services.Interface;
+using System.Security.Claims;
 
 namespace Presentation.Controllers
 {
@@ -36,6 +37,7 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
         [HttpGet("read/{processID}/{storeID}")]
         public async Task<IActionResult> ReadOne([FromRoute] int processID, [FromRoute] int storeID)
         {
@@ -82,11 +84,17 @@ namespace Presentation.Controllers
 
         // __________________________ Update __________________________
         [HttpPut("update/{processID}/{storeID}")]
-        public async Task<IActionResult> Update([FromRoute] int processID, [FromRoute] int storeID, [FromBody] UpdateStoreProcessDTO storeProcessDTO)
+        public async Task<IActionResult> UpdateDelivering([FromRoute] int processID, [FromRoute] int storeID)
         {
             try
             {
-                var updatedProcess = await storeProcessServices.Update(processID, storeID, storeProcessDTO);
+                var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+                if (userRole == null)
+                {
+                    return Unauthorized("User role not found.");
+                }
+
+                var updatedProcess = await storeProcessServices.Update(processID, storeID, userRole);
                 return Ok(updatedProcess);
             }
             catch (KeyNotFoundException ex)

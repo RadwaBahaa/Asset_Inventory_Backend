@@ -70,7 +70,7 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("read-by-processID/{processID:int}")]
+        [HttpGet("read/{processID:int}")]
         public async Task<IActionResult> ReadByID(int processID)
         {
             try
@@ -115,7 +115,7 @@ namespace Presentation.Controllers
 
         // __________________________ Search __________________________
         [HttpGet("search")]
-        public async Task<IActionResult> Search( DateTime? date)
+        public async Task<IActionResult> Search(DateTime? date)
         {
             try
             {

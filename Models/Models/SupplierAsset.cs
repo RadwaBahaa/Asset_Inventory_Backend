@@ -12,6 +12,6 @@
         //RELATIONS
         public Supplier Supplier { get; set; }
         public Asset Asset { get; set; }
-        public List<AssetShipmentSuW> AssetShipmentSuWs {  get; set; }
+        public List<AssetShipmentSuW> AssetShipment {  get; set; }
     }
 }

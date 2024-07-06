@@ -13,6 +13,6 @@
         //RELATIONS
         public Warehouse Warehouse { get; set; }
         public DeliveryProcessSuW DeliveryProcessSuW { get; set; }
-        public List<AssetShipmentSuW> AssetShipmentSuWs { get; set; }
+        public List<AssetShipmentSuW> AssetShipment { get; set; }
     }
 }

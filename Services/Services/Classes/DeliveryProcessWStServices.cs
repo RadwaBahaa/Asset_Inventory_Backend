@@ -35,10 +35,10 @@ namespace Services.Services.Classes
 
             foreach (var storeProcess in deliveryProcess.StoreProcesses)
             {
-                storeProcess.Status = "Start Process Confirmed";
+                storeProcess.Status = "Supplying";
                 storeProcess.Quantity = 0;
 
-                foreach (var assetShipment in storeProcess.AssetShipmentWSts)
+                foreach (var assetShipment in storeProcess.AssetShipment)
                 {
                     var asset = await warehouseAssetRepository.ReadOne(warehouseID, assetShipment.AssetID, assetShipment.SerialNumber);
                     if (asset == null)
@@ -65,20 +65,24 @@ namespace Services.Services.Classes
         public async Task<List<ReadDeliveryProcessWStDTO>> ReadAll()
         {
             var processesList = await deliveryProcessWStRepository.Read();
-            var mappedProcessesList = await processesList
+            var processes = await processesList
                 .Include(p => p.StoreProcesses)
-                    .ThenInclude(sp => sp.AssetShipmentWSts)
-                        .ThenInclude(ash => ash.WarehouseAsset)
-                            .ThenInclude(wa => wa.Asset)
-                .Select(p => mapper.Map<ReadDeliveryProcessWStDTO>(p))
+                    .ThenInclude(sp=>sp.Store)
                 .ToListAsync();
-            if (mappedProcessesList.Any())
+            if (!processes.Any())
             {
-                return mappedProcessesList;
+                throw new KeyNotFoundException("There are no processes to be retrieved.");
             }
 
-            throw new KeyNotFoundException("There are no prosesses to be retrieved.");
+            var mappedProcessesList = processes.Select(p => {
+                var dto = mapper.Map<ReadDeliveryProcessWStDTO>(p);
+                dto.StageCompletionStep = CalculateStageCompletion(p.StoreProcesses);
+                return dto;
+            }).ToList();
+
+            return mappedProcessesList;
         }
+
         public async Task<ReadDeliveryProcessWStDTO> ReadByID(int ID)
         {
             var process = await deliveryProcessWStRepository.ReadByID(ID);
@@ -87,29 +91,43 @@ namespace Services.Services.Classes
                 throw new KeyNotFoundException("There is no process by this ID.");
             }
 
-            return mapper.Map<ReadDeliveryProcessWStDTO>(process);
+            var mappedProcess = mapper.Map<ReadDeliveryProcessWStDTO>(process);
+            mappedProcess.StageCompletionStep = CalculateStageCompletion(process.StoreProcesses);
+            return mappedProcess;
         }
         public async Task<List<ReadDeliveryProcessWStDTO>> ReadByWarehouse(int warehouseID)
         {
-            var process = await deliveryProcessWStRepository.ReadByWarehouse(warehouseID);
-            if (process == null)
+            var processes = await deliveryProcessWStRepository.ReadByWarehouse(warehouseID);
+            if (processes == null)
             {
                 throw new KeyNotFoundException("There are no Process from this Warehouse.");
             }
 
-            return mapper.Map<List<ReadDeliveryProcessWStDTO>>(process);
+            var mappedProcessesList = processes.Select(p => {
+                var dto = mapper.Map<ReadDeliveryProcessWStDTO>(p);
+                dto.StageCompletionStep = CalculateStageCompletion(p.StoreProcesses);
+                return dto;
+            }).ToList();
+
+            return mappedProcessesList;
         }
 
         // _________________________ Search for Processes _________________________
         public async Task<List<ReadDeliveryProcessWStDTO>> Search(DateTime? date)
         {
             var searchedProcesses = await deliveryProcessWStRepository.Search( date);
-            if (searchedProcesses.Any())
+            if (!searchedProcesses.Any())
             {
-                return mapper.Map<List<ReadDeliveryProcessWStDTO>>(searchedProcesses);
+                throw new KeyNotFoundException("There are no processes on this date.");
             }
 
-            throw new KeyNotFoundException("There are no Process in this date.");
+            var mappedProcessesList = searchedProcesses.Select(p => {
+                var dto = mapper.Map<ReadDeliveryProcessWStDTO>(p);
+                dto.StageCompletionStep = CalculateStageCompletion(p.StoreProcesses);
+                return dto;
+            }).ToList();
+
+            return mappedProcessesList;
         }
 
         // _________________________ Delete a Process _________________________
@@ -123,6 +141,22 @@ namespace Services.Services.Classes
             }
 
             throw new KeyNotFoundException("There is no process by this ID.");
+        }
+
+        // _________________________ Calculate Stage Completion _________________________
+        private StageCompletionStep CalculateStageCompletion(List<StoreProcess> storeProcesses)
+        {
+            int totalStores = storeProcesses.Count;
+            int supplyingCount = storeProcesses.Count(sp => sp.Status == "Supplying");
+            int deliveringCount = storeProcesses.Count(sp => sp.Status == "Delivering");
+            int inventoryCount = storeProcesses.Count(sp => sp.Status == "Inventory");
+
+            return new StageCompletionStep
+            {
+                Supplying = (decimal)supplyingCount / totalStores * 100,
+                Delivering = (decimal)deliveringCount / totalStores * 100,
+                Inventory = (decimal)inventoryCount / totalStores * 100
+            };
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Services.Services.Interface
     {
         public Task<List<ReadWarehouseProcessDTO>> ReadAll();
         public Task<ReadWarehouseProcessDTO> ReadByID(int processID, int warehouseID);
-        public Task<List<ReadWarehouseProcessDTO>> SearchByWarehouse(int warehouseID);
-        public Task<ReadWarehouseProcessDTO> Update(int processId, int warehouseID, UpdateWarehouseProcessDTO warehouseProcessDTO);
+        public Task<List<ReadWarehouseProcessDTO>> ReadByWarehouse(int warehouseID);
+        public Task<bool> Update(int processId, int warehouseID, string userID);
     }
 }

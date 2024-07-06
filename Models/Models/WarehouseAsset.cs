@@ -12,6 +12,6 @@
         //RELATIONS
         public Asset Asset { get; set; }
         public Warehouse Warehouse { get; set; }
-        public List<AssetShipmentWSt> AssetShipmentWSts { get; set; }
+        public List<AssetShipmentWSt> AssetShipment { get; set; }
     }
 }

@@ -4,6 +4,6 @@
     {
         public int WarehouseID { get; set; }
         public string? Note { get; set; }
-        public List<AddAssetShipmentDTO> AssetShipmentSuWs { get; set; }
+        public List<AddAssetShipmentDTO> AssetShipment { get; set; }
     }
 }

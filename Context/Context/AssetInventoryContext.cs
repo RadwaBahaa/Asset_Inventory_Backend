@@ -167,9 +167,9 @@ namespace Context.Context
                 assetShipment.HasKey(ash => new { ash.AssetID, ash.SupplierID, ash.SerialNumber, ash.ProcessID, ash.WarehouseID });
                 // Relations
                 assetShipment.HasOne(ash=>ash.SupplierAsset)
-                    .WithMany(sa => sa.AssetShipmentSuWs)
+                    .WithMany(sa => sa.AssetShipment)
                     .HasForeignKey(ash => new { ash.AssetID, ash.WarehouseID, ash.SerialNumber })
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Restrict);
             });
             builder.Entity<AssetShipmentWSt>(assetShipment =>
             {
@@ -177,16 +177,16 @@ namespace Context.Context
                 assetShipment.HasKey(ash => new { ash.AssetID, ash.WarehouseID, ash.SerialNumber, ash.ProcessID, ash.StoreID });
                 // Relations
                 assetShipment.HasOne(ash => ash.WarehouseAsset)
-                        .WithMany(sa => sa.AssetShipmentWSts)
+                        .WithMany(sa => sa.AssetShipment)
                         .HasForeignKey(ash => new { ash.AssetID, ash.WarehouseID, ash.SerialNumber })
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
             });
             builder.Entity<WarehouseProcess>(warehouseProcess =>
             {
                 //Primary Key
                 warehouseProcess.HasKey(wp => new { wp.ProcessID, wp.WarehouseID });
                 //Relations
-                warehouseProcess.HasMany(wp => wp.AssetShipmentSuWs)
+                warehouseProcess.HasMany(wp => wp.AssetShipment)
                     .WithOne(ash => ash.WarehouseProcess)
                     .HasForeignKey(ash => new { ash.ProcessID, ash.WarehouseID })
                     .OnDelete(DeleteBehavior.Cascade);
@@ -196,7 +196,7 @@ namespace Context.Context
                 //Primary Key
                 storeProcess.HasKey(sp => new { sp.ProcessID, sp.StoreID });
                 //Relations
-                storeProcess.HasMany(sp => sp.AssetShipmentWSts)
+                storeProcess.HasMany(sp => sp.AssetShipment)
                     .WithOne(ash => ash.StoreProcess)
                     .HasForeignKey(ash => new { ash.ProcessID, ash.StoreID })
                     .OnDelete(DeleteBehavior.Cascade);

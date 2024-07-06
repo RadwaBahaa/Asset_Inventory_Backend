@@ -15,18 +15,18 @@ namespace Repository.Classes
         public async Task<StoreProcess> ReadByID(int processID, int storeID)
         {
             var process = await context.StoreProcesses
-                .Include(p => p.AssetShipmentWSts)
-                       .ThenInclude(ash => ash.WarehouseAsset)
-                            .ThenInclude(wa => wa.Asset)
+                .Include(p => p.AssetShipment)
+                    .ThenInclude(ash => ash.WarehouseAsset)
+                        .ThenInclude(wa => wa.Asset)
                 .FirstOrDefaultAsync(p => p.ProcessID == processID && p.StoreID == storeID);
             return process;
         }
         public async Task<List<StoreProcess>> ReadByStore(int storeID)
         {
             var processesList = await context.StoreProcesses
-                .Include(p => p.AssetShipmentWSts)
-                        .ThenInclude(ash => ash.WarehouseAsset)
-                            .ThenInclude(wa => wa.Asset)
+                .Include(p => p.AssetShipment)
+                    .ThenInclude(ash => ash.WarehouseAsset)
+                        .ThenInclude(wa => wa.Asset)
                 .Where(p => p.StoreID == storeID)
                 .ToListAsync();
             return processesList;

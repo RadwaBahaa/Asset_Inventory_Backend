@@ -25,11 +25,15 @@ namespace Services.Mapper
 
             // Mapping DeliveryProcessSuW Model______________________________________________
             CreateMap<AddDeliveryProcessSuWDTO, DeliveryProcessSuW>().ReverseMap();
-            CreateMap<ReadDeliveryProcessSuWDTO, DeliveryProcessSuW>().ReverseMap();
+            CreateMap<DeliveryProcessSuW, ReadDeliveryProcessSuWDTO>()
+                .ForMember(dest => dest.FormattedDate, opt => opt.MapFrom(src => src.DateTime.ToString("yyyy-MM-dd HH:mm:ss")))
+                .ReverseMap();
 
             // Mapping DeliveryProcessWSt Model______________________________________________
             CreateMap<AddDeliveryProcessWStDTO, DeliveryProcessWSt>().ReverseMap();
-            CreateMap<ReadDeliveryProcessWStDTO, DeliveryProcessWSt>().ReverseMap();
+            CreateMap<DeliveryProcessWSt, ReadDeliveryProcessWStDTO> ()
+                .ForMember(dest => dest.FormattedDate, opt => opt.MapFrom(src => src.DateTime.ToString("yyyy-MM-dd HH:mm:ss")))
+                .ReverseMap();
 
             // Mapping StoreProcess Model______________________________________________
             CreateMap<AddStoreProcessDTO, StoreProcess>().ReverseMap();

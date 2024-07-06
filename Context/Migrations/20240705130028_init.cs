@@ -533,10 +533,11 @@ namespace Context.Migrations
                 {
                     table.PrimaryKey("PK_AssetShipmentSuW", x => new { x.AssetID, x.SupplierID, x.SerialNumber, x.ProcessID, x.WarehouseID });
                     table.ForeignKey(
-                        name: "FK_AssetShipmentSuW_SupplierAssets_AssetID_SupplierID_SerialNumber",
-                        columns: x => new { x.AssetID, x.SupplierID, x.SerialNumber },
+                        name: "FK_AssetShipmentSuW_SupplierAssets_AssetID_WarehouseID_SerialNumber",
+                        columns: x => new { x.AssetID, x.WarehouseID, x.SerialNumber },
                         principalTable: "SupplierAssets",
-                        principalColumns: new[] { "AssetID", "SupplierID", "SerialNumber" });
+                        principalColumns: new[] { "AssetID", "SupplierID", "SerialNumber" },
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AssetShipmentSuW_WarehouseProcesses_ProcessID_WarehouseID",
                         columns: x => new { x.ProcessID, x.WarehouseID },
@@ -569,7 +570,8 @@ namespace Context.Migrations
                         name: "FK_AssetShipmentWSt_WarehouseAssets_AssetID_WarehouseID_SerialNumber",
                         columns: x => new { x.AssetID, x.WarehouseID, x.SerialNumber },
                         principalTable: "WarehouseAssets",
-                        principalColumns: new[] { "AssetID", "WarehouseID", "SerialNumber" });
+                        principalColumns: new[] { "AssetID", "WarehouseID", "SerialNumber" },
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -615,6 +617,11 @@ namespace Context.Migrations
                 name: "IX_Assets_CategoryID",
                 table: "Assets",
                 column: "CategoryID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AssetShipmentSuW_AssetID_WarehouseID_SerialNumber",
+                table: "AssetShipmentSuW",
+                columns: new[] { "AssetID", "WarehouseID", "SerialNumber" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AssetShipmentSuW_ProcessID_WarehouseID",

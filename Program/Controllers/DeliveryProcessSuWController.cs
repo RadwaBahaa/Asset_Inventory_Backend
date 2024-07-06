@@ -34,6 +34,10 @@ namespace Presentation.Controllers
                     return NotFound("Process not found.");
                 }
             }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
             catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
@@ -53,6 +57,10 @@ namespace Presentation.Controllers
                 var processes = await deliveryProcessSuWServices.ReadAll();
                 return Ok(processes);
             }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
             catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
@@ -62,13 +70,38 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpGet("readByID/{processID}")]
+        [HttpGet("read/{processID:int}")]
         public async Task<IActionResult> ReadByID(int processID)
         {
             try
             {
                 var process = await deliveryProcessSuWServices.ReadByID(processID);
                 return Ok(process);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+        [HttpGet("read-by-supplier/{supplierID:int}")]
+        public async Task<IActionResult> ReadBySupplier(int supplierID)
+        {
+            try
+            {
+                var process = await deliveryProcessSuWServices.ReadBySupplier(supplierID);
+                return Ok(process);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (ArgumentException ex)
             {
@@ -81,13 +114,17 @@ namespace Presentation.Controllers
         }
 
         // __________________________ Search __________________________
-        [HttpGet("searchBySupplier/{supplierID}")]
-        public async Task<IActionResult> Search(int? supplierID, DateTime? date)
+        [HttpGet("search")]
+        public async Task<IActionResult> Search(DateTime? date)
         {
             try
             {
-                var processes = await deliveryProcessSuWServices.Search(supplierID, date);
+                var processes = await deliveryProcessSuWServices.Search(date);
                 return Ok(processes);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (ArgumentException ex)
             {
