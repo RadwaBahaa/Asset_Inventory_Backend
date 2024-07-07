@@ -66,6 +66,7 @@ namespace Services.Services.Classes
         {
             var processesList = await deliveryProcessSuWRepository.Read();
             var processes = await processesList
+                .Include(p => p.Supplier)
                 .Include(p => p.WarehouseProcesses)
                     .ThenInclude(wp=>wp.Warehouse)
                 .ToListAsync();
@@ -111,6 +112,22 @@ namespace Services.Services.Classes
 
             return mappedProcessesList;
         }
+        public async Task<List<ReadDeliveryProcessSuWDTO>> ReadByWarehouse(int warehouseID)
+        {
+            var processes = await deliveryProcessSuWRepository.ReadByWarehouse(warehouseID);
+            if (processes == null)
+            {
+                throw new KeyNotFoundException("There are no Process from this Warehouse.");
+            }
+
+            var mappedProcessesList = processes.Select(p => {
+                var dto = mapper.Map<ReadDeliveryProcessSuWDTO>(p);
+                dto.StageCompletionStep = CalculateStageCompletion(p.WarehouseProcesses);
+                return dto;
+            }).ToList();
+
+            return mappedProcessesList;
+        }
 
         // _________________________ Search for Processes _________________________
         public async Task<List<ReadDeliveryProcessSuWDTO>> Search(DateTime? date)
@@ -144,12 +161,28 @@ namespace Services.Services.Classes
         }
 
         // _________________________ Calculate Stage Completion _________________________
-        private StageCompletionStep CalculateStageCompletion(List<WarehouseProcess> warehouseProcesses)
+        private StageCompletionStep CalculateStageCompletion(List<WarehouseProcess> WarehouseProcesses)
         {
-            int totalStores = warehouseProcesses.Count;
-            int supplyingCount = warehouseProcesses.Count(sp => sp.Status == "Supplying");
-            int deliveringCount = warehouseProcesses.Count(sp => sp.Status == "Delivering");
-            int inventoryCount = warehouseProcesses.Count(sp => sp.Status == "Inventory");
+            int totalStores = WarehouseProcesses.Count;
+            int supplyingCount = 0;
+            int deliveringCount = 0;
+            int inventoryCount = 0;
+
+            foreach (var sp in WarehouseProcesses)
+            {
+                if (sp.Status == "Supplying" || sp.Status == "Delivering" || sp.Status == "Inventory")
+                {
+                    supplyingCount++;
+                }
+                if (sp.Status == "Delivering" || sp.Status == "Inventory")
+                {
+                    deliveringCount++;
+                }
+                if (sp.Status == "Inventory")
+                {
+                    inventoryCount++;
+                }
+            }
 
             return new StageCompletionStep
             {

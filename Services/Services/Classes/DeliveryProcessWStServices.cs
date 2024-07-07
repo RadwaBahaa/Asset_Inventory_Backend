@@ -66,6 +66,7 @@ namespace Services.Services.Classes
         {
             var processesList = await deliveryProcessWStRepository.Read();
             var processes = await processesList
+                .Include(p=>p.Warehouse)
                 .Include(p => p.StoreProcesses)
                     .ThenInclude(sp=>sp.Store)
                 .ToListAsync();
@@ -101,6 +102,22 @@ namespace Services.Services.Classes
             if (processes == null)
             {
                 throw new KeyNotFoundException("There are no Process from this Warehouse.");
+            }
+
+            var mappedProcessesList = processes.Select(p => {
+                var dto = mapper.Map<ReadDeliveryProcessWStDTO>(p);
+                dto.StageCompletionStep = CalculateStageCompletion(p.StoreProcesses);
+                return dto;
+            }).ToList();
+
+            return mappedProcessesList;
+        }
+        public async Task<List<ReadDeliveryProcessWStDTO>> ReadByStore(int storeID)
+        {
+            var processes = await deliveryProcessWStRepository.ReadByStore(storeID);
+            if (processes == null)
+            {
+                throw new KeyNotFoundException("There are no Process from this Store.");
             }
 
             var mappedProcessesList = processes.Select(p => {
@@ -147,9 +164,25 @@ namespace Services.Services.Classes
         private StageCompletionStep CalculateStageCompletion(List<StoreProcess> storeProcesses)
         {
             int totalStores = storeProcesses.Count;
-            int supplyingCount = storeProcesses.Count(sp => sp.Status == "Supplying");
-            int deliveringCount = storeProcesses.Count(sp => sp.Status == "Delivering");
-            int inventoryCount = storeProcesses.Count(sp => sp.Status == "Inventory");
+            int supplyingCount = 0;
+            int deliveringCount = 0;
+            int inventoryCount = 0;
+
+            foreach (var sp in storeProcesses)
+            {
+                if (sp.Status == "Supplying" || sp.Status == "Delivering" || sp.Status == "Inventory")
+                {
+                    supplyingCount++;
+                }
+                if (sp.Status == "Delivering" || sp.Status == "Inventory")
+                {
+                    deliveringCount++;
+                }
+                if (sp.Status == "Inventory")
+                {
+                    inventoryCount++;
+                }
+            }
 
             return new StageCompletionStep
             {
@@ -158,5 +191,6 @@ namespace Services.Services.Classes
                 Inventory = (decimal)inventoryCount / totalStores * 100
             };
         }
+
     }
 }

@@ -11,11 +11,13 @@ namespace Services.Services.Classes
     {
         protected IStoreProcessRepository storeProcessReopsitory { get; set; }
             protected IStoreAssetRepository storeAssetRepository { get; set; }
+        protected IWarehouseRepository warehouseRepository { get; set; }
         protected IMapper mapper;
-        public StoreProcessServices(IStoreProcessRepository storeProcessReopsitory,IStoreAssetRepository storeAssetRepository, IMapper mapper)
+        public StoreProcessServices(IStoreProcessRepository storeProcessReopsitory,IStoreAssetRepository storeAssetRepository, IMapper mapper, IWarehouseRepository warehouseRepository)
         {
             this.storeProcessReopsitory = storeProcessReopsitory;
             this.storeAssetRepository = storeAssetRepository;
+            this.warehouseRepository = warehouseRepository;
             this.mapper = mapper;
         }
         // ___________________________ Read Processes  ___________________________
@@ -28,6 +30,7 @@ namespace Services.Services.Classes
                             .ThenInclude(wa => wa.Asset)
                 .Select(p => mapper.Map<ReadStoreProcessDTO>(p))
                 .ToListAsync();
+
             if (!processesList.Any())
                 throw new KeyNotFoundException("There are no process.");
             else

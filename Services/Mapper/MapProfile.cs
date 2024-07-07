@@ -37,12 +37,14 @@ namespace Services.Mapper
 
             // Mapping StoreProcess Model______________________________________________
             CreateMap<AddStoreProcessDTO, StoreProcess>().ReverseMap();
-            CreateMap<ReadStoreProcessDTO, StoreProcess>().ReverseMap();
+            CreateMap<StoreProcess, ReadStoreProcessDTO>()
+                .ReverseMap();
             CreateMap<UpdateStoreProcessDTO, StoreProcess>().ReverseMap();
 
             // Mapping WarehouseProcess Model______________________________________________
             CreateMap<AddWarehouseProcessDTO, WarehouseProcess>().ReverseMap();
-            CreateMap<ReadWarehouseProcessDTO, WarehouseProcess>().ReverseMap();
+            CreateMap<WarehouseProcess, ReadWarehouseProcessDTO>()
+                .ReverseMap();
             CreateMap<UpdateWarehouseProcessDTO, WarehouseProcess>().ReverseMap();
 
             // Mapping AssetShipment Model______________________________________________

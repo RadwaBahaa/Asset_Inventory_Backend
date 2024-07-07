@@ -6,6 +6,7 @@ namespace Repository.Interfaces
     {
         public Task<DeliveryProcessSuW> ReadByID(int ID);
         public Task<List<DeliveryProcessSuW>> ReadBySupplier(int supplierID);
+        public Task<List<DeliveryProcessSuW>> ReadByWarehouse(int warehouseID);
         public Task<List<DeliveryProcessSuW>> Search(DateTime? dateTime);
     }
 }

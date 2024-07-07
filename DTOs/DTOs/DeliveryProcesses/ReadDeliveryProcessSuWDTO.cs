@@ -1,4 +1,6 @@
-﻿namespace DTOs.DTOs.DeliveryProcesses
+﻿using DTOs.DTOs.Suppliers;
+
+namespace DTOs.DTOs.DeliveryProcesses
 {
     public class ReadDeliveryProcessSuWDTO
     {
@@ -9,5 +11,6 @@
         public string FormattedDate => DateTime.ToString("yyyy-MM-dd HH:mm:ss");
         public List<ReadWarehouseProcessDTO> WarehouseProcesses { get; set; }
         public StageCompletionStep StageCompletionStep { get; set; }
+        public ReadSupplierDTO Supplier {  get; set; }
     }
 }

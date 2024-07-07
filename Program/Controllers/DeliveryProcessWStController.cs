@@ -112,6 +112,27 @@ namespace Presentation.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+        [HttpGet("read-by-store/{storeID:int}")]
+        public async Task<IActionResult> ReadByStore(int storeID)
+        {
+            try
+            {
+                var process = await deliveryProcessWStServices.ReadByStore(storeID);
+                return Ok(process);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
 
         // __________________________ Search __________________________
         [HttpGet("search")]

@@ -8,6 +8,7 @@ namespace Services.Services.Interface
         public Task<List<ReadDeliveryProcessSuWDTO>> ReadAll();
         public Task<ReadDeliveryProcessSuWDTO> ReadByID(int ID);
         public Task<List<ReadDeliveryProcessSuWDTO>> ReadBySupplier(int supplierID);
+        public Task<List<ReadDeliveryProcessSuWDTO>> ReadByWarehouse(int warehouseID);
         public Task<List<ReadDeliveryProcessSuWDTO>> Search(DateTime? date);
         public Task<bool> DeleteProcess(int processID);
     }

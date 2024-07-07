@@ -1,4 +1,5 @@
 ﻿using DTOs.DTOs.Stores;
+using DTOs.DTOs.Warehouses;
 
 namespace DTOs.DTOs.DeliveryProcesses
 {
