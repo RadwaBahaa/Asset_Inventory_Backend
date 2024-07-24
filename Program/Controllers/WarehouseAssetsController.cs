@@ -7,7 +7,7 @@ namespace Presentation.Controllers
 {
     [Route("api/warehouse/assets")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class WarehouseAssetsController : ControllerBase
     {
         protected IWarehouseAssetsServices warehouseAssetServices;
@@ -118,11 +118,11 @@ namespace Presentation.Controllers
         {
             try
             {
-                //var authorizationResult = await authorizationService.AuthorizeAsync(User, warehouseID, "WarehousePolicy");
-                //if (!authorizationResult.Succeeded)
-                //{
-                //    return Forbid();
-                //}
+                var authorizationResult = await authorizationService.AuthorizeAsync(User, warehouseID, "WarehousePolicy");
+                if (!authorizationResult.Succeeded)
+                {
+                    return Forbid();
+                }
                 var updatedWarehouseAsset = await warehouseAssetServices.Update(warehouseAssetsDTO, warehouseID, assetID, serialNumber);
                 return Ok(updatedWarehouseAsset);
             }

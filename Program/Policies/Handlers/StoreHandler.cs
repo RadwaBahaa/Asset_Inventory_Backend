@@ -13,8 +13,6 @@ namespace Presentation.Policies.Handlers
             var role = context.User.FindFirst(ClaimTypes.Role)?.Value;
             var storeID = context.Resource as int?; // Retrieve storeID from the resource
 
-            // Logging claims and resource values for debugging
-            Console.WriteLine($"UserId: {userId}, ID: {id}, Role: {role}, StoreId: {storeID}");
 
             if (role == "Admin")
             {

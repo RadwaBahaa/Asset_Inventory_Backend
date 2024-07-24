@@ -13,9 +13,6 @@ namespace Presentation.Policies.Handlers
             var role = context.User.FindFirst(ClaimTypes.Role)?.Value;
             var warehouseID = context.Resource as int?; // Retrieve warehouseID from the resource
 
-            // Logging claims and resource values for debugging
-            Console.WriteLine($"UserId: {userId}, ID: {id}, Role: {role}, WarehouseId: {warehouseID}");
-
             if (role == "Admin")
             {
                 context.Succeed(requirement);

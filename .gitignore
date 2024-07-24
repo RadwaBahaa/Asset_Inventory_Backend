@@ -1,5 +1,5 @@
 # Ignore the appsettings.json file in the Asset_Inventory_API directory
-Program/appsettings.json
+/Program/appsettings.json
 
 # Ignore the entire .vs directory
 .vs/

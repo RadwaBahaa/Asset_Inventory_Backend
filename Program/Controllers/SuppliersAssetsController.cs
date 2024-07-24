@@ -7,6 +7,7 @@ namespace Presentation.Controllers
 {
     [Route("api/supplier/assets")]
     [ApiController]
+    [Authorize]
     public class SupplierAssetsController : ControllerBase
     {
         protected ISupplierAssetsServices supplierAssetServices;
