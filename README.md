@@ -46,8 +46,8 @@ You can also view the diagram using the following link: [Entity Relationship Dia
 1. **Clone the repository**:
 
    ```sh
-   git clone https://github.com/RadwaBahaa/Asset_Inventory_Backend
-   cd AssetInventoryManagementAPI
+   git clone https://github.com/RadwaBahaa/Asset_Inventory_Backend.git
+   cd Asset_Inventory_Backend
    ```
 
 2. **Setup the database**:
