@@ -33,13 +33,21 @@ The API is structured using n-tier architecture, ensuring separation of concerns
 - **Repository**: Handles data access logic.
 - **Presentation**: API controllers and endpoints.
 
+## Entity Relationship Diagram
+
+Below is the Entity Relationship Diagram (ERD) for the project, illustrating the relationships between different entities:
+
+![Entity Relationship Diagram](./Media/Entity%20Relationship%20Diagram.jpg)
+
+You can also view the diagram using the following link: [Entity Relationship Diagram](https://miro.com/welcomeonboard/NlhVSGpOTko5Nm4zRGpVWUx0TFdKQkVwZms5T3BCNWppQmM1MGl1UFdKdmlJYmlaSGNHU1JWVkJ1eVNHWHRkbHwzNDU4NzY0NTkyNDI1MjQ0MTQ3fDI=?share_link_id=628443707809)
+
 ## Installation
 
 1. **Clone the repository**:
 
    ```sh
-   git clone https://github.com/RadwaBahaa/Asset_Inventory_Backend.git
-   cd Asset_Inventory_Backend
+   git clone https://github.com/RadwaBahaa/Asset_Inventory_Backend
+   cd AssetInventoryManagementAPI
    ```
 
 2. **Setup the database**:
@@ -64,7 +72,7 @@ The API is structured using n-tier architecture, ensuring separation of concerns
    dotnet run
    ```
 
-## API Main Endpoints
+## API Endpoints
 
 ### Assets
 
@@ -102,10 +110,14 @@ The API is structured using n-tier architecture, ensuring separation of concerns
 
 The API uses NetTopologySuite to manage spatial data for suppliers, warehouses, and stores. Each of these entities has a geographic location represented by points, enabling precise tracking and management.
 
-## Contribution
-
-Contributions are welcome! Please fork the repository and submit pull requests.
-
 ## License
 
 This project is licensed under the MIT License.
+
+## Contact
+
+For any questions or inquiries, please contact:
+
+- **Name**: Radwa Bahaa El-Deen Abd El-Sabour
+- **Email**: radwabahaaeldeen@gmail.com
+- **LinkedIn**: https://www.linkedin.com/in/radwabahaaeldeen
